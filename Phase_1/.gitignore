@@ -1,0 +1,4 @@
+.env
+__pycache__/
+local_data/
+Football/Crawl_data/

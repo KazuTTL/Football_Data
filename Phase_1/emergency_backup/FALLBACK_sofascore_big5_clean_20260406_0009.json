@@ -1,0 +1,2409 @@
+{
+    "metadata": {
+        "extracted_at": "20260406_0009",
+        "total_players_extracted": 50,
+        "estimated_api_cost": 165
+    },
+    "data": [
+        {
+            "league_context": "Premier League",
+            "player_id": 288205,
+            "player_name": "Bruno Fernandes",
+            "position": "M",
+            "team_rank": 3,
+            "season_rating": null,
+            "total_goals": 8,
+            "total_assists": 16,
+            "minutes_played": 2437,
+            "recent_5_matches": [
+                {
+                    "home_team": "Man Utd",
+                    "away_team": "Aston Villa",
+                    "home_score": 3,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Bournemouth",
+                    "away_team": "Man Utd",
+                    "home_score": 2,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Mexico",
+                    "away_team": "Portugal",
+                    "home_score": 0,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "USA",
+                    "away_team": "Portugal",
+                    "home_score": 0,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Man Utd",
+                    "away_team": "Leeds",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Premier League",
+            "player_id": 856714,
+            "player_name": "Declan Rice",
+            "position": "M",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 4,
+            "total_assists": 5,
+            "minutes_played": 2585,
+            "recent_5_matches": [
+                {
+                    "home_team": "Leverkusen",
+                    "away_team": "Arsenal",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Arsenal",
+                    "away_team": "Everton",
+                    "home_score": 2,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Arsenal",
+                    "away_team": "Leverkusen",
+                    "home_score": 2,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Arsenal",
+                    "away_team": "Man City",
+                    "home_score": 0,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Arsenal",
+                    "away_team": "Bournemouth",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Premier League",
+            "player_id": 866469,
+            "player_name": "Bruno Guimarães",
+            "position": "M",
+            "team_rank": 12,
+            "season_rating": null,
+            "total_goals": 9,
+            "total_assists": 4,
+            "minutes_played": 2018,
+            "recent_5_matches": [
+                {
+                    "home_team": "Wolves",
+                    "away_team": "Newcastle",
+                    "home_score": 0,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Newcastle",
+                    "away_team": "PSV",
+                    "home_score": 3,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "PSG",
+                    "away_team": "Newcastle",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Newcastle",
+                    "away_team": "Brentford",
+                    "home_score": 2,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Tottenham",
+                    "away_team": "Newcastle",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "Premier League",
+            "player_id": 869792,
+            "player_name": "Gabriel Magalhães",
+            "position": "D",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 3,
+            "total_assists": 4,
+            "minutes_played": 2166,
+            "recent_5_matches": [
+                {
+                    "home_team": "Leverkusen",
+                    "away_team": "Arsenal",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Arsenal",
+                    "away_team": "Everton",
+                    "home_score": 2,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Arsenal",
+                    "away_team": "Leverkusen",
+                    "home_score": 2,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Arsenal",
+                    "away_team": "Man City",
+                    "home_score": 0,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Southampton",
+                    "away_team": "Arsenal",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "Premier League",
+            "player_id": 839956,
+            "player_name": "Erling Haaland",
+            "position": "F",
+            "team_rank": 2,
+            "season_rating": null,
+            "total_goals": 22,
+            "total_assists": 7,
+            "minutes_played": 2418,
+            "recent_5_matches": [
+                {
+                    "home_team": "Man City",
+                    "away_team": "Real Madrid",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Arsenal",
+                    "away_team": "Man City",
+                    "home_score": 0,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Norway",
+                    "away_team": "Switzerland",
+                    "home_score": 0,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Man City",
+                    "away_team": "Liverpool",
+                    "home_score": 4,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Chelsea",
+                    "away_team": "Man City",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Premier League",
+            "player_id": 962012,
+            "player_name": "Jan Paul van Hecke",
+            "position": "D",
+            "team_rank": 10,
+            "season_rating": null,
+            "total_goals": 3,
+            "total_assists": 2,
+            "minutes_played": 2581,
+            "recent_5_matches": [
+                {
+                    "home_team": "Sunderland",
+                    "away_team": "Brighton",
+                    "home_score": 0,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Brighton",
+                    "away_team": "Liverpool",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Netherlands",
+                    "away_team": "Norway",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Netherlands",
+                    "away_team": "Ecuador",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Burnley",
+                    "away_team": "Brighton",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Premier League",
+            "player_id": 994546,
+            "player_name": "Elliot Anderson",
+            "position": "M",
+            "team_rank": 16,
+            "season_rating": null,
+            "total_goals": 2,
+            "total_assists": 2,
+            "minutes_played": 2774,
+            "recent_5_matches": [
+                {
+                    "home_team": "Forest",
+                    "away_team": "Fulham",
+                    "home_score": 0,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Midtjylland",
+                    "away_team": "Forest",
+                    "home_score": 1,
+                    "away_score": 5,
+                    "status": "AP"
+                },
+                {
+                    "home_team": "Tottenham",
+                    "away_team": "Forest",
+                    "home_score": 0,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "England",
+                    "away_team": "Japan",
+                    "home_score": 0,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Forest",
+                    "away_team": "Aston Villa",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Premier League",
+            "player_id": 877994,
+            "player_name": "Marc Guéhi",
+            "position": "D",
+            "team_rank": 2,
+            "season_rating": null,
+            "total_goals": 2,
+            "total_assists": 2,
+            "minutes_played": 2520,
+            "recent_5_matches": [
+                {
+                    "home_team": "West Ham",
+                    "away_team": "Man City",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Man City",
+                    "away_team": "Real Madrid",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "England",
+                    "away_team": "Japan",
+                    "home_score": 0,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Man City",
+                    "away_team": "Liverpool",
+                    "home_score": 4,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Chelsea",
+                    "away_team": "Man City",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Premier League",
+            "player_id": 927361,
+            "player_name": "James Garner",
+            "position": "M",
+            "team_rank": 8,
+            "season_rating": null,
+            "total_goals": 2,
+            "total_assists": 6,
+            "minutes_played": 2784,
+            "recent_5_matches": [
+                {
+                    "home_team": "Arsenal",
+                    "away_team": "Everton",
+                    "home_score": 2,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Everton",
+                    "away_team": "Chelsea",
+                    "home_score": 3,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "England",
+                    "away_team": "Uruguay",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "England",
+                    "away_team": "Japan",
+                    "home_score": 0,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Brentford",
+                    "away_team": "Everton",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Premier League",
+            "player_id": 151545,
+            "player_name": "Virgil van Dijk",
+            "position": "D",
+            "team_rank": 5,
+            "season_rating": null,
+            "total_goals": 3,
+            "total_assists": 0,
+            "minutes_played": 2790,
+            "recent_5_matches": [
+                {
+                    "home_team": "Brighton",
+                    "away_team": "Liverpool",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Netherlands",
+                    "away_team": "Norway",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Netherlands",
+                    "away_team": "Ecuador",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Man City",
+                    "away_team": "Liverpool",
+                    "home_score": 4,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Liverpool",
+                    "away_team": "Fulham",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "La Liga",
+            "player_id": 1402912,
+            "player_name": "Lamine Yamal",
+            "position": "M",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 14,
+            "total_assists": 9,
+            "minutes_played": 2134,
+            "recent_5_matches": [
+                {
+                    "home_team": "Barcelona",
+                    "away_team": "Rayo Vallecano",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Spain",
+                    "away_team": "Serbia",
+                    "home_score": 3,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Spain",
+                    "away_team": "Egypt",
+                    "home_score": 0,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Atl. Madrid",
+                    "away_team": "Barcelona",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Barcelona",
+                    "away_team": "Espanyol",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "La Liga",
+            "player_id": 826643,
+            "player_name": "Kylian Mbappé",
+            "position": "F",
+            "team_rank": 2,
+            "season_rating": null,
+            "total_goals": 23,
+            "total_assists": 4,
+            "minutes_played": 2142,
+            "recent_5_matches": [
+                {
+                    "home_team": "Man City",
+                    "away_team": "Real Madrid",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Real Madrid",
+                    "away_team": "Atl. Madrid",
+                    "home_score": 3,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Brazil",
+                    "away_team": "France",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Colombia",
+                    "away_team": "France",
+                    "home_score": 1,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Mallorca",
+                    "away_team": "Real Madrid",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "La Liga",
+            "player_id": 992587,
+            "player_name": "Pedri",
+            "position": "M",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 2,
+            "total_assists": 7,
+            "minutes_played": 1543,
+            "recent_5_matches": [
+                {
+                    "home_team": "Barcelona",
+                    "away_team": "Rayo Vallecano",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Spain",
+                    "away_team": "Serbia",
+                    "home_score": 3,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Spain",
+                    "away_team": "Egypt",
+                    "home_score": 0,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Atl. Madrid",
+                    "away_team": "Barcelona",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Barcelona",
+                    "away_team": "Espanyol",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "La Liga",
+            "player_id": 930267,
+            "player_name": "Joan García",
+            "position": "G",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 0,
+            "total_assists": 0,
+            "minutes_played": 2160,
+            "recent_5_matches": [
+                {
+                    "home_team": "Barcelona",
+                    "away_team": "Newcastle",
+                    "home_score": 7,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Barcelona",
+                    "away_team": "Rayo Vallecano",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Spain",
+                    "away_team": "Egypt",
+                    "home_score": 0,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Atl. Madrid",
+                    "away_team": "Barcelona",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Barcelona",
+                    "away_team": "Espanyol",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "La Liga",
+            "player_id": 795222,
+            "player_name": "Frenkie de Jong",
+            "position": "M",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 1,
+            "total_assists": 4,
+            "minutes_played": 1496,
+            "recent_5_matches": [
+                {
+                    "home_team": "Albacete",
+                    "away_team": "Barcelona",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Barcelona",
+                    "away_team": "Mallorca",
+                    "home_score": 3,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Atl. Madrid",
+                    "away_team": "Barcelona",
+                    "home_score": 4,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Girona",
+                    "away_team": "Barcelona",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Barcelona",
+                    "away_team": "Levante",
+                    "home_score": 3,
+                    "away_score": 0,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "La Liga",
+            "player_id": 868812,
+            "player_name": "Vinicius Júnior",
+            "position": "F",
+            "team_rank": 2,
+            "season_rating": null,
+            "total_goals": 11,
+            "total_assists": 5,
+            "minutes_played": 2214,
+            "recent_5_matches": [
+                {
+                    "home_team": "Man City",
+                    "away_team": "Real Madrid",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Real Madrid",
+                    "away_team": "Atl. Madrid",
+                    "home_score": 3,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Brazil",
+                    "away_team": "France",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Croatia",
+                    "away_team": "Brazil",
+                    "home_score": 1,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Mallorca",
+                    "away_team": "Real Madrid",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "La Liga",
+            "player_id": 134029,
+            "player_name": "Mathew Ryan",
+            "position": "G",
+            "team_rank": 19,
+            "season_rating": null,
+            "total_goals": 0,
+            "total_assists": 0,
+            "minutes_played": 2520,
+            "recent_5_matches": [
+                {
+                    "home_team": "Rayo Vallecano",
+                    "away_team": "Levante",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Levante",
+                    "away_team": "Real Oviedo",
+                    "home_score": 4,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Australia",
+                    "away_team": "Cameroon",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Australia",
+                    "away_team": "Curaçao",
+                    "home_score": 5,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Real Sociedad",
+                    "away_team": "Levante",
+                    "home_score": 2,
+                    "away_score": 0,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "La Liga",
+            "player_id": 831808,
+            "player_name": "Federico Valverde",
+            "position": "M",
+            "team_rank": 2,
+            "season_rating": null,
+            "total_goals": 4,
+            "total_assists": 7,
+            "minutes_played": 2296,
+            "recent_5_matches": [
+                {
+                    "home_team": "Real Madrid",
+                    "away_team": "Elche",
+                    "home_score": 4,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Man City",
+                    "away_team": "Real Madrid",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Real Madrid",
+                    "away_team": "Atl. Madrid",
+                    "home_score": 3,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "England",
+                    "away_team": "Uruguay",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Algeria",
+                    "away_team": "Uruguay",
+                    "home_score": 0,
+                    "away_score": 0,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "La Liga",
+            "player_id": 859025,
+            "player_name": "Aurélien Tchouaméni",
+            "position": "M",
+            "team_rank": 2,
+            "season_rating": null,
+            "total_goals": 1,
+            "total_assists": 0,
+            "minutes_played": 2240,
+            "recent_5_matches": [
+                {
+                    "home_team": "Man City",
+                    "away_team": "Real Madrid",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Real Madrid",
+                    "away_team": "Atl. Madrid",
+                    "home_score": 3,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Brazil",
+                    "away_team": "France",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Colombia",
+                    "away_team": "France",
+                    "home_score": 1,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Mallorca",
+                    "away_team": "Real Madrid",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "La Liga",
+            "player_id": 368922,
+            "player_name": "Aarón Escandell",
+            "position": "G",
+            "team_rank": 20,
+            "season_rating": null,
+            "total_goals": 0,
+            "total_assists": 0,
+            "minutes_played": 2610,
+            "recent_5_matches": [
+                {
+                    "home_team": "Rayo Vallecano",
+                    "away_team": "Real Oviedo",
+                    "home_score": 3,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Espanyol",
+                    "away_team": "Real Oviedo",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Real Oviedo",
+                    "away_team": "Valencia",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Levante",
+                    "away_team": "Real Oviedo",
+                    "home_score": 4,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Real Oviedo",
+                    "away_team": "Sevilla",
+                    "home_score": 0,
+                    "away_score": 0,
+                    "status": "1st half"
+                }
+            ]
+        },
+        {
+            "league_context": "Serie A",
+            "player_id": 363860,
+            "player_name": "Manuel Locatelli",
+            "position": "M",
+            "team_rank": 5,
+            "season_rating": null,
+            "total_goals": 1,
+            "total_assists": 2,
+            "minutes_played": 2284,
+            "recent_5_matches": [
+                {
+                    "home_team": "Udinese",
+                    "away_team": "Juventus",
+                    "home_score": 0,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Juventus",
+                    "away_team": "Sassuolo",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Italy",
+                    "away_team": "Northern Ireland",
+                    "home_score": 2,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "BiH",
+                    "away_team": "Italy",
+                    "home_score": 5,
+                    "away_score": 2,
+                    "status": "AP"
+                },
+                {
+                    "home_team": "Juventus",
+                    "away_team": "Genoa",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Serie A",
+            "player_id": 15466,
+            "player_name": "Luka Modrić",
+            "position": "M",
+            "team_rank": 2,
+            "season_rating": null,
+            "total_goals": 2,
+            "total_assists": 3,
+            "minutes_played": 2461,
+            "recent_5_matches": [
+                {
+                    "home_team": "Lazio",
+                    "away_team": "Milan",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Milan",
+                    "away_team": "Torino",
+                    "home_score": 3,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Colombia",
+                    "away_team": "Croatia",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Croatia",
+                    "away_team": "Brazil",
+                    "home_score": 1,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Napoli",
+                    "away_team": "Milan",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Serie A",
+            "player_id": 1149011,
+            "player_name": "Kenan Yıldız",
+            "position": "F",
+            "team_rank": 5,
+            "season_rating": null,
+            "total_goals": 10,
+            "total_assists": 6,
+            "minutes_played": 2401,
+            "recent_5_matches": [
+                {
+                    "home_team": "Udinese",
+                    "away_team": "Juventus",
+                    "home_score": 0,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Juventus",
+                    "away_team": "Sassuolo",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Türkiye",
+                    "away_team": "Romania",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Kosovo",
+                    "away_team": "Türkiye",
+                    "home_score": 0,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Juventus",
+                    "away_team": "Genoa",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Serie A",
+            "player_id": 284361,
+            "player_name": "Federico Dimarco",
+            "position": "M",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 6,
+            "total_assists": 14,
+            "minutes_played": 2232,
+            "recent_5_matches": [
+                {
+                    "home_team": "Inter",
+                    "away_team": "Atalanta",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Fiorentina",
+                    "away_team": "Inter",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Italy",
+                    "away_team": "Northern Ireland",
+                    "home_score": 2,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "BiH",
+                    "away_team": "Italy",
+                    "home_score": 5,
+                    "away_score": 2,
+                    "status": "AP"
+                },
+                {
+                    "home_team": "Inter",
+                    "away_team": "Roma",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Serie A",
+            "player_id": 135700,
+            "player_name": "Hakan Çalhanoğlu",
+            "position": "M",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 8,
+            "total_assists": 2,
+            "minutes_played": 1407,
+            "recent_5_matches": [
+                {
+                    "home_team": "Milan",
+                    "away_team": "Inter",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Fiorentina",
+                    "away_team": "Inter",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Türkiye",
+                    "away_team": "Romania",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Kosovo",
+                    "away_team": "Türkiye",
+                    "home_score": 0,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Inter",
+                    "away_team": "Roma",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Serie A",
+            "player_id": 826188,
+            "player_name": "Alessandro Bastoni",
+            "position": "D",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 1,
+            "total_assists": 4,
+            "minutes_played": 2016,
+            "recent_5_matches": [
+                {
+                    "home_team": "Milan",
+                    "away_team": "Inter",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Inter",
+                    "away_team": "Atalanta",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Italy",
+                    "away_team": "Northern Ireland",
+                    "home_score": 2,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "BiH",
+                    "away_team": "Italy",
+                    "home_score": 5,
+                    "away_score": 2,
+                    "status": "AP"
+                },
+                {
+                    "home_team": "Inter",
+                    "away_team": "Roma",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Serie A",
+            "player_id": 865646,
+            "player_name": "Marco Carnesecchi",
+            "position": "G",
+            "team_rank": 7,
+            "season_rating": null,
+            "total_goals": 0,
+            "total_assists": 0,
+            "minutes_played": 2700,
+            "recent_5_matches": [
+                {
+                    "home_team": "Bayern",
+                    "away_team": "Atalanta",
+                    "home_score": 4,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Atalanta",
+                    "away_team": "Verona",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Italy",
+                    "away_team": "Northern Ireland",
+                    "home_score": 2,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "BiH",
+                    "away_team": "Italy",
+                    "home_score": 5,
+                    "away_score": 2,
+                    "status": "AP"
+                },
+                {
+                    "home_team": "Lecce",
+                    "away_team": "Atalanta",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Serie A",
+            "player_id": 250737,
+            "player_name": "Adrien Rabiot",
+            "position": "M",
+            "team_rank": 2,
+            "season_rating": null,
+            "total_goals": 5,
+            "total_assists": 4,
+            "minutes_played": 1830,
+            "recent_5_matches": [
+                {
+                    "home_team": "Milan",
+                    "away_team": "Inter",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Milan",
+                    "away_team": "Torino",
+                    "home_score": 3,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Brazil",
+                    "away_team": "France",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Colombia",
+                    "away_team": "France",
+                    "home_score": 1,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Napoli",
+                    "away_team": "Milan",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Serie A",
+            "player_id": 1171451,
+            "player_name": "Nico Paz",
+            "position": "M",
+            "team_rank": 4,
+            "season_rating": null,
+            "total_goals": 10,
+            "total_assists": 6,
+            "minutes_played": 2387,
+            "recent_5_matches": [
+                {
+                    "home_team": "Como",
+                    "away_team": "Roma",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Como",
+                    "away_team": "Pisa",
+                    "home_score": 5,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Argentina",
+                    "away_team": "Mauritania",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Argentina",
+                    "away_team": "Zambia",
+                    "home_score": 5,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Udinese",
+                    "away_team": "Como",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Serie A",
+            "player_id": 965828,
+            "player_name": "Mario Gila Fuentes",
+            "position": "D",
+            "team_rank": 9,
+            "season_rating": null,
+            "total_goals": 0,
+            "total_assists": 0,
+            "minutes_played": 2229,
+            "recent_5_matches": [
+                {
+                    "home_team": "Lazio",
+                    "away_team": "Atalanta",
+                    "home_score": 0,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Lazio",
+                    "away_team": "Atalanta",
+                    "home_score": 2,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Lazio",
+                    "away_team": "Sassuolo",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Lazio",
+                    "away_team": "Milan",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Bologna",
+                    "away_team": "Lazio",
+                    "home_score": 0,
+                    "away_score": 2,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "Bundesliga",
+            "player_id": 108579,
+            "player_name": "Harry Kane",
+            "position": "F",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 31,
+            "total_assists": 5,
+            "minutes_played": 2067,
+            "recent_5_matches": [
+                {
+                    "home_team": "Dortmund",
+                    "away_team": "Bayern",
+                    "home_score": 2,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Atalanta",
+                    "away_team": "Bayern",
+                    "home_score": 1,
+                    "away_score": 6,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Leverkusen",
+                    "away_team": "Bayern",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Bayern",
+                    "away_team": "Atalanta",
+                    "home_score": 4,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Bayern",
+                    "away_team": "Union Berlin",
+                    "home_score": 4,
+                    "away_score": 0,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "Bundesliga",
+            "player_id": 978838,
+            "player_name": "Michael Olise",
+            "position": "M",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 11,
+            "total_assists": 18,
+            "minutes_played": 2004,
+            "recent_5_matches": [
+                {
+                    "home_team": "Leverkusen",
+                    "away_team": "Bayern",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Bayern",
+                    "away_team": "Union Berlin",
+                    "home_score": 4,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Brazil",
+                    "away_team": "France",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Colombia",
+                    "away_team": "France",
+                    "home_score": 1,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Freiburg",
+                    "away_team": "Bayern",
+                    "home_score": 2,
+                    "away_score": 3,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "Bundesliga",
+            "player_id": 2087085,
+            "player_name": "Yan Diomande",
+            "position": "F",
+            "team_rank": 3,
+            "season_rating": null,
+            "total_goals": 10,
+            "total_assists": 6,
+            "minutes_played": 1958,
+            "recent_5_matches": [
+                {
+                    "home_team": "Leipzig",
+                    "away_team": "Augsburg",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Stuttgart",
+                    "away_team": "Leipzig",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Leipzig",
+                    "away_team": "Hoffenheim",
+                    "home_score": 5,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Bremen",
+                    "away_team": "Leipzig",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Leipzig",
+                    "away_team": "M'gladbach",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Bundesliga",
+            "player_id": 940871,
+            "player_name": "Nico Schlotterbeck",
+            "position": "D",
+            "team_rank": 2,
+            "season_rating": null,
+            "total_goals": 4,
+            "total_assists": 1,
+            "minutes_played": 1980,
+            "recent_5_matches": [
+                {
+                    "home_team": "Dortmund",
+                    "away_team": "HSV",
+                    "home_score": 3,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Switzerland",
+                    "away_team": "Germany",
+                    "home_score": 3,
+                    "away_score": 4,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Germany",
+                    "away_team": "Ghana",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Stuttgart",
+                    "away_team": "Dortmund",
+                    "home_score": 0,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Dortmund",
+                    "away_team": "Leverkusen",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Bundesliga",
+            "player_id": 259117,
+            "player_name": "Joshua Kimmich",
+            "position": "M",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 2,
+            "total_assists": 6,
+            "minutes_played": 1906,
+            "recent_5_matches": [
+                {
+                    "home_team": "Leverkusen",
+                    "away_team": "Bayern",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Bayern",
+                    "away_team": "Union Berlin",
+                    "home_score": 4,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Switzerland",
+                    "away_team": "Germany",
+                    "home_score": 3,
+                    "away_score": 4,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Germany",
+                    "away_team": "Ghana",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Freiburg",
+                    "away_team": "Bayern",
+                    "home_score": 2,
+                    "away_score": 3,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "Bundesliga",
+            "player_id": 94312,
+            "player_name": "Daniel Batz",
+            "position": "G",
+            "team_rank": 9,
+            "season_rating": null,
+            "total_goals": 0,
+            "total_assists": 0,
+            "minutes_played": 1440,
+            "recent_5_matches": [
+                {
+                    "home_team": "Sigma Olomouc",
+                    "away_team": "Mainz 05",
+                    "home_score": 0,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Bremen",
+                    "away_team": "Mainz 05",
+                    "home_score": 0,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Mainz 05",
+                    "away_team": "Sigma Olomouc",
+                    "home_score": 2,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Mainz 05",
+                    "away_team": "Frankfurt",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Hoffenheim",
+                    "away_team": "Mainz 05",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "Bundesliga",
+            "player_id": 327755,
+            "player_name": "Nadiem Amiri",
+            "position": "M",
+            "team_rank": 9,
+            "season_rating": null,
+            "total_goals": 10,
+            "total_assists": 2,
+            "minutes_played": 1651,
+            "recent_5_matches": [
+                {
+                    "home_team": "Mainz 05",
+                    "away_team": "Wolfsburg",
+                    "home_score": 3,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Leipzig",
+                    "away_team": "Mainz 05",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Mainz 05",
+                    "away_team": "Augsburg",
+                    "home_score": 2,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Dortmund",
+                    "away_team": "Mainz 05",
+                    "home_score": 4,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Mainz 05",
+                    "away_team": "HSV",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "Bundesliga",
+            "player_id": 883537,
+            "player_name": "Luis Díaz",
+            "position": "M",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 15,
+            "total_assists": 11,
+            "minutes_played": 2164,
+            "recent_5_matches": [
+                {
+                    "home_team": "Leverkusen",
+                    "away_team": "Bayern",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Bayern",
+                    "away_team": "Atalanta",
+                    "home_score": 4,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Colombia",
+                    "away_team": "Croatia",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Colombia",
+                    "away_team": "France",
+                    "home_score": 1,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Freiburg",
+                    "away_team": "Bayern",
+                    "home_score": 2,
+                    "away_score": 3,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "Bundesliga",
+            "player_id": 577726,
+            "player_name": "Ramy Bensebaini",
+            "position": "D",
+            "team_rank": 2,
+            "season_rating": null,
+            "total_goals": 4,
+            "total_assists": 0,
+            "minutes_played": 1301,
+            "recent_5_matches": [
+                {
+                    "home_team": "Dortmund",
+                    "away_team": "HSV",
+                    "home_score": 3,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Algeria",
+                    "away_team": "Guatemala",
+                    "home_score": 7,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Algeria",
+                    "away_team": "Uruguay",
+                    "home_score": 0,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Stuttgart",
+                    "away_team": "Dortmund",
+                    "home_score": 0,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Dortmund",
+                    "away_team": "Leverkusen",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Bundesliga",
+            "player_id": 796047,
+            "player_name": "Aleix García",
+            "position": "M",
+            "team_rank": 6,
+            "season_rating": null,
+            "total_goals": 2,
+            "total_assists": 6,
+            "minutes_played": 2190,
+            "recent_5_matches": [
+                {
+                    "home_team": "Leverkusen",
+                    "away_team": "Arsenal",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Leverkusen",
+                    "away_team": "Bayern",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Arsenal",
+                    "away_team": "Leverkusen",
+                    "home_score": 2,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Heidenheim",
+                    "away_team": "Leverkusen",
+                    "home_score": 3,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Dortmund",
+                    "away_team": "Leverkusen",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Ligue 1",
+            "player_id": 902029,
+            "player_name": "Vitinha",
+            "position": "M",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 1,
+            "total_assists": 7,
+            "minutes_played": 1969,
+            "recent_5_matches": [
+                {
+                    "home_team": "Chelsea",
+                    "away_team": "PSG",
+                    "home_score": 0,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Nice",
+                    "away_team": "PSG",
+                    "home_score": 0,
+                    "away_score": 4,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Mexico",
+                    "away_team": "Portugal",
+                    "home_score": 0,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "USA",
+                    "away_team": "Portugal",
+                    "home_score": 0,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "PSG",
+                    "away_team": "Toulouse",
+                    "home_score": 3,
+                    "away_score": 1,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "Ligue 1",
+            "player_id": 1049442,
+            "player_name": "Ilan Kebbal",
+            "position": "M",
+            "team_rank": 13,
+            "season_rating": null,
+            "total_goals": 8,
+            "total_assists": 4,
+            "minutes_played": 1966,
+            "recent_5_matches": [
+                {
+                    "home_team": "Auxerre",
+                    "away_team": "Paris",
+                    "home_score": 0,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Paris",
+                    "away_team": "Lens",
+                    "home_score": 0,
+                    "away_score": 5,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Toulouse",
+                    "away_team": "Paris",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Paris",
+                    "away_team": "Nice",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Lorient",
+                    "away_team": "Paris",
+                    "home_score": 1,
+                    "away_score": 1,
+                    "status": "2nd half"
+                }
+            ]
+        },
+        {
+            "league_context": "Ligue 1",
+            "player_id": 942116,
+            "player_name": "Mason Greenwood",
+            "position": "F",
+            "team_rank": 4,
+            "season_rating": null,
+            "total_goals": 15,
+            "total_assists": 4,
+            "minutes_played": 2003,
+            "recent_5_matches": [
+                {
+                    "home_team": "Marseille",
+                    "away_team": "Lyon",
+                    "home_score": 3,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Marseille",
+                    "away_team": "Toulouse",
+                    "home_score": 5,
+                    "away_score": 6,
+                    "status": "AP"
+                },
+                {
+                    "home_team": "Toulouse",
+                    "away_team": "Marseille",
+                    "home_score": 0,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Marseille",
+                    "away_team": "Auxerre",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Marseille",
+                    "away_team": "Lille",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "Ligue 1",
+            "player_id": 867299,
+            "player_name": "Hervé Koffi",
+            "position": "G",
+            "team_rank": 12,
+            "season_rating": null,
+            "total_goals": 0,
+            "total_assists": 0,
+            "minutes_played": 2160,
+            "recent_5_matches": [
+                {
+                    "home_team": "Angers",
+                    "away_team": "Lille",
+                    "home_score": 0,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Nantes",
+                    "away_team": "Angers",
+                    "home_score": 0,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Angers",
+                    "away_team": "Nice",
+                    "home_score": 0,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Burkina Faso",
+                    "away_team": "Guinea-Bissau",
+                    "home_score": 5,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Angers",
+                    "away_team": "Lyon",
+                    "home_score": 0,
+                    "away_score": 0,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "Ligue 1",
+            "player_id": 996952,
+            "player_name": "Bradley Barcola",
+            "position": "F",
+            "team_rank": 1,
+            "season_rating": null,
+            "total_goals": 10,
+            "total_assists": 1,
+            "minutes_played": 1328,
+            "recent_5_matches": [
+                {
+                    "home_team": "PSG",
+                    "away_team": "AS Monaco",
+                    "home_score": 2,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Le Havre",
+                    "away_team": "PSG",
+                    "home_score": 0,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "PSG",
+                    "away_team": "AS Monaco",
+                    "home_score": 1,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "PSG",
+                    "away_team": "Chelsea",
+                    "home_score": 5,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Chelsea",
+                    "away_team": "PSG",
+                    "home_score": 0,
+                    "away_score": 3,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "Ligue 1",
+            "player_id": 863133,
+            "player_name": "Aron Dønnum",
+            "position": "M",
+            "team_rank": 10,
+            "season_rating": null,
+            "total_goals": 4,
+            "total_assists": 4,
+            "minutes_played": 2041,
+            "recent_5_matches": [
+                {
+                    "home_team": "Toulouse",
+                    "away_team": "Marseille",
+                    "home_score": 0,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Metz",
+                    "away_team": "Toulouse",
+                    "home_score": 3,
+                    "away_score": 4,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Toulouse",
+                    "away_team": "Lorient",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "PSG",
+                    "away_team": "Toulouse",
+                    "home_score": 3,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Toulouse",
+                    "away_team": "Lille",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Ligue 1",
+            "player_id": 847494,
+            "player_name": "Berke Özer",
+            "position": "G",
+            "team_rank": 3,
+            "season_rating": null,
+            "total_goals": 0,
+            "total_assists": 1,
+            "minutes_played": 2294,
+            "recent_5_matches": [
+                {
+                    "home_team": "Rennes",
+                    "away_team": "Lille",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Aston Villa",
+                    "away_team": "Lille",
+                    "home_score": 2,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Marseille",
+                    "away_team": "Lille",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Lille",
+                    "away_team": "Lens",
+                    "home_score": 3,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Toulouse",
+                    "away_team": "Lille",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Ligue 1",
+            "player_id": 148824,
+            "player_name": "Florian Thauvin",
+            "position": "F",
+            "team_rank": 2,
+            "season_rating": null,
+            "total_goals": 9,
+            "total_assists": 5,
+            "minutes_played": 2227,
+            "recent_5_matches": [
+                {
+                    "home_team": "Lyon",
+                    "away_team": "Lens",
+                    "home_score": 6,
+                    "away_score": 7,
+                    "status": "AP"
+                },
+                {
+                    "home_team": "Lens",
+                    "away_team": "Metz",
+                    "home_score": 3,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Lorient",
+                    "away_team": "Lens",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Lens",
+                    "away_team": "Angers",
+                    "home_score": 5,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Lille",
+                    "away_team": "Lens",
+                    "home_score": 3,
+                    "away_score": 0,
+                    "status": "Ended"
+                }
+            ]
+        },
+        {
+            "league_context": "Ligue 1",
+            "player_id": 128383,
+            "player_name": "Gerónimo Rulli",
+            "position": "G",
+            "team_rank": 4,
+            "season_rating": null,
+            "total_goals": 0,
+            "total_assists": 0,
+            "minutes_played": 2070,
+            "recent_5_matches": [
+                {
+                    "home_team": "Marseille",
+                    "away_team": "Auxerre",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Marseille",
+                    "away_team": "Lille",
+                    "home_score": 1,
+                    "away_score": 2,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Argentina",
+                    "away_team": "Mauritania",
+                    "home_score": 2,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Argentina",
+                    "away_team": "Zambia",
+                    "home_score": 5,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "AS Monaco",
+                    "away_team": "Marseille",
+                    "home_score": null,
+                    "away_score": null,
+                    "status": "Not started"
+                }
+            ]
+        },
+        {
+            "league_context": "Ligue 1",
+            "player_id": 1099117,
+            "player_name": "Samson Baidoo",
+            "position": "D",
+            "team_rank": 2,
+            "season_rating": null,
+            "total_goals": 2,
+            "total_assists": 1,
+            "minutes_played": 1545,
+            "recent_5_matches": [
+                {
+                    "home_team": "Lens",
+                    "away_team": "Feignies-Aulnoye",
+                    "home_score": 3,
+                    "away_score": 1,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Toulouse",
+                    "away_team": "Lens",
+                    "home_score": 0,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": null,
+                    "away_team": "Lens",
+                    "home_score": 0,
+                    "away_score": 3,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Lens",
+                    "away_team": "Auxerre",
+                    "home_score": 1,
+                    "away_score": 0,
+                    "status": "Ended"
+                },
+                {
+                    "home_team": "Lens",
+                    "away_team": "Rennes",
+                    "home_score": 3,
+                    "away_score": 1,
+                    "status": "Ended"
+                }
+            ]
+        }
+    ]
+}
