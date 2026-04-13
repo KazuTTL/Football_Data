@@ -1,2 +1,21 @@
-Crawl_data/
+# Environments
+.env
+
+# Python
 __pycache__/
+*.py[cod]
+*$py.class
+.venv/
+
+# Data (Bronze Zone & Raw datasets)
+Crawl_data/
+data/
+local_data_chunks/
+emergency_backup/
+*.csv
+*.json
+*.duckdb
+
+# IDEs
+.vscode/
+.idea/

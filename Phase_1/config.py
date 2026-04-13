@@ -18,7 +18,10 @@ S3_REGION = "us-east-1"
 
 # MASTER DATA: 5 GIẢI VĐQG ---
 TARGET_LEAGUES = {
-
+    "Premier League": 17,
+    "La Liga": 8,
+    "Serie A": 23,
+    "Bundesliga": 35,
     "Ligue 1": 34
 }
 
