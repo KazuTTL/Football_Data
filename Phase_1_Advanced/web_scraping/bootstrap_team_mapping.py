@@ -12,7 +12,6 @@ def find_team_url_on_tm(team_name):
     """ Hàm tự động tìm kiếm tên đội bóng trên Transfermarkt và trả về URL """
     logger.info(f"Đang dò tìm URL cho đội: {team_name}...")
     
-    # Giới hạn tốc độ để không bị block
     time.sleep(2) 
     
     params = {'query': team_name}

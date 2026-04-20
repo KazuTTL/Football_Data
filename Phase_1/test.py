@@ -2,7 +2,6 @@ import json
 import os
 from datetime import datetime
 import api_client
-# Xóa dòng import s3_utils đi vì không dùng đến
 from config import TARGET_LEAGUES
 
 def run_local_pipeline():
@@ -83,7 +82,6 @@ def run_local_pipeline():
         "data": master_dataset
     }
 
-    # 5. LƯU XUỐNG Ổ CỨNG MÁY TÍNH (Thay vì S3)
     # Tạo thư mục 'local_data' nếu chưa có
     os.makedirs('local_data', exist_ok=True)
     file_path = os.path.join('local_data', file_name)

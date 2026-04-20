@@ -17,7 +17,6 @@ def scrape_team_squad(team_name, team_url):
     """
     logger.info(f" Đang cào toàn bộ đội hình: {team_name}")
     
-    # Đợi 3 giây để tránh bị Cloudflare khóa mõm
     time.sleep(3)
     
     try:
