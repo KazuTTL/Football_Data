@@ -2,12 +2,19 @@ import os
 import json
 import pandas as pd
 from rapidfuzz import process, fuzz
+from logger_config import setup_logger
 
-# Cau hinh duong dan
-BASE_DIR      = r"C:\FastAPI\Football"
-INTERMEDIATE_DIR = os.path.join(BASE_DIR, "Phase_2", "intermediate")
-METADATA_DIR  = os.path.join(BASE_DIR, "Phase_2", "metadata")
-MAPPING_FILE  = os.path.join(METADATA_DIR, "master_player_mapping.json")
+logger = setup_logger("entity_resolution")
+
+# =============================================================
+# CAU HINH DUONG DAN DONG (Docker-Compatible)
+# =============================================================
+_THIS_FILE   = os.path.abspath(__file__)               # .../Phase_2/entity_resolution.py
+_PHASE2_DIR  = os.path.dirname(_THIS_FILE)             # .../Phase_2/
+BASE_DIR     = os.getenv("PROJECT_ROOT", os.path.dirname(_PHASE2_DIR))
+INTERMEDIATE_DIR = os.path.join(_PHASE2_DIR, "intermediate")
+METADATA_DIR     = os.path.join(_PHASE2_DIR, "metadata")
+MAPPING_FILE     = os.path.join(METADATA_DIR, "master_player_mapping.json")
 
 os.makedirs(METADATA_DIR, exist_ok=True)
 
@@ -75,7 +82,7 @@ def resolve_players(df_sfs, df_tm):
     unresolved = df_sfs[df_sfs["internal_player_id"].isna()]
 
     if not unresolved.empty:
-        print(f"[entity_resolution] Tim thay {len(unresolved)} cau thu moi chua co trong tu dien. Dang Fuzzy Match...")
+        logger.info(f"Tim thay {len(unresolved)} cau thu moi chua co trong tu dien. Dang Fuzzy Match...")
         # Chuan bi danh sach ten TM de so sanh (dung ten da chuan hoa)
         tm_names = df_tm["name_tm_norm"].dropna().tolist()
 
@@ -108,10 +115,10 @@ def resolve_players(df_sfs, df_tm):
                 new_matches += 1
 
     if new_matches > 0:
-        print(f"[entity_resolution] Da anh xa {new_matches} cau thu moi vao tu dien.")
+        logger.info(f"Da anh xa {new_matches} cau thu moi vao tu dien.")
         save_mapping(mapping)
     else:
-        print("[entity_resolution] Khong co cau thu moi. Tu dien khong doi.")
+        logger.info("Khong co cau thu moi. Tu dien khong doi.")
 
     # ------- Merge Du Lieu -------
     # Tao bang phu tu mapping: internal_player_id -> id_tm de lam bridge
@@ -147,13 +154,13 @@ def run():
     Ham dieu phoi chinh cua buoc Entity Resolution:
     Doc 2 file Parquet tu intermediate/ -> Goi resolve_players() -> Luu ket qua.
     """
-    print("=== BUOC 3: ENTITY RESOLUTION ===")
+    logger.info("=== BUOC 3: ENTITY RESOLUTION ===")
 
     sfs_path = os.path.join(INTERMEDIATE_DIR, "sofascore_normalized.parquet")
     tm_path  = os.path.join(INTERMEDIATE_DIR, "transfermarkt_normalized.parquet")
 
     if not os.path.exists(sfs_path) or not os.path.exists(tm_path):
-        print("[entity_resolution] Loi: Thieu du lieu normalized. Hay chay bronze_to_normalized.py truoc!")
+        logger.error("Thieu du lieu normalized. Hay chay bronze_to_normalized.py truoc!")
         return
 
     df_sfs = pd.read_parquet(sfs_path)
@@ -163,8 +170,8 @@ def run():
 
     out_path = os.path.join(INTERMEDIATE_DIR, "merged_players.parquet")
     df_merged.to_parquet(out_path, index=False)
-    print(f"-> Luu {len(df_merged)} ban ghi da ghep: {out_path}")
-    print("=== BUOC 3: HOAN TAT ===")
+    logger.info(f"-> Luu {len(df_merged)} ban ghi da ghep: {out_path}")
+    logger.info("=== BUOC 3: HOAN TAT ===")
 
 
 if __name__ == "__main__":

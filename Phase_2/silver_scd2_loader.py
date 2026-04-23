@@ -1,14 +1,21 @@
 import os
 import pandas as pd
 from datetime import date
+from logger_config import setup_logger
+
+logger = setup_logger("silver_scd2_loader")
 
 # Import Data Contract de kiem tra Schema truoc khi ghi
 from data_contract import MERGED_SCHEMA
 
-# Cau hinh duong dan
-BASE_DIR         = r"C:\FastAPI\Football"
-INTERMEDIATE_DIR = os.path.join(BASE_DIR, "Phase_2", "intermediate")
-SILVER_DIR       = os.path.join(BASE_DIR, "Phase_2", "silver_zone")
+# =============================================================
+# CAU HINH DUONG DAN DONG (Docker-Compatible)
+# =============================================================
+_THIS_FILE   = os.path.abspath(__file__)               # .../Phase_2/silver_scd2_loader.py
+_PHASE2_DIR  = os.path.dirname(_THIS_FILE)             # .../Phase_2/
+BASE_DIR         = os.getenv("PROJECT_ROOT", os.path.dirname(_PHASE2_DIR))
+INTERMEDIATE_DIR = os.path.join(_PHASE2_DIR, "intermediate")
+SILVER_DIR       = os.path.join(_PHASE2_DIR, "silver_zone")
 
 os.makedirs(SILVER_DIR, exist_ok=True)
 
@@ -28,12 +35,12 @@ def validate(df):
     Neu co cot bi thieu hoac sai kieu du lieu, nem ra loi ngay lap tuc.
     Ham nay hoat dong nhu mot tram kiem soat truoc cua vao Silver Zone.
     """
-    print("[scd2_loader] Dang kiem tra Data Contract...")
+    logger.info("Dang kiem tra Data Contract...")
     try:
         MERGED_SCHEMA.validate(df, lazy=True)
-        print("[scd2_loader] Schema hop le. Tiep tuc...")
+        logger.info("Schema hop le. Tiep tuc...")
     except Exception as e:
-        print(f"[scd2_loader] LOI DATA CONTRACT: {e}")
+        logger.error(f"LOI DATA CONTRACT: {e}")
         raise  # Dung toan bo qua trinh neu schema sai
 
 
@@ -54,7 +61,7 @@ def detect_changes(df_new, df_existing):
 
     # Neu Silver Zone chua ton tai thi tat ca deu la ban ghi moi
     if df_existing.empty or "internal_player_id" not in df_existing.columns:
-        print(f"[scd2_loader] Phan tich: {len(df_new_resolved)} cau thu moi | 0 thay doi | 0 khong doi (Silver Zone trong).")
+        logger.info(f"Phan tich: {len(df_new_resolved)} cau thu moi | 0 thay doi | 0 khong doi (Silver Zone trong).")
         return df_new_resolved, pd.DataFrame(), set()
 
     existing_ids = set(df_existing["internal_player_id"].unique())
@@ -89,8 +96,10 @@ def detect_changes(df_new, df_existing):
     changed_records = df_overlap_new[df_overlap_new["internal_player_id"].isin(changed_ids)].copy()
     unchanged_ids   = overlap_ids - changed_ids
 
-    print(f"[scd2_loader] Phan tich: {len(brand_new_ids)} cau thu moi | "
-          f"{len(changed_ids)} thay doi | {len(unchanged_ids)} khong doi.")
+    logger.info(
+        f"Phan tich: {len(brand_new_ids)} cau thu moi | "
+        f"{len(changed_ids)} thay doi | {len(unchanged_ids)} khong doi."
+    )
 
     return new_records, changed_records, unchanged_ids
 
@@ -152,11 +161,11 @@ def run():
     Doc merged_players.parquet -> Validate -> Detect Changes ->
     Apply SCD2 -> Luu ra players_history.parquet.
     """
-    print("=== BUOC 5: SILVER SCD2 LOADER ===")
+    logger.info("=== BUOC 5: SILVER SCD2 LOADER ===")
 
     merged_path = os.path.join(INTERMEDIATE_DIR, "merged_players.parquet")
     if not os.path.exists(merged_path):
-        print("[scd2_loader] Loi: Thieu file merged_players.parquet. Hay chay entity_resolution.py truoc!")
+        logger.error("Thieu file merged_players.parquet. Hay chay entity_resolution.py truoc!")
         return
 
     df_new = pd.read_parquet(merged_path)
@@ -167,9 +176,9 @@ def run():
     # Buoc 2: Doc du lieu Silver hien tai (neu da co)
     if os.path.exists(SILVER_OUTPUT):
         df_existing = pd.read_parquet(SILVER_OUTPUT)
-        print(f"[scd2_loader] Doc Silver Zone hien tai: {len(df_existing)} ban ghi.")
+        logger.info(f"Doc Silver Zone hien tai: {len(df_existing)} ban ghi.")
     else:
-        print("[scd2_loader] Chua co Silver Zone. Tao moi tu dau.")
+        logger.info("Chua co Silver Zone. Tao moi tu dau.")
         df_existing = pd.DataFrame()
 
     # Buoc 3: Phat hien thay doi
@@ -180,9 +189,9 @@ def run():
 
     df_silver.to_parquet(SILVER_OUTPUT, index=False)
     active_count = len(df_silver[df_silver["is_current"] == True]) if "is_current" in df_silver.columns else 0
-    print(f"-> Luu Silver Zone: {len(df_silver)} tong ban ghi | {active_count} ban ghi dang hoat dong.")
-    print(f"-> Duong dan: {SILVER_OUTPUT}")
-    print("=== BUOC 5: HOAN TAT ===")
+    logger.info(f"-> Luu Silver Zone: {len(df_silver)} tong ban ghi | {active_count} ban ghi dang hoat dong.")
+    logger.info(f"-> Duong dan: {SILVER_OUTPUT}")
+    logger.info("=== BUOC 5: HOAN TAT ===")
 
 
 if __name__ == "__main__":

@@ -2,9 +2,18 @@ import os
 import glob
 import json
 import pandas as pd
+from logger_config import setup_logger
 
-# Cau hinh duong dan
-BASE_DIR = r"C:\FastAPI\Football"
+logger = setup_logger("bronze_readers")
+
+# =============================================================
+# CAU HINH DUONG DAN DONG (Docker-Compatible)
+# PROJECT_ROOT co the duoc truyen vao qua bien moi truong trong Docker.
+# Neu khong co, tu dong tinh toan dua tren vi tri cua file nay.
+# =============================================================
+_THIS_FILE = os.path.abspath(__file__)               # .../Phase_2/bronze_readers.py
+_PHASE2_DIR = os.path.dirname(_THIS_FILE)            # .../Phase_2/
+BASE_DIR = os.getenv("PROJECT_ROOT", os.path.dirname(_PHASE2_DIR))  # .../Football/
 SOFASCORE_BRONZE_DIR = os.path.join(BASE_DIR, "Phase_1_Advanced", "local_data_chunks", "sofascore")
 TM_DATA_DIR = os.path.join(BASE_DIR, "Phase_1_Advanced", "data")
 
@@ -21,7 +30,7 @@ def get_sofascore_raw():
     """
     folders = glob.glob(os.path.join(SOFASCORE_BRONZE_DIR, "dt=*"))
     if not folders:
-        print("[bronze_readers] Khong tim thay du lieu Sofascore!")
+        logger.warning("Khong tim thay du lieu Sofascore!")
         return None, None
 
     latest_folder = sorted(folders)[-1]
@@ -35,12 +44,12 @@ def get_sofascore_raw():
                 all_players.extend(data["data"])
 
     if not all_players:
-        print("[bronze_readers] Bo JSON Sofascore rong!")
+        logger.warning("Bo JSON Sofascore rong!")
         return None, None
 
     # Lam phang cau truc JSON long nhau thanh DataFrame phang
     df = pd.json_normalize(all_players)
-    print(f"[bronze_readers] Sofascore: Doc {len(df)} ban ghi tu {extraction_date}.")
+    logger.info(f"Sofascore: Doc {len(df)} ban ghi tu {extraction_date}.")
     return df, extraction_date
 
 
@@ -62,7 +71,7 @@ def get_transfermarkt_raw():
     # Kiem tra su ton tai cua ca 3 file truoc khi doc
     missing = [p for p in [players_path, valuations_path, clubs_path] if not os.path.exists(p)]
     if missing:
-        print(f"[bronze_readers] Thieu file Kaggle: {missing}. Hay chay ingestor truoc!")
+        logger.error(f"Thieu file Kaggle: {missing}. Hay chay ingestor truoc!")
         return None
 
     # 1. Doc file
@@ -96,5 +105,5 @@ def get_transfermarkt_raw():
         how="left"
     )
 
-    print(f"[bronze_readers] Transfermarkt: Hop nhat {len(df_merged)} ban ghi (players + valuations + clubs).")
+    logger.info(f"Transfermarkt: Hop nhat {len(df_merged)} ban ghi (players + valuations + clubs).")
     return df_merged

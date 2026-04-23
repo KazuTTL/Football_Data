@@ -2,13 +2,20 @@ import os
 import pandas as pd
 from datetime import datetime
 from unidecode import unidecode
+from logger_config import setup_logger
+
+logger = setup_logger("bronze_to_normalized")
 
 # Import Reader tu cung thu muc
 from bronze_readers import get_sofascore_raw, get_transfermarkt_raw
 
-# Cau hinh duong dan
-BASE_DIR    = r"C:\FastAPI\Football"
-OUTPUT_DIR  = os.path.join(BASE_DIR, "Phase_2", "intermediate")
+# =============================================================
+# CAU HINH DUONG DAN DONG (Docker-Compatible)
+# =============================================================
+_THIS_FILE = os.path.abspath(__file__)                # .../Phase_2/bronze_to_normalized.py
+_PHASE2_DIR = os.path.dirname(_THIS_FILE)             # .../Phase_2/
+BASE_DIR   = os.getenv("PROJECT_ROOT", os.path.dirname(_PHASE2_DIR))  # .../Football/
+OUTPUT_DIR = os.path.join(_PHASE2_DIR, "intermediate")
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -66,7 +73,7 @@ def process_sofascore():
     # Data Lineage: Dong dau ngay cao du lieu Sofascore
     df["updated_at_sfs"] = extraction_date
 
-    print(f"[normalizer] Sofascore: Chuan hoa xong {len(df)} cau thu.")
+    logger.info(f"Sofascore: Chuan hoa xong {len(df)} cau thu.")
     return df
 
 
@@ -106,7 +113,7 @@ def process_transfermarkt():
     # Data Lineage: Dong dau ngay tai ve CSV tu Kaggle
     df["updated_at_tm"] = datetime.now().strftime("%Y-%m-%d")
 
-    print(f"[normalizer] Transfermarkt: Chuan hoa xong {len(df)} cau thu.")
+    logger.info(f"Transfermarkt: Chuan hoa xong {len(df)} cau thu.")
     return df
 
 
@@ -119,21 +126,21 @@ def run():
     Ham dieu phoi chinh cua buoc Normalize:
     Goi 2 ham xu ly -> Luu ra file Parquet trong thu muc intermediate/.
     """
-    print("=== BUOC 2: BRONZE TO NORMALIZED ===")
+    logger.info("=== BUOC 2: BRONZE TO NORMALIZED ===")
 
     df_sfs = process_sofascore()
     if df_sfs is not None:
         out_path = os.path.join(OUTPUT_DIR, "sofascore_normalized.parquet")
         df_sfs.to_parquet(out_path, index=False)
-        print(f"-> Luu: {out_path}")
+        logger.info(f"-> Luu: {out_path}")
 
     df_tm = process_transfermarkt()
     if df_tm is not None:
         out_path = os.path.join(OUTPUT_DIR, "transfermarkt_normalized.parquet")
         df_tm.to_parquet(out_path, index=False)
-        print(f"-> Luu: {out_path}")
+        logger.info(f"-> Luu: {out_path}")
 
-    print("=== BUOC 2: HOAN TAT ===")
+    logger.info("=== BUOC 2: HOAN TAT ===")
 
 
 if __name__ == "__main__":
