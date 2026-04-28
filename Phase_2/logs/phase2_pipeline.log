@@ -26,3 +26,39 @@
 [2026-04-23 13:56:32] [INFO] [silver_to_motherduck] - Dang dong bo len bang 'silver_players' tren MotherDuck...
 [2026-04-23 13:56:34] [INFO] [silver_to_motherduck] - Xac nhan tren Cloud: 50 tong ban ghi | 48 dang hoat dong (is_current=True)
 [2026-04-23 13:56:34] [INFO] [silver_to_motherduck] - === DONG BO HOAN TAT! Truy cap MotherDuck de xem bang 'silver_players' ===
+[2026-04-28 15:32:25] [INFO] [bronze_to_normalized] - === BUOC 2: BRONZE TO NORMALIZED ===
+[2026-04-28 15:32:28] [INFO] [bronze_readers] - Sofascore: Doc 50 ban ghi tu 2026-04-13.
+[2026-04-28 15:32:28] [INFO] [bronze_to_normalized] - Sofascore: Chuan hoa xong 50 cau thu.
+[2026-04-28 15:32:29] [INFO] [bronze_to_normalized] - -> Luu: C:\FastAPI\Football\Phase_2\intermediate\sofascore_normalized.parquet
+[2026-04-28 15:32:44] [INFO] [bronze_readers] - Transfermarkt: Hop nhat 47702 ban ghi (players + valuations + clubs).
+[2026-04-28 15:32:46] [INFO] [bronze_to_normalized] - Transfermarkt: Chuan hoa xong 47702 cau thu.
+[2026-04-28 15:32:47] [INFO] [bronze_to_normalized] - -> Luu: C:\FastAPI\Football\Phase_2\intermediate\transfermarkt_normalized.parquet
+[2026-04-28 15:32:47] [INFO] [bronze_to_normalized] - === BUOC 2: HOAN TAT ===
+[2026-04-28 15:32:47] [INFO] [entity_resolution] - === BUOC 3: ENTITY RESOLUTION ===
+[2026-04-28 15:32:51] [INFO] [entity_resolution] - Tim thay 2 cau thu moi chua co trong tu dien. Dang Fuzzy Match...
+[2026-04-28 15:32:51] [INFO] [entity_resolution] - Khong co cau thu moi. Tu dien khong doi.
+[2026-04-28 15:32:52] [INFO] [entity_resolution] - -> Luu 50 ban ghi da ghep: C:\FastAPI\Football\Phase_2\intermediate\merged_players.parquet
+[2026-04-28 15:32:52] [INFO] [entity_resolution] - === BUOC 3: HOAN TAT ===
+[2026-04-28 15:32:52] [INFO] [silver_scd2_loader] - === BUOC 5: SILVER SCD2 LOADER ===
+[2026-04-28 15:32:52] [INFO] [silver_scd2_loader] - Dang kiem tra Data Contract...
+[2026-04-28 15:32:53] [INFO] [silver_scd2_loader] - Schema hop le. Tiep tuc...
+[2026-04-28 15:32:53] [INFO] [silver_scd2_loader] - Doc Silver Zone hien tai: 50 ban ghi.
+[2026-04-28 15:32:53] [INFO] [silver_scd2_loader] - Phan tich: 0 cau thu moi | 0 thay doi | 48 khong doi.
+[2026-04-28 15:32:53] [INFO] [silver_scd2_loader] - -> Luu Silver Zone: 50 tong ban ghi | 48 ban ghi dang hoat dong.
+[2026-04-28 15:32:53] [INFO] [silver_scd2_loader] - -> Duong dan: C:\FastAPI\Football\Phase_2\silver_zone\players_history.parquet
+[2026-04-28 15:32:53] [INFO] [silver_scd2_loader] - === BUOC 5: HOAN TAT ===
+[2026-04-28 15:33:49] [INFO] [silver_scd2_loader] - === BUOC 5: SILVER SCD2 LOADER ===
+[2026-04-28 15:33:49] [INFO] [silver_scd2_loader] - Dang kiem tra Data Contract...
+[2026-04-28 15:33:49] [INFO] [silver_scd2_loader] - Schema hop le. Tiep tuc...
+[2026-04-28 15:33:49] [INFO] [silver_scd2_loader] - Chua co Silver Zone. Tao moi tu dau.
+[2026-04-28 15:33:49] [INFO] [silver_scd2_loader] - Phan tich: 48 cau thu moi | 0 thay doi | 0 khong doi (Silver Zone trong).
+[2026-04-28 15:33:49] [INFO] [silver_scd2_loader] - -> Luu Silver Zone: 48 tong ban ghi | 48 ban ghi dang hoat dong.
+[2026-04-28 15:33:49] [INFO] [silver_scd2_loader] - -> Duong dan: C:\FastAPI\Football\Phase_2\silver_zone\players_history.parquet
+[2026-04-28 15:33:49] [INFO] [silver_scd2_loader] - === BUOC 5: HOAN TAT ===
+[2026-04-28 15:38:55] [INFO] [silver_to_motherduck] - === DONG BO SILVER ZONE -> MOTHERDUCK ===
+[2026-04-28 15:38:55] [INFO] [silver_to_motherduck] - Dang ket noi toi MotherDuck...
+[2026-04-28 15:39:01] [INFO] [silver_to_motherduck] - Ket noi thanh cong vao database 'football_data'!
+[2026-04-28 15:39:01] [INFO] [silver_to_motherduck] - Dang doc du lieu tu: C:\FastAPI\Football\Phase_2\silver_zone\players_history.parquet
+[2026-04-28 15:39:01] [INFO] [silver_to_motherduck] - Dang dong bo len bang 'silver_players' tren MotherDuck...
+[2026-04-28 15:39:02] [INFO] [silver_to_motherduck] - Xac nhan tren Cloud: 48 tong ban ghi | 48 dang hoat dong (is_current=True)
+[2026-04-28 15:39:02] [INFO] [silver_to_motherduck] - === DONG BO HOAN TAT! Truy cap MotherDuck de xem bang 'silver_players' ===

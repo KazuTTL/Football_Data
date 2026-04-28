@@ -105,5 +105,16 @@ def get_transfermarkt_raw():
         how="left"
     )
 
+    # 5. Giu lai cac cot can thiet, bao gom ca vi tri thi dau
+    # "position"     : Nhom vi tri tong quat (Attack, Defender, Midfielder, Goalkeeper)
+    # "sub_position" : Vi tri cu the (Centre-Forward, Attacking Midfield, Centre-Back...)
+    keep_cols = [
+        "player_id", "name", "date_of_birth",
+        "position", "sub_position",               # <-- THEM MOI
+        "club_name", "market_value_eur",
+    ]
+    keep_cols = [c for c in keep_cols if c in df_merged.columns]
+    df_merged = df_merged[keep_cols]
+
     logger.info(f"Transfermarkt: Hop nhat {len(df_merged)} ban ghi (players + valuations + clubs).")
     return df_merged

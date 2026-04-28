@@ -69,6 +69,16 @@ MERGED_SCHEMA = DataFrameSchema(
             nullable=True,
             description="Gia tri thi truong moi nhat (Transfermarkt, don vi EUR)",
         ),
+        "position_tm": Column(
+            str,
+            nullable=True,
+            description="Nhom vi tri thi dau (Attack, Defender, Midfielder, Goalkeeper)",
+        ),
+        "sub_position_tm": Column(
+            str,
+            nullable=True,
+            description="Vi tri thi dau cu the (Centre-Forward, Attacking Midfield, Centre-Back...)",
+        ),
 
         # --- Data Lineage ---
         "updated_at_sfs": Column(

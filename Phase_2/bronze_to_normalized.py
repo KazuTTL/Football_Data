@@ -24,13 +24,13 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 # HAM CHUAN HOA DUNG CHUNG
 # =========================================================
 
-def normalize_text(text):
-    """
+"""
     Lop loc 1 - Text Normalization:
     - Xoa dau tieng Latin / Tay Ban Nha / Viet (unidecode): Odegaard -> odegaard
     - Chuyen chu thuong (lowercase): Harry Kane -> harry kane
     - Xoa khoang trang thua (strip)
-    """
+"""
+def normalize_text(text):
     if pd.isna(text) or str(text).strip() == "":
         return ""
     return unidecode(str(text)).lower().strip()
@@ -96,8 +96,10 @@ def process_transfermarkt():
         "player_id":       "id_tm",
         "name":            "name_tm_raw",
         "date_of_birth":   "dob_tm",
-        "club_name":       "team_tm",       # Lay tu clubs.csv sau khi Join
-        "market_value_eur":"market_value_tm", # Lay tu player_valuations.csv moi nhat
+        "position":        "position_tm",     # Nhom vi tri: Attack, Defender...
+        "sub_position":    "sub_position_tm", # Vi tri cu the: Centre-Forward...
+        "club_name":       "team_tm",
+        "market_value_eur":"market_value_tm",
     }
     valid_map = {k: v for k, v in col_map.items() if k in df_raw.columns}
     df = df_raw[list(valid_map.keys())].rename(columns=valid_map).copy()

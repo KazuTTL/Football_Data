@@ -73,7 +73,7 @@ def resolve_players(df_sfs, df_tm):
     # Tao bang nguoc: sofascore_id -> internal_id de tra nhanh
     sfs_to_internal = {str(v["sofascore_id"]): k for k, v in mapping.items()}
     df_sfs = df_sfs.copy()
-    # Khoi tao cot voi kieu object (str) de tranh loi kiu du lieu khi gan 'PLR_xxxxx'
+    # Khoi tao cot voi kieu object (str) de tranh loi kieu du lieu khi gan 'PLR_xxxxx'
     df_sfs["internal_player_id"] = pd.Series(
         df_sfs["id_sfs"].map(sfs_to_internal), dtype=object
     )
