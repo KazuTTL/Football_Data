@@ -110,8 +110,8 @@ def get_transfermarkt_raw():
     # "sub_position" : Vi tri cu the (Centre-Forward, Attacking Midfield, Centre-Back...)
     keep_cols = [
         "player_id", "name", "date_of_birth",
-        "position", "sub_position",               # <-- THEM MOI
-        "club_name", "market_value_eur",
+        "position", "sub_position",
+        "club_name", "market_value_eur"
     ]
     keep_cols = [c for c in keep_cols if c in df_merged.columns]
     df_merged = df_merged[keep_cols]
