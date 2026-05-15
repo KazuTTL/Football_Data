@@ -1,5 +1,9 @@
 import pandas as pd
+import logging
 from rating_engine import RatingEngine
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
+
 
 def test_engine():
     # Create Mock Data
@@ -33,12 +37,12 @@ def test_engine():
     engine = RatingEngine(min_minutes=900)
     result_df = engine.run(df)
     
-    print("\n--- RATING ENGINE RESULTS ---")
+    logging.info("\n--- RATING ENGINE RESULTS ---")
     cols_to_print = [
         "name", "sub_position", "status", "team_rank", 
         "base_score", "penalty", "team_multiplier", "final_scout_score"
     ]
-    print(result_df[cols_to_print].to_string(index=False))
+    logging.info("\n" + result_df[cols_to_print].to_string(index=False))
 
 if __name__ == "__main__":
     test_engine()

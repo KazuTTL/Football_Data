@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+import logging
 from config.position_weights import POSITION_CONFIG, get_position_group
 from normalizer import apply_threshold_filter, calculate_p90, min_max_scale_by_league, calculate_underdog_bonus
 
@@ -116,9 +117,9 @@ class RatingEngine:
         return df
 
     def run(self, df):
-        print(f"Starting Rating Engine for {len(df)} players...")
+        logging.info(f"Starting Rating Engine for {len(df)} players...")
         result_df = self.calculate_scores(df)
-        print("Rating Engine completed.")
+        logging.info("Rating Engine completed.")
         return result_df
 
 if __name__ == "__main__":
