@@ -19,3 +19,7 @@ emergency_backup/
 # IDEs
 .vscode/
 .idea/
+implement/
+
+# Internal Development Notes
+Internal_Dev/
