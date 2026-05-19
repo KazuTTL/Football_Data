@@ -52,6 +52,24 @@ MERGED_SCHEMA = DataFrameSchema(
             coerce=True,
             description="So kien tao (Sofascore)",
         ),
+        "minutes_played_sfs": Column(
+            float,
+            nullable=True,
+            coerce=True,
+            description="So phut thi dau (Sofascore)",
+        ),
+        "base_rating_sfs": Column(
+            float,
+            nullable=True,
+            coerce=True,
+            description="Diem danh gia trung binh (Sofascore)",
+        ),
+        "team_rank_sfs": Column(
+            float,
+            nullable=True,
+            coerce=True,
+            description="Thu hang cua doi bong (Sofascore)",
+        ),
 
         # --- Thong tin tu Transfermarkt ---
         "id_tm": Column(

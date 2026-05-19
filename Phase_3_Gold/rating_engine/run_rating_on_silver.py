@@ -78,12 +78,32 @@ def run_silver_to_gold_rating():
         engine = RatingEngine(min_minutes=900)
         
         # --- Áp dụng Mocks và Mappings trước khi điền cột thiếu ---
+        # Ưu tiên lấy số phút thi đấu thực tế từ sofascore
         if "minutes_played" not in df.columns:
-            df["minutes_played"] = 1000 # Mock value
+            if "minutes_played_sfs" in df.columns:
+                df["minutes_played"] = df["minutes_played_sfs"].fillna(1000)
+            else:
+                df["minutes_played"] = 1000 # Fallback
+        else:
+            df["minutes_played"] = df["minutes_played"].fillna(1000)
+
+        # Lấy tên giải đấu thực tế từ sofascore
         if "league" not in df.columns:
-            df["league"] = "Unknown"
+            if "league_sfs" in df.columns:
+                df["league"] = df["league_sfs"].fillna("Unknown")
+            else:
+                df["league"] = "Unknown"
+        else:
+            df["league"] = df["league"].fillna("Unknown")
+
+        # Lấy thứ hạng đội bóng thực tế từ sofascore
         if "team_rank" not in df.columns:
-            df["team_rank"] = 10
+            if "team_rank_sfs" in df.columns:
+                df["team_rank"] = df["team_rank_sfs"].fillna(10)
+            else:
+                df["team_rank"] = 10 # Fallback
+        else:
+            df["team_rank"] = df["team_rank"].fillna(10)
             
         # Map tên các cột từ bảng silver_players sang đúng định dạng RatingEngine nếu bị thiếu
         if "name" not in df.columns and "name_sfs_raw" in df.columns:
@@ -104,9 +124,15 @@ def run_silver_to_gold_rating():
         if "assists" not in df.columns and "assists_sfs" in df.columns:
             df["assists"] = df["assists_sfs"]
             
-        # Gán giá trị base_rating giả định có biến động để thuật toán min-max hoạt động chính xác
+        # Ưu tiên lấy điểm rating trung bình thực tế từ sofascore
+        fallback_series = pd.Series(6.5 + (df.index % 10) * 0.15, index=df.index)
         if "base_rating" not in df.columns:
-            df["base_rating"] = 6.5 + (df.index % 10) * 0.15
+            if "base_rating_sfs" in df.columns:
+                df["base_rating"] = df["base_rating_sfs"].fillna(fallback_series)
+            else:
+                df["base_rating"] = fallback_series
+        else:
+            df["base_rating"] = df["base_rating"].fillna(fallback_series)
             
         # Lấy danh sách các cột cần thiết từ engine để kiểm tra
         metrics_to_p90, metrics_to_scale = engine.get_required_metrics()

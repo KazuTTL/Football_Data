@@ -56,12 +56,13 @@ def process_sofascore():
         "core_info_raw.id":                                      "id_sfs",
         "core_info_raw.name":                                    "name_sfs_raw",
         "league_context":                                        "league_sfs",   # Ten giai dau (Premier League, La Liga...)
+        "team_rank_context":                                     "team_rank_sfs", # Thu hang doi bong
         "statistics_raw.domestic_league.team.name":              "team_sfs",
         "statistics_raw.domestic_league.statistics.goals":       "goals_sfs",
         "statistics_raw.domestic_league.statistics.assists":     "assists_sfs",
         "statistics_raw.domestic_league.statistics.appearances": "appearances_sfs",
-        "statistics_raw.domestic_league.statistics.minutesPlayed": "minutes_played_sfs",
-        "statistics_raw.domestic_league.statistics.rating":      "rating_sfs",
+        "statistics_raw.domestic_league.statistics.minutesPlayed": "minutes_played_sfs", # So phut thi dau thuc te
+        "statistics_raw.domestic_league.statistics.rating":        "base_rating_sfs",    # Diem sofascore goc thuc te
     }
     valid_map = {k: v for k, v in col_map.items() if k in df_raw.columns}
     df = df_raw[list(valid_map.keys())].rename(columns=valid_map).copy()
