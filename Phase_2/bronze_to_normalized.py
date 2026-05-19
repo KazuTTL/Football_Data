@@ -55,16 +55,30 @@ def process_sofascore():
     col_map = {
         "core_info_raw.id":                                      "id_sfs",
         "core_info_raw.name":                                    "name_sfs_raw",
+        "league_context":                                        "league_sfs",   # Ten giai dau (Premier League, La Liga...)
         "statistics_raw.domestic_league.team.name":              "team_sfs",
         "statistics_raw.domestic_league.statistics.goals":       "goals_sfs",
         "statistics_raw.domestic_league.statistics.assists":     "assists_sfs",
         "statistics_raw.domestic_league.statistics.appearances": "appearances_sfs",
+        "statistics_raw.domestic_league.statistics.minutesPlayed": "minutes_played_sfs",
+        "statistics_raw.domestic_league.statistics.rating":      "rating_sfs",
     }
     valid_map = {k: v for k, v in col_map.items() if k in df_raw.columns}
     df = df_raw[list(valid_map.keys())].rename(columns=valid_map).copy()
 
     # Text Normalization cho ten cau thu
     df["name_sfs_norm"] = df["name_sfs_raw"].apply(normalize_text)
+
+    # Suy ra mua giai tu extraction_date (VD: 2026-04-13 -> "2025-2026")
+    # Neu thang >= 8: mua bat dau la nam do (VD: 2025-08 -> 2025-2026)
+    # Neu thang < 8: mua bat dau la nam truoc (VD: 2026-04 -> 2025-2026)
+    try:
+        ext_year = int(extraction_date[:4])
+        ext_month = int(extraction_date[5:7])
+        season_start = ext_year if ext_month >= 8 else ext_year - 1
+        df["season_sfs"] = f"{season_start}-{season_start + 1}"
+    except (ValueError, TypeError, IndexError):
+        df["season_sfs"] = None
 
     # Xoa ban ghi bi thieu ID (Data Quality co ban nhat)
     df.dropna(subset=["id_sfs"], inplace=True)

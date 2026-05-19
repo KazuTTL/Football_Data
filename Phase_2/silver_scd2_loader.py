@@ -155,11 +155,56 @@ def apply_scd2(df_new_records, df_changed_records, df_existing):
 # ENTRY POINT
 # =========================================================
 
+def enrich_non_tracked_columns(df_silver, df_new):
+    """
+    Cap nhat cac cot MO RONG (non-tracked) cho cac ban ghi is_current=True.
+    Su dung khi them cot moi vao schema (VD: league_sfs, season_sfs) ma khong muon
+    kich hoat SCD2 versioning (vi day la metadata, khong phai thu vien thay doi du lieu).
+    Quy tac: Lay gia tri cot moi tu df_new (nguon moi nhat), gan vao ban ghi active trong Silver.
+    """
+    # Tim cac cot ton tai trong df_new nhung chua co hoac bi NULL trong df_silver
+    new_cols = [c for c in df_new.columns
+                if c not in ("is_current", "valid_from", "valid_to")
+                and (c not in df_silver.columns or df_silver[c].isna().all())]
+
+    if not new_cols:
+        return df_silver  # Khong co gi can enrich
+
+    logger.info(f"Lam giau (enrich) {len(new_cols)} cot moi cho ban ghi active: {new_cols}")
+
+    df_result = df_silver.copy()
+
+    # Lay gia tri cot moi tu df_new (chi can 1 gia tri cho moi internal_player_id)
+    enrich_source = df_new[["internal_player_id"] + new_cols].dropna(subset=["internal_player_id"])
+
+    # Cap nhat cac cot moi vao Silver dua tren internal_player_id va is_current
+    for col in new_cols:
+        if col not in df_result.columns:
+            df_result[col] = None
+
+    # Merge gia tri moi vao nhung ban ghi active
+    df_result = df_result.merge(
+        enrich_source.rename(columns={c: f"__new_{c}" for c in new_cols}),
+        on="internal_player_id",
+        how="left"
+    )
+    for col in new_cols:
+        # Chi ghi de neu ban ghi la active VA gia tri hien tai dang rong
+        mask_active = df_result["is_current"] == True
+        mask_empty  = df_result[col].isna()
+        df_result.loc[mask_active & mask_empty, col] = df_result.loc[mask_active & mask_empty, f"__new_{col}"]
+        # Doi voi tat ca active, luan luan update voi gia tri moi nhat (overwrite cac gia tri cu neu co)
+        df_result.loc[mask_active, col] = df_result.loc[mask_active, f"__new_{col}"]
+        df_result = df_result.drop(columns=[f"__new_{col}"])
+
+    return df_result
+
+
 def run():
     """
     Ham dieu phoi chinh cua buoc Silver SCD2 Loader.
     Doc merged_players.parquet -> Validate -> Detect Changes ->
-    Apply SCD2 -> Luu ra players_history.parquet.
+    Apply SCD2 -> Enrich non-tracked cols -> Luu ra players_history.parquet.
     """
     logger.info("=== BUOC 5: SILVER SCD2 LOADER ===")
 
@@ -186,6 +231,11 @@ def run():
 
     # Buoc 4: Ap dung SCD2 va luu
     df_silver = apply_scd2(df_new_rec, df_changed_rec, df_existing)
+
+    # Buoc 4b: Lam giau cac cot non-tracked moi (VD: league_sfs, season_sfs)
+    # Buoc nay dam bao cac cot duoc them moi vao Schema duoc gan vao Silver
+    # ma khong kich hoat versioning SCD2.
+    df_silver = enrich_non_tracked_columns(df_silver, df_new)
 
     df_silver.to_parquet(SILVER_OUTPUT, index=False)
     active_count = len(df_silver[df_silver["is_current"] == True]) if "is_current" in df_silver.columns else 0

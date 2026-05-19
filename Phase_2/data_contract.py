@@ -80,6 +80,18 @@ MERGED_SCHEMA = DataFrameSchema(
             description="Vi tri thi dau cu the (Centre-Forward, Attacking Midfield, Centre-Back...)",
         ),
 
+        # --- Thong tin Giai dau & Mua giai (tu Sofascore Bronze) ---
+        "league_sfs": Column(
+            str,
+            nullable=True,
+            description="Ten giai dau tu Sofascore (Premier League, La Liga, Serie A, Bundesliga, Ligue 1)",
+        ),
+        "season_sfs": Column(
+            str,
+            nullable=True,
+            description="Ma mua giai suy ra tu ngay cao du lieu (VD: 2025-2026)",
+        ),
+
         # --- Data Lineage ---
         "updated_at_sfs": Column(
             str,

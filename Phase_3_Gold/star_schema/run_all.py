@@ -33,7 +33,7 @@ def main():
         dim_player = build_dim_player(output_dir)
         
         # Bước 3: Build bảng Fact phụ thuộc Dimension & DWH
-        fact_performance = build_fact_performance(output_dir, dim_player, dim_team, dim_position)
+        fact_performance = build_fact_performance(output_dir, dim_player, dim_team, dim_position, dim_tournament, dim_season)
         
         logger.info("=== QUÁ TRÌNH HOÀN TẤT THÀNH CÔNG ===")
         
