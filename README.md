@@ -158,7 +158,7 @@ python Phase_3_Gold/rating_engine/run_rating_on_silver.py
 
 ---
 
-### 📐 Bước 7: Xây Dựng và Đồng Bộ Mô Hình Star Schema
+###  Bước 7: Xây Dựng và Đồng Bộ Mô Hình Star Schema
 Thiết lập và tạo mô hình Star Schema chuẩn phân tích gồm các bảng Dimensions (`dim_player`, `dim_team`, `dim_position`, `dim_tournament`, `dim_season`) và bảng Fact (`fact_player_season_stats`) một cách **động hoàn toàn** dựa trên dữ liệu thật trên Cloud.
 ```bash
 # Tạo các file Star Schema cục bộ
@@ -172,7 +172,7 @@ python Phase_3_Gold/star_schema/push_star_schema_to_motherduck.py
 
 ---
 
-### 📊 Bước 8: Trải Nghiệm Streamlit Scout Dashboard
+###  Bước 8: Trải Nghiệm Streamlit Scout Dashboard
 Chạy giao diện trực quan hóa thông tin chiêu mộ Moneyball:
 ```bash
 streamlit run Phase_4/dashboard_app.py
