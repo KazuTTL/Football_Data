@@ -118,11 +118,64 @@ def run_silver_to_gold_rating():
             elif "team_tm" in df.columns:
                 df["team_name"] = df["team_tm"]
                 
-        # Ánh xạ chỉ số goals và assists từ sofascore
-        if "goals" not in df.columns and "goals_sfs" in df.columns:
-            df["goals"] = df["goals_sfs"]
-        if "assists" not in df.columns and "assists_sfs" in df.columns:
-            df["assists"] = df["assists_sfs"]
+        # Ánh xạ chỉ số goals, assists và tất cả các chỉ số chuyên môn thực tế từ sofascore
+        mapping_dict = {
+            "goals": "goals_sfs",
+            "assists": "assists_sfs",
+            "xg": "xg_sfs",
+            "xa": "xa_sfs",
+            "shots_on_target": "shots_on_target_sfs",
+            "goal_conversion_pct": "goal_conversion_pct_sfs",
+            "big_chances_created": "big_chances_created_sfs",
+            "possession_lost": "possession_lost_sfs",
+            "big_chances_missed": "big_chances_missed_sfs",
+            "successful_dribbles": "successful_dribbles_sfs",
+            "key_passes": "key_passes_sfs",
+            "accurate_passes_pct": "accurate_passes_pct_sfs",
+            "tackles": "tackles_sfs",
+            "interceptions": "interceptions_sfs",
+            "clearances": "clearances_sfs",
+            "ground_duels_won_pct": "ground_duels_won_pct_sfs",
+            "aerial_duels_won_pct": "aerial_duels_won_pct_sfs",
+            "saves": "saves_sfs"
+        }
+        
+        for raw_col, sfs_col in mapping_dict.items():
+            if raw_col not in df.columns:
+                if sfs_col in df.columns:
+                    df[raw_col] = df[sfs_col]
+                else:
+                    df[raw_col] = 0.0
+            else:
+                if sfs_col in df.columns:
+                    df[raw_col] = df[raw_col].fillna(df[sfs_col])
+                else:
+                    df[raw_col] = df[raw_col].fillna(0.0)
+                    
+        # Các cột kết hợp (Combined/Special columns expected by config)
+        if "xa_key_pass" not in df.columns:
+            xa_val = df["xa_sfs"].fillna(0.0) if "xa_sfs" in df.columns else 0.0
+            kp_val = df["key_passes_sfs"].fillna(0.0) if "key_passes_sfs" in df.columns else 0.0
+            df["xa_key_pass"] = (xa_val + kp_val) / 2
+            
+        if "errors_lead_goal_dribbled_past" not in df.columns:
+            err_val = df["error_lead_to_goal_sfs"].fillna(0.0) if "error_lead_to_goal_sfs" in df.columns else 0.0
+            drb_val = df["dribbled_past_sfs"].fillna(0.0) if "dribbled_past_sfs" in df.columns else 0.0
+            df["errors_lead_goal_dribbled_past"] = err_val + drb_val
+            
+        if "assists_xa" not in df.columns:
+            ast_val = df["assists_sfs"].fillna(0.0) if "assists_sfs" in df.columns else 0.0
+            xa_val = df["xa_sfs"].fillna(0.0) if "xa_sfs" in df.columns else 0.0
+            df["assists_xa"] = ast_val + xa_val
+            
+        if "clean_sheets_pct" not in df.columns:
+            if "clean_sheet_sfs" in df.columns:
+                app_val = df["appearances_sfs"].fillna(1) if "appearances_sfs" in df.columns else 1
+                # Tránh chia cho 0
+                app_val = app_val.replace(0, 1)
+                df["clean_sheets_pct"] = (df["clean_sheet_sfs"].fillna(0.0) / app_val) * 100
+            else:
+                df["clean_sheets_pct"] = 0.0
             
         # Ưu tiên lấy điểm rating trung bình thực tế từ sofascore
         fallback_series = pd.Series(6.5 + (df.index % 10) * 0.15, index=df.index)

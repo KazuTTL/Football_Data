@@ -63,6 +63,27 @@ def process_sofascore():
         "statistics_raw.domestic_league.statistics.appearances": "appearances_sfs",
         "statistics_raw.domestic_league.statistics.minutesPlayed": "minutes_played_sfs", # So phut thi dau thuc te
         "statistics_raw.domestic_league.statistics.rating":        "base_rating_sfs",    # Diem sofascore goc thuc te
+        
+        # --- Bổ sung các chỉ số chuyên môn thực tế cho CB, DM, GK, ST, Midfielders... ---
+        "statistics_raw.domestic_league.statistics.tackles":                      "tackles_sfs",
+        "statistics_raw.domestic_league.statistics.interceptions":                "interceptions_sfs",
+        "statistics_raw.domestic_league.statistics.clearances":                   "clearances_sfs",
+        "statistics_raw.domestic_league.statistics.aerialDuelsWonPercentage":      "aerial_duels_won_pct_sfs",
+        "statistics_raw.domestic_league.statistics.groundDuelsWonPercentage":      "ground_duels_won_pct_sfs",
+        "statistics_raw.domestic_league.statistics.accuratePassesPercentage":      "accurate_passes_pct_sfs",
+        "statistics_raw.domestic_league.statistics.keyPasses":                     "key_passes_sfs",
+        "statistics_raw.domestic_league.statistics.expectedGoals":                "xg_sfs",
+        "statistics_raw.domestic_league.statistics.expectedAssists":              "xa_sfs",
+        "statistics_raw.domestic_league.statistics.bigChancesCreated":            "big_chances_created_sfs",
+        "statistics_raw.domestic_league.statistics.successfulDribbles":           "successful_dribbles_sfs",
+        "statistics_raw.domestic_league.statistics.possessionLost":               "possession_lost_sfs",
+        "statistics_raw.domestic_league.statistics.bigChancesMissed":             "big_chances_missed_sfs",
+        "statistics_raw.domestic_league.statistics.errorLeadToGoal":              "error_lead_to_goal_sfs",
+        "statistics_raw.domestic_league.statistics.dribbledPast":                 "dribbled_past_sfs",
+        "statistics_raw.domestic_league.statistics.shotsOnTarget":                "shots_on_target_sfs",
+        "statistics_raw.domestic_league.statistics.goalConversionPercentage":      "goal_conversion_pct_sfs",
+        "statistics_raw.domestic_league.statistics.saves":                        "saves_sfs",
+        "statistics_raw.domestic_league.statistics.cleanSheet":                   "clean_sheet_sfs",
     }
     valid_map = {k: v for k, v in col_map.items() if k in df_raw.columns}
     df = df_raw[list(valid_map.keys())].rename(columns=valid_map).copy()

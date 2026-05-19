@@ -6,8 +6,10 @@ from logger_config import setup_logger
 
 logger = setup_logger("silver_to_motherduck")
 
-# Load bien moi truong tu file .env
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", "Phase_1", ".env"))
+# Load bien moi truong tu file .env (tim kiem linh hoat o cac thu muc)
+load_dotenv() # 1. Thu muc lam viec hien tai (PROJECT_ROOT)
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", "Phase_1_Advanced", ".env")) # 2. Phase_1_Advanced
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", "Phase_1", ".env")) # 3. Phase_1 fallback
 
 # =============================================================
 # CAU HINH DUONG DAN DONG (Docker-Compatible)
