@@ -100,6 +100,15 @@ def resolve_players(df_sfs, df_tm):
                 matched_name = result[0]
                 tm_record = df_tm[df_tm["name_tm_norm"] == matched_name]
                 if tm_record.empty:
+                    # Neu rong (loi logic Data) nhung van chua co tm_record, fallback ve Cach 3
+                    new_internal_id = f"PLR_{len(mapping) + 1:05d}"
+                    mapping[new_internal_id] = {
+                        "sofascore_id":    row["id_sfs"],
+                        "transfermarkt_id": "unknown",
+                        "display_name":    row.get("name_sfs_raw", name_to_match)
+                    }
+                    df_sfs.at[idx, "internal_player_id"] = new_internal_id
+                    new_matches += 1
                     continue
 
                 tm_record = tm_record.iloc[0]
@@ -110,6 +119,16 @@ def resolve_players(df_sfs, df_tm):
                     "sofascore_id":    row["id_sfs"],
                     "transfermarkt_id": str(tm_record["id_tm"]),
                     "display_name":    tm_record.get("name_tm_raw", ""),
+                }
+                df_sfs.at[idx, "internal_player_id"] = new_internal_id
+                new_matches += 1
+            else:
+                # CACH 3: Cap phat ID giu cho (Placeholder) cho cau thu khong khop Transfermarkt
+                new_internal_id = f"PLR_{len(mapping) + 1:05d}"
+                mapping[new_internal_id] = {
+                    "sofascore_id":    row["id_sfs"],
+                    "transfermarkt_id": "unknown",
+                    "display_name":    row.get("name_sfs_raw", name_to_match)
                 }
                 df_sfs.at[idx, "internal_player_id"] = new_internal_id
                 new_matches += 1

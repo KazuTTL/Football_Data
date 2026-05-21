@@ -136,8 +136,19 @@ def apply_scd2(df_new_records, df_changed_records, df_existing):
     if not df_changed_records.empty and not df_result.empty:
         changed_ids = set(df_changed_records["internal_player_id"].unique())
         mask_close  = (df_result["internal_player_id"].isin(changed_ids)) & (df_result["is_current"] == True)
-        df_result.loc[mask_close, "is_current"] = False
-        df_result.loc[mask_close, "valid_to"]   = today
+        
+        # Nhan dien ban ghi vua duoc thay doi hoac insert trong CUNG NGAY hom nay
+        mask_same_day = mask_close & (df_result["valid_from"] == today)
+        
+        # Doi voi ban ghi khac ngay, ta dong chung lai de tao ban ghi moi (SCD2 truyen thong)
+        mask_diff_day = mask_close & (~mask_same_day)
+        df_result.loc[mask_diff_day, "is_current"] = False
+        df_result.loc[mask_diff_day, "valid_to"]   = today
+        
+        # Doi voi ban ghi cung ngay, ta chi can XOA dong hien tai di, vi ben duoi 
+        # se tu dong insert lai ban ghi moi nhat vao voi cung ngay 'today' (Tuong duong UPSERT)
+        if mask_same_day.any():
+            df_result = df_result[~mask_same_day].copy()
 
     # 2. Them ban ghi THAY DOI moi va ban ghi MOI HOAN TOAN
     for df_insert_group in [df_new_records, df_changed_records]:
@@ -214,6 +225,13 @@ def run():
         return
 
     df_new = pd.read_parquet(merged_path)
+
+    # Loai bo trung lap neu co trong df_new (Phan vao duy nhat) truoc khi validate
+    if "internal_player_id" in df_new.columns:
+        original_len = len(df_new)
+        df_new = df_new.drop_duplicates(subset=["internal_player_id"], keep="last")
+        if original_len > len(df_new):
+            logger.info(f"Loai bo {original_len - len(df_new)} ban ghi trung lap trong du lieu Silver dau vao.")
 
     # Buoc 1: Kiem soat Schema
     validate(df_new)

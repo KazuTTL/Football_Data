@@ -49,7 +49,16 @@ def get_sofascore_raw():
 
     # Lam phang cau truc JSON long nhau thanh DataFrame phang
     df = pd.json_normalize(all_players)
-    logger.info(f"Sofascore: Doc {len(df)} ban ghi tu {extraction_date}.")
+    
+    # Xoa cac ban ghi trung lap do viec chay nhieu lan trong 1 ngay
+    # Neu chay nhieu lan, df se co cac dong trung lap (cung 1 id). Ta giu lai ban ghi cuoi cung (keep="last")
+    if "core_info_raw.id" in df.columns:
+        original_len = len(df)
+        df = df.drop_duplicates(subset=["core_info_raw.id"], keep="last")
+        if original_len > len(df):
+            logger.info(f"Sofascore: Da loai bo {original_len - len(df)} ban ghi trung lap.")
+            
+    logger.info(f"Sofascore: Doc {len(df)} ban ghi doc nhat tu {extraction_date}.")
     return df, extraction_date
 
 
