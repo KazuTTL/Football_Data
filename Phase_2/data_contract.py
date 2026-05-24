@@ -185,6 +185,56 @@ MERGED_SCHEMA = DataFrameSchema(
             description="So tran giu sach luoi (Sofascore)",
         ),
 
+        # --- Thống kê Penalty và Thẻ phạt ---
+        "penalties_taken_sfs": Column(
+            float,
+            nullable=True,
+            coerce=True,
+            description="So qua phat den da sut (Sofascore)",
+        ),
+        "penalty_goals_sfs": Column(
+            float,
+            nullable=True,
+            coerce=True,
+            description="So ban thang tu phat den (Sofascore)",
+        ),
+        "penalty_won_sfs": Column(
+            float,
+            nullable=True,
+            coerce=True,
+            description="So qua phat den mang ve (Sofascore)",
+        ),
+        "penalty_conceded_sfs": Column(
+            float,
+            nullable=True,
+            coerce=True,
+            description="So qua phat den bi thoi phat (Sofascore)",
+        ),
+        "yellow_cards_sfs": Column(
+            float,
+            nullable=True,
+            coerce=True,
+            description="So the vang (Sofascore)",
+        ),
+        "red_cards_sfs": Column(
+            float,
+            nullable=True,
+            coerce=True,
+            description="So the do tong cong (Sofascore)",
+        ),
+        "direct_red_cards_sfs": Column(
+            float,
+            nullable=True,
+            coerce=True,
+            description="So the do truc tiep (Sofascore)",
+        ),
+        "yellow_red_cards_sfs": Column(
+            float,
+            nullable=True,
+            coerce=True,
+            description="So the vang thu hai / the do gian tiep (Sofascore)",
+        ),
+
         # --- Thong tin tu Transfermarkt ---
         "id_tm": Column(
             str,

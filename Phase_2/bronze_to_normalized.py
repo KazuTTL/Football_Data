@@ -50,41 +50,41 @@ def process_sofascore():
     if df_raw is None:
         return None
 
-    # Anh xa cot goc -> ten moi co hau to _sfs (Data Lineage)
-    # Chi lay nhung cot thuc su ton tai de tranh loi khi schema thay doi
+    # Anh xa cot goc co ban
     col_map = {
         "core_info_raw.id":                                      "id_sfs",
         "core_info_raw.name":                                    "name_sfs_raw",
         "league_context":                                        "league_sfs",   # Ten giai dau (Premier League, La Liga...)
         "team_rank_context":                                     "team_rank_sfs", # Thu hang doi bong
         "statistics_raw.domestic_league.team.name":              "team_sfs",
-        "statistics_raw.domestic_league.statistics.goals":       "goals_sfs",
-        "statistics_raw.domestic_league.statistics.assists":     "assists_sfs",
-        "statistics_raw.domestic_league.statistics.appearances": "appearances_sfs",
-        "statistics_raw.domestic_league.statistics.minutesPlayed": "minutes_played_sfs", # So phut thi dau thuc te
-        "statistics_raw.domestic_league.statistics.rating":        "base_rating_sfs",    # Diem sofascore goc thuc te
-        
-        # --- Bổ sung các chỉ số chuyên môn thực tế cho CB, DM, GK, ST, Midfielders... ---
-        "statistics_raw.domestic_league.statistics.tackles":                      "tackles_sfs",
-        "statistics_raw.domestic_league.statistics.interceptions":                "interceptions_sfs",
-        "statistics_raw.domestic_league.statistics.clearances":                   "clearances_sfs",
-        "statistics_raw.domestic_league.statistics.aerialDuelsWonPercentage":      "aerial_duels_won_pct_sfs",
-        "statistics_raw.domestic_league.statistics.groundDuelsWonPercentage":      "ground_duels_won_pct_sfs",
-        "statistics_raw.domestic_league.statistics.accuratePassesPercentage":      "accurate_passes_pct_sfs",
-        "statistics_raw.domestic_league.statistics.keyPasses":                     "key_passes_sfs",
-        "statistics_raw.domestic_league.statistics.expectedGoals":                "xg_sfs",
-        "statistics_raw.domestic_league.statistics.expectedAssists":              "xa_sfs",
-        "statistics_raw.domestic_league.statistics.bigChancesCreated":            "big_chances_created_sfs",
-        "statistics_raw.domestic_league.statistics.successfulDribbles":           "successful_dribbles_sfs",
-        "statistics_raw.domestic_league.statistics.possessionLost":               "possession_lost_sfs",
-        "statistics_raw.domestic_league.statistics.bigChancesMissed":             "big_chances_missed_sfs",
-        "statistics_raw.domestic_league.statistics.errorLeadToGoal":              "error_lead_to_goal_sfs",
-        "statistics_raw.domestic_league.statistics.dribbledPast":                 "dribbled_past_sfs",
-        "statistics_raw.domestic_league.statistics.shotsOnTarget":                "shots_on_target_sfs",
-        "statistics_raw.domestic_league.statistics.goalConversionPercentage":      "goal_conversion_pct_sfs",
-        "statistics_raw.domestic_league.statistics.saves":                        "saves_sfs",
-        "statistics_raw.domestic_league.statistics.cleanSheet":                   "clean_sheet_sfs",
     }
+
+    # Cac truong dac biet can giu nguyen ten de tuong thich nguoc voi Data Contract & Gold Layer
+    manual_stat_mappings = {
+        "rating": "base_rating_sfs",
+        "aerialDuelsWonPercentage": "aerial_duels_won_pct_sfs",
+        "groundDuelsWonPercentage": "ground_duels_won_pct_sfs",
+        "accuratePassesPercentage": "accurate_passes_pct_sfs",
+        "goalConversionPercentage": "goal_conversion_pct_sfs",
+        "expectedGoals": "xg_sfs",
+        "expectedAssists": "xa_sfs",
+        "id": "statistics_id_sfs" # Tranh trung ten voi id_sfs cua cau thu
+    }
+
+    # Tu dong quet va anh xa toan bo cac truong thong ke tu JSON (camelCase -> snake_case)
+    import re
+    stat_prefix = "statistics_raw.domestic_league.statistics."
+    for col in df_raw.columns:
+        if col.startswith(stat_prefix):
+            clean_name = col[len(stat_prefix):]
+            if clean_name in manual_stat_mappings:
+                col_map[col] = manual_stat_mappings[clean_name]
+            else:
+                # Thay the dau cham neu co truong con long nhau
+                clean_name = clean_name.replace(".", "_")
+                # regex bien camelCase sang snake_case
+                snake_name = re.sub(r'(?<!^)(?=[A-Z])', '_', clean_name).lower()
+                col_map[col] = f"{snake_name}_sfs"
     valid_map = {k: v for k, v in col_map.items() if k in df_raw.columns}
     df = df_raw[list(valid_map.keys())].rename(columns=valid_map).copy()
 

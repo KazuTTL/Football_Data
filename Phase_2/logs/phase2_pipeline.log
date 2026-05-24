@@ -223,3 +223,64 @@
 [2026-05-21 14:52:29] [INFO] [silver_to_motherduck] - Dang dong bo len bang 'silver_players' tren MotherDuck...
 [2026-05-21 14:52:31] [INFO] [silver_to_motherduck] - Xac nhan tren Cloud: 94 tong ban ghi | 48 dang hoat dong (is_current=True)
 [2026-05-21 14:52:31] [INFO] [silver_to_motherduck] - === DONG BO HOAN TAT! Truy cap MotherDuck de xem bang 'silver_players' ===
+[2026-05-21 17:04:35] [INFO] [bronze_to_normalized] - === BUOC 2: BRONZE TO NORMALIZED ===
+[2026-05-21 17:04:36] [INFO] [bronze_readers] - Sofascore: Doc 50 ban ghi doc nhat tu 2026-04-13.
+[2026-05-21 17:04:36] [INFO] [bronze_to_normalized] - Sofascore: Chuan hoa xong 50 cau thu.
+[2026-05-21 17:04:36] [INFO] [bronze_to_normalized] - -> Luu: C:\FastAPI\Football\Phase_2\intermediate\sofascore_normalized.parquet
+[2026-05-21 17:04:40] [INFO] [bronze_readers] - Transfermarkt: Hop nhat 47669 ban ghi (players + valuations + clubs).
+[2026-05-21 17:04:40] [INFO] [bronze_to_normalized] - Transfermarkt: Chuan hoa xong 47669 cau thu.
+[2026-05-21 17:04:41] [INFO] [bronze_to_normalized] - -> Luu: C:\FastAPI\Football\Phase_2\intermediate\transfermarkt_normalized.parquet
+[2026-05-21 17:04:41] [INFO] [bronze_to_normalized] - === BUOC 2: HOAN TAT ===
+[2026-05-21 17:04:48] [INFO] [entity_resolution] - === BUOC 3: ENTITY RESOLUTION ===
+[2026-05-21 17:04:49] [INFO] [entity_resolution] - Tim thay 2 cau thu moi chua co trong tu dien. Dang Fuzzy Match...
+[2026-05-21 17:04:49] [INFO] [entity_resolution] - Da anh xa 2 cau thu moi vao tu dien.
+[2026-05-21 17:04:49] [INFO] [entity_resolution] - -> Luu 50 ban ghi da ghep: C:\FastAPI\Football\Phase_2\intermediate\merged_players.parquet
+[2026-05-21 17:04:49] [INFO] [entity_resolution] - === BUOC 3: HOAN TAT ===
+[2026-05-21 17:04:55] [INFO] [silver_scd2_loader] - === BUOC 5: SILVER SCD2 LOADER ===
+[2026-05-21 17:04:55] [INFO] [silver_scd2_loader] - Dang kiem tra Data Contract...
+[2026-05-21 17:04:55] [ERROR] [silver_scd2_loader] - LOI DATA CONTRACT: {
+    "SCHEMA": {
+        "COLUMN_NOT_IN_DATAFRAME": [
+            {
+                "schema": null,
+                "column": "xg_sfs",
+                "check": "column_in_dataframe",
+                "error": "column 'xg_sfs' not in dataframe. Columns in dataframe: ['id_sfs', 'name_sfs_raw', 'league_sfs', 'team_rank_sfs', 'team_sfs', 'base_rating_sfs', 'total_rating_sfs', 'count_rating_sfs', 'goals_sfs', 'big_chances_created_sfs', 'big_chances_missed_sfs', 'assists_sfs', 'expected_assists_sfs', 'goals_assists_sum_sfs', 'accurate_passes_sfs', 'inaccurate_passes_sfs', 'total_passes_sfs', 'accurate_passes_pct_sfs', 'accurate_own_half_passes_sfs', 'accurate_opposition_half_passes_sfs', 'accurate_final_third_passes_sfs', 'key_passes_sfs', 'successful_dribbles_sfs', 'successful_dribbles_percentage_sfs', 'tackles_sfs', 'interceptions_sfs', 'yellow_cards_sfs', 'direct_red_cards_sfs', 'red_cards_sfs', 'accurate_crosses_sfs', 'accurate_crosses_percentage_sfs', 'total_shots_sfs', 'shots_on_target_sfs', 'shots_off_target_sfs', 'ground_duels_won_sfs', 'ground_duels_won_pct_sfs', 'aerial_duels_won_sfs', 'aerial_duels_won_pct_sfs', 'total_duels_won_sfs', 'total_duels_won_percentage_sfs', 'minutes_played_sfs', 'goal_conversion_pct_sfs', 'penalties_taken_sfs', 'penalty_goals_sfs', 'penalty_won_sfs', 'penalty_conceded_sfs', 'shot_from_set_piece_sfs', 'free_kick_goal_sfs', 'goals_from_inside_the_box_sfs', 'goals_from_outside_the_box_sfs', 'shots_from_inside_the_box_sfs', 'shots_from_outside_the_box_sfs', 'headed_goals_sfs', 'left_foot_goals_sfs', 'right_foot_goals_sfs', 'accurate_long_balls_sfs', 'accurate_long_balls_percentage_sfs', 'clearances_sfs', 'error_lead_to_goal_sfs', 'error_lead_to_shot_sfs', 'dispossessed_sfs', 'possession_lost_sfs', 'possession_won_att_third_sfs', 'total_chipped_passes_sfs', 'accurate_chipped_passes_sfs', 'touches_sfs', 'was_fouled_sfs', 'fouls_sfs', 'hit_woodwork_sfs', 'own_goals_sfs', 'dribbled_past_sfs', 'offsides_sfs', 'blocked_shots_sfs', 'pass_to_assist_sfs', 'saves_sfs', 'clean_sheet_sfs', 'penalty_faced_sfs', 'penalty_save_sfs', 'saved_shots_from_inside_the_box_sfs', 'saved_shots_from_outside_the_box_sfs', 'goals_conceded_inside_the_box_sfs', 'goals_conceded_outside_the_box_sfs', 'punches_sfs', 'runs_out_sfs', 'successful_runs_out_sfs', 'high_claims_sfs', 'crosses_not_claimed_sfs', 'matches_started_sfs', 'penalty_conversion_sfs', 'set_piece_conversion_sfs', 'total_attempt_assist_sfs', 'total_contest_sfs', 'total_cross_sfs', 'duel_lost_sfs', 'aerial_lost_sfs', 'attempt_penalty_miss_sfs', 'attempt_penalty_post_sfs', 'attempt_penalty_target_sfs', 'total_long_balls_sfs', 'goals_conceded_sfs', 'tackles_won_sfs', 'tackles_won_percentage_sfs', 'scoring_frequency_sfs', 'yellow_red_cards_sfs', 'saves_caught_sfs', 'saves_parried_sfs', 'total_own_half_passes_sfs', 'total_opposition_half_passes_sfs', 'totw_appearances_sfs', 'expected_goals_sfs', 'goal_kicks_sfs', 'ball_recovery_sfs', 'outfielder_blocks_sfs', 'statistics_id_sfs', 'type_sfs', 'appearances_sfs', 'statistics_type_sport_slug_sfs', 'statistics_type_statistics_type_sfs', 'goals_prevented_sfs', 'name_sfs_norm', 'season_sfs', 'updated_at_sfs', 'internal_player_id', 'id_tm', 'name_tm_raw', 'dob_tm', 'position_tm', 'sub_position_tm', 'team_tm', 'market_value_tm', 'name_tm_norm', 'updated_at_tm']"
+            },
+            {
+                "schema": null,
+                "column": "xa_sfs",
+                "check": "column_in_dataframe",
+                "error": "column 'xa_sfs' not in dataframe. Columns in dataframe: ['id_sfs', 'name_sfs_raw', 'league_sfs', 'team_rank_sfs', 'team_sfs', 'base_rating_sfs', 'total_rating_sfs', 'count_rating_sfs', 'goals_sfs', 'big_chances_created_sfs', 'big_chances_missed_sfs', 'assists_sfs', 'expected_assists_sfs', 'goals_assists_sum_sfs', 'accurate_passes_sfs', 'inaccurate_passes_sfs', 'total_passes_sfs', 'accurate_passes_pct_sfs', 'accurate_own_half_passes_sfs', 'accurate_opposition_half_passes_sfs', 'accurate_final_third_passes_sfs', 'key_passes_sfs', 'successful_dribbles_sfs', 'successful_dribbles_percentage_sfs', 'tackles_sfs', 'interceptions_sfs', 'yellow_cards_sfs', 'direct_red_cards_sfs', 'red_cards_sfs', 'accurate_crosses_sfs', 'accurate_crosses_percentage_sfs', 'total_shots_sfs', 'shots_on_target_sfs', 'shots_off_target_sfs', 'ground_duels_won_sfs', 'ground_duels_won_pct_sfs', 'aerial_duels_won_sfs', 'aerial_duels_won_pct_sfs', 'total_duels_won_sfs', 'total_duels_won_percentage_sfs', 'minutes_played_sfs', 'goal_conversion_pct_sfs', 'penalties_taken_sfs', 'penalty_goals_sfs', 'penalty_won_sfs', 'penalty_conceded_sfs', 'shot_from_set_piece_sfs', 'free_kick_goal_sfs', 'goals_from_inside_the_box_sfs', 'goals_from_outside_the_box_sfs', 'shots_from_inside_the_box_sfs', 'shots_from_outside_the_box_sfs', 'headed_goals_sfs', 'left_foot_goals_sfs', 'right_foot_goals_sfs', 'accurate_long_balls_sfs', 'accurate_long_balls_percentage_sfs', 'clearances_sfs', 'error_lead_to_goal_sfs', 'error_lead_to_shot_sfs', 'dispossessed_sfs', 'possession_lost_sfs', 'possession_won_att_third_sfs', 'total_chipped_passes_sfs', 'accurate_chipped_passes_sfs', 'touches_sfs', 'was_fouled_sfs', 'fouls_sfs', 'hit_woodwork_sfs', 'own_goals_sfs', 'dribbled_past_sfs', 'offsides_sfs', 'blocked_shots_sfs', 'pass_to_assist_sfs', 'saves_sfs', 'clean_sheet_sfs', 'penalty_faced_sfs', 'penalty_save_sfs', 'saved_shots_from_inside_the_box_sfs', 'saved_shots_from_outside_the_box_sfs', 'goals_conceded_inside_the_box_sfs', 'goals_conceded_outside_the_box_sfs', 'punches_sfs', 'runs_out_sfs', 'successful_runs_out_sfs', 'high_claims_sfs', 'crosses_not_claimed_sfs', 'matches_started_sfs', 'penalty_conversion_sfs', 'set_piece_conversion_sfs', 'total_attempt_assist_sfs', 'total_contest_sfs', 'total_cross_sfs', 'duel_lost_sfs', 'aerial_lost_sfs', 'attempt_penalty_miss_sfs', 'attempt_penalty_post_sfs', 'attempt_penalty_target_sfs', 'total_long_balls_sfs', 'goals_conceded_sfs', 'tackles_won_sfs', 'tackles_won_percentage_sfs', 'scoring_frequency_sfs', 'yellow_red_cards_sfs', 'saves_caught_sfs', 'saves_parried_sfs', 'total_own_half_passes_sfs', 'total_opposition_half_passes_sfs', 'totw_appearances_sfs', 'expected_goals_sfs', 'goal_kicks_sfs', 'ball_recovery_sfs', 'outfielder_blocks_sfs', 'statistics_id_sfs', 'type_sfs', 'appearances_sfs', 'statistics_type_sport_slug_sfs', 'statistics_type_statistics_type_sfs', 'goals_prevented_sfs', 'name_sfs_norm', 'season_sfs', 'updated_at_sfs', 'internal_player_id', 'id_tm', 'name_tm_raw', 'dob_tm', 'position_tm', 'sub_position_tm', 'team_tm', 'market_value_tm', 'name_tm_norm', 'updated_at_tm']"
+            }
+        ]
+    }
+}
+[2026-05-21 17:05:07] [INFO] [bronze_to_normalized] - === BUOC 2: BRONZE TO NORMALIZED ===
+[2026-05-21 17:05:07] [INFO] [bronze_readers] - Sofascore: Doc 50 ban ghi doc nhat tu 2026-04-13.
+[2026-05-21 17:05:07] [INFO] [bronze_to_normalized] - Sofascore: Chuan hoa xong 50 cau thu.
+[2026-05-21 17:05:07] [INFO] [bronze_to_normalized] - -> Luu: C:\FastAPI\Football\Phase_2\intermediate\sofascore_normalized.parquet
+[2026-05-21 17:05:12] [INFO] [bronze_readers] - Transfermarkt: Hop nhat 47669 ban ghi (players + valuations + clubs).
+[2026-05-21 17:05:13] [INFO] [bronze_to_normalized] - Transfermarkt: Chuan hoa xong 47669 cau thu.
+[2026-05-21 17:05:13] [INFO] [bronze_to_normalized] - -> Luu: C:\FastAPI\Football\Phase_2\intermediate\transfermarkt_normalized.parquet
+[2026-05-21 17:05:13] [INFO] [bronze_to_normalized] - === BUOC 2: HOAN TAT ===
+[2026-05-21 17:05:19] [INFO] [entity_resolution] - === BUOC 3: ENTITY RESOLUTION ===
+[2026-05-21 17:05:19] [INFO] [entity_resolution] - Khong co cau thu moi. Tu dien khong doi.
+[2026-05-21 17:05:19] [INFO] [entity_resolution] - -> Luu 50 ban ghi da ghep: C:\FastAPI\Football\Phase_2\intermediate\merged_players.parquet
+[2026-05-21 17:05:19] [INFO] [entity_resolution] - === BUOC 3: HOAN TAT ===
+[2026-05-21 17:05:26] [INFO] [silver_scd2_loader] - === BUOC 5: SILVER SCD2 LOADER ===
+[2026-05-21 17:05:26] [INFO] [silver_scd2_loader] - Dang kiem tra Data Contract...
+[2026-05-21 17:05:27] [INFO] [silver_scd2_loader] - Schema hop le. Tiep tuc...
+[2026-05-21 17:05:27] [INFO] [silver_scd2_loader] - Doc Silver Zone hien tai: 94 ban ghi.
+[2026-05-21 17:05:27] [INFO] [silver_scd2_loader] - Phan tich: 2 cau thu moi | 0 thay doi | 48 khong doi.
+[2026-05-21 17:05:27] [INFO] [silver_scd2_loader] - Lam giau (enrich) 1 cot moi cho ban ghi active: ['goals_prevented_sfs']
+[2026-05-21 17:05:27] [INFO] [silver_scd2_loader] - -> Luu Silver Zone: 96 tong ban ghi | 50 ban ghi dang hoat dong.
+[2026-05-21 17:05:27] [INFO] [silver_scd2_loader] - -> Duong dan: C:\FastAPI\Football\Phase_2\silver_zone\players_history.parquet
+[2026-05-21 17:05:27] [INFO] [silver_scd2_loader] - === BUOC 5: HOAN TAT ===
+[2026-05-25 00:29:46] [INFO] [silver_to_motherduck] - === DONG BO SILVER ZONE -> MOTHERDUCK ===
+[2026-05-25 00:29:46] [INFO] [silver_to_motherduck] - Dang ket noi toi MotherDuck...
+[2026-05-25 00:29:49] [INFO] [silver_to_motherduck] - Ket noi thanh cong vao database 'football_data'!
+[2026-05-25 00:29:49] [INFO] [silver_to_motherduck] - Dang doc du lieu tu: C:\FastAPI\Football\Phase_2\silver_zone\players_history.parquet
+[2026-05-25 00:29:49] [INFO] [silver_to_motherduck] - Dang dong bo len bang 'silver_players' tren MotherDuck...
+[2026-05-25 00:29:50] [INFO] [silver_to_motherduck] - Xac nhan tren Cloud: 96 tong ban ghi | 50 dang hoat dong (is_current=True)
+[2026-05-25 00:29:50] [INFO] [silver_to_motherduck] - === DONG BO HOAN TAT! Truy cap MotherDuck de xem bang 'silver_players' ===
