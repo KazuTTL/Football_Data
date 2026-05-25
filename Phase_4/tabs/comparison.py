@@ -99,15 +99,43 @@ def render_comparison_tab(fdf, df_rating, theme_config):
                 "Tranh chấp tay đôi (%)": "ground_duels_won_pct"
             }
             default_metrics = ["Điểm Scout (0-100)", "Bàn thắng", "Kiến tạo", "Đường chuyền quyết định", "Qua người t.công"]
-        
+        # Determine position groups for smart mapping
+        pos_a = str(fdf[fdf['player_name'] == player_a]['position'].iloc[0]).upper().strip() if not fdf[fdf['player_name'] == player_a].empty else ""
+        pos_b = str(fdf[fdf['player_name'] == player_b]['position'].iloc[0]).upper().strip() if not fdf[fdf['player_name'] == player_b].empty else ""
+
+        def get_pos_group(pos):
+            if pos in ["ST", "CF", "LW", "RW", "LF", "RF", "CENTRE-FORWARD", "LEFT WINGER", "RIGHT WINGER", "SECOND STRIKER"]: return "ATT"
+            if pos in ["CAM", "CM", "CDM", "LM", "RM", "ATTACKING MIDFIELD", "CENTRAL MIDFIELD", "DEFENSIVE MIDFIELD", "RIGHT MIDFIELD", "LEFT MIDFIELD"]: return "MID"
+            if pos in ["CB", "LB", "RB", "LWB", "RWB", "CENTRE-BACK", "LEFT-BACK", "RIGHT-BACK"]: return "DEF"
+            if pos in ["GK", "GOALKEEPER"]: return "GK"
+            return "UNKNOWN"
+
+        grp_a = get_pos_group(pos_a)
+        grp_b = get_pos_group(pos_b)
+
+        if grp_a == grp_b and grp_a != "UNKNOWN":
+            if grp_a == "ATT":
+                auto_metrics = ["Bàn thắng", "Kiến tạo", "Bàn kỳ vọng (xG)", "Đường chuyền quyết định", "Qua người t.công"]
+            elif grp_a == "MID":
+                auto_metrics = ["Kiến tạo", "Đường chuyền quyết định", "Tỉ lệ chuyền c.xác (%)", "Cắt bóng", "Qua người t.công"]
+            elif grp_a == "DEF":
+                auto_metrics = ["Tắc bóng", "Cắt bóng", "Phá bóng", "Tranh chấp trên không (%)", "Tranh chấp tay đôi (%)"]
+            elif grp_a == "GK":
+                auto_metrics = ["Cứu thua", "Giữ sạch lưới", "Tỉ lệ chuyền c.xác (%)", "Tranh chấp trên không (%)"]
+            
+            default_metrics = [m for m in auto_metrics if m in RADAR_METRICS]
+
         st.markdown(f"<div style='font-size: 0.95rem; font-weight: 600; margin-bottom: 8px;'>Tùy chỉnh thông số Radar Chart</div>", unsafe_allow_html=True)
+        advanced_mode = st.checkbox("Chế độ so sánh tự do (Advanced)", value=False, help="Cho phép tự chọn các chỉ số tùy ý để so sánh chéo.")
+        
         selected_display_names = st.multiselect(
             "Chọn tối đa 5-6 chỉ số để so sánh:", 
             options=list(RADAR_METRICS.keys()),
             default=default_metrics,
-            max_selections=7
+            max_selections=7,
+            disabled=not advanced_mode,
+            label_visibility="collapsed"
         )
-        
         if not selected_display_names:
             st.warning("Vui lòng chọn ít nhất 1 chỉ số để hiển thị Radar Chart.")
         else:

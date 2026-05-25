@@ -122,3 +122,64 @@ def plot_player_comparison_radar(player_a, player_b, cats, vals_a, vals_b, templ
         margin=dict(l=30, r=30, t=30, b=30),
     )
     return fig
+
+def plot_moneyball_scatter(fdf, score_col, template, text_color, text_sub_color, border_color, accent_color, accent2_color):
+    """
+    Generate the core Moneyball Scatter Plot.
+    X: Market Value
+    Y: Scout Score / Rating
+    """
+    plot_df = fdf.copy()
+    plot_df = plot_df[plot_df['market_value'].notna() & plot_df[score_col].notna()]
+    plot_df['market_value_m'] = plot_df['market_value'] / 1_000_000
+
+    if plot_df.empty:
+        return None
+
+    mean_x = plot_df['market_value_m'].mean()
+    mean_y = plot_df[score_col].mean()
+
+    fig = px.scatter(
+        plot_df,
+        x='market_value_m',
+        y=score_col,
+        hover_name='player_name',
+        hover_data={'team': True, 'position': True, 'market_value_m': ':.1f', score_col: ':.2f'},
+        template=template
+    )
+
+    fig.update_traces(
+        marker=dict(size=10, color=accent_color, opacity=0.7, line=dict(width=1, color=border_color))
+    )
+
+    # Add average lines
+    fig.add_vline(x=mean_x, line_dash="dash", line_color=text_sub_color, opacity=0.6)
+    fig.add_hline(y=mean_y, line_dash="dash", line_color=text_sub_color, opacity=0.6)
+
+    # Add Quadrant Annotations
+    max_x = plot_df['market_value_m'].max()
+    max_y = plot_df[score_col].max()
+    min_x = plot_df['market_value_m'].min()
+    min_y = plot_df[score_col].min()
+
+    # Calculate positions for annotations (midpoints of quadrants)
+    x_left = min_x + (mean_x - min_x) / 2
+    x_right = mean_x + (max_x - mean_x) / 2
+    y_top = mean_y + (max_y - mean_y) / 2
+    y_bottom = min_y + (mean_y - min_y) / 2
+
+    fig.add_annotation(x=x_left, y=y_top, text="Ngọc thô / Món hời<br>(Rẻ, Giỏi)", showarrow=False, font=dict(color=accent2_color, size=14, weight="bold"), opacity=0.8)
+    fig.add_annotation(x=x_right, y=y_top, text="Siêu sao<br>(Đắt, Giỏi)", showarrow=False, font=dict(color=text_sub_color, size=12), opacity=0.5)
+    fig.add_annotation(x=x_left, y=y_bottom, text="Dự bị<br>(Rẻ, Kém)", showarrow=False, font=dict(color=text_sub_color, size=12), opacity=0.5)
+    fig.add_annotation(x=x_right, y=y_bottom, text="Đánh giá quá cao<br>(Đắt, Kém)", showarrow=False, font=dict(color="#f87171", size=12), opacity=0.7)
+
+    fig.update_layout(
+        xaxis_title="Giá trị chuyển nhượng (Triệu €)",
+        yaxis_title="Scout Score" if score_col == "scout_score" else "UCL Rating",
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        height=500,
+        margin=dict(l=40, r=40, t=40, b=40),
+    )
+    
+    return fig

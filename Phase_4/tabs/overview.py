@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import streamlit_lucide as lucide
-from utils.visual import plot_club_distribution, plot_position_distribution, plot_market_value_history
+from utils.visual import plot_club_distribution, plot_position_distribution, plot_market_value_history, plot_moneyball_scatter
 
 def render_overview_tab(fdf, df_star, df_history, theme_config):
     """
@@ -16,6 +16,32 @@ def render_overview_tab(fdf, df_star, df_history, theme_config):
     metric_card(c2, fdf["team"].nunique() if not fdf.empty else 0, "Câu lạc bộ", "shield")
     metric_card(c3, fdf["league"].nunique() if not fdf.empty else 0, "Giải đấu", "globe")
     metric_card(c4, f"{fdf['scout_score'].mean():.1f}" if not fdf.empty else "0.0", "Điểm TB", "star")
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    # --- MONEYBALL SCATTER PLOT ---
+    icon_target = lucide.get_icon("target", color=theme_config["ACCENT"], size=18, style="margin-right: 4px;")
+    st.markdown(f"<div class='section-title'>{icon_target} Săn Ngọc Thô (Moneyball Scatter Plot)</div>", unsafe_allow_html=True)
+    
+    col_mb_opt, _ = st.columns([1, 2])
+    with col_mb_opt:
+        score_mode = st.radio("Tiêu chí điểm số:", ["Scout Score (Mặc định)", "UCL Rating"], horizontal=True, label_visibility="collapsed")
+    
+    score_col = "rating_cl" if score_mode == "UCL Rating" else "scout_score"
+    fig_mb = plot_moneyball_scatter(
+        fdf, score_col, 
+        theme_config["PLOTLY_TEMPLATE"], 
+        theme_config["TEXT"], 
+        theme_config["TEXT_SUB"], 
+        theme_config["BORDER"], 
+        theme_config["ACCENT"],
+        theme_config["ACCENT2"]
+    )
+    
+    if fig_mb:
+        st.plotly_chart(fig_mb, use_container_width=True)
+    else:
+        st.info("Không đủ dữ liệu (Giá trị & Điểm số) để vẽ biểu đồ Moneyball.")
 
     st.markdown("<br>", unsafe_allow_html=True)
 

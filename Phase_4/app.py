@@ -107,6 +107,12 @@ st.markdown(f"""
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }}
+    .metric-card:hover {{
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
     }}
     .metric-val {{
         font-size: 1.9rem; font-weight: 700; color: {ACCENT};
@@ -130,6 +136,19 @@ st.markdown(f"""
     }}
     .stSelectbox label, .stMultiSelect label, .stSlider label {{
         color: {TEXT} !important; font-weight: 500;
+    }}
+    /* Muted tags for MultiSelect */
+    .stMultiSelect [data-baseweb="tag"] {{
+        background-color: {SURFACE2} !important;
+        border: 1px solid {BORDER} !important;
+        border-radius: 6px !important;
+        color: {TEXT} !important;
+    }}
+    .stMultiSelect [data-baseweb="tag"] span[title] {{
+        color: {TEXT} !important;
+    }}
+    .stMultiSelect [data-baseweb="tag"] svg {{
+        fill: {TEXT_SUB} !important;
     }}
     .stButton > button {{
         background: {SURFACE2} !important; color: {TEXT} !important;
