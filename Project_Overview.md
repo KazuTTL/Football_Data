@@ -40,10 +40,10 @@ Hệ thống hoạt động theo mô hình ELT (Extract - Load - Transform) chia
         4.  *Weighted Score & Penalties & Underdog Bonus*: Chấm điểm theo trọng số vị trí chuyên môn cụ thể (8 vị trí thi đấu). Trừ điểm cho các lỗi nghiêm trọng và nhân hệ số gánh team **Underdog Bonus** (tối đa x1.285) cho những cầu thủ thuộc đội bóng yếu hơn.
 
 ### 1.4. Presentation Layer (Giao diện hiển thị)
-*   Ứng dụng Streamlit Dashboard kết nối trực tiếp đến Cloud MotherDuck hiển thị qua 3 Tab:
-    *   **Tab 1 - Tổng quan DWH**: Metric card tổng thể, biểu đồ phân bổ CLB/vị trí, bảng xếp hạng các đội bóng và biểu đồ Line Chart lịch sử biến động giá cầu thủ (SCD2).
-    *   **Tab 2 - Bảng xếp hạng Scout**: Bộ lọc động chuyên sâu và bảng xếp hạng sắp xếp ưu tiên thông minh (ví dụ: bằng bàn thắng thì ưu tiên người đá ít penalty hơn lên trước).
-    *   **Tab 3 - So sánh đối chiếu**: Biểu đồ Radar so sánh 5 góc cạnh hiệu năng và bảng đối chiếu chỉ số trực quan tô màu xanh lá (vượt trội) hoặc màu đỏ (kém hơn).
+*   Ứng dụng Streamlit Dashboard kết nối trực tiếp đến Cloud MotherDuck hiển thị qua 3 Tab chuyên biệt:
+    *   **Tab 1 - Tổng quan DWH**: Metric card tổng thể, biểu đồ **Moneyball Scatter Plot** (phân tích Giá trị vs Điểm số chia 4 góc phần tư săn ngọc thô), biểu đồ tròn/cột phân bổ CLB/vị trí, **Bảng xếp hạng giải đấu đầy đủ** (gồm số trận, thắng, hòa, bại, điểm số, hiệu số và logo đội bóng, bôi đậm CLB có cầu thủ cào được), và biểu đồ Line Chart lịch sử biến động giá cầu thủ (SCD2). Hỗ trợ cả chế độ xem giải quốc nội và Champions League.
+    *   **Tab 2 - Bảng xếp hạng Scout**: Bộ lọc động chuyên sâu và bảng xếp hạng sắp xếp ưu tiên thông minh (ví dụ: bằng bàn thắng thì ưu tiên người đá ít penalty hơn lên trước). Hỗ trợ công tắc chuyển đổi hiển thị thông số giải quốc nội hoặc thông số UCL chuyên biệt.
+    *   **Tab 3 - So sánh đối chiếu**: Tính năng **Smart Radar Chart** (tự động phát hiện vị trí thi đấu để vẽ 5 góc cạnh hiệu năng phù hợp nhất cho Tấn công, Tiền vệ, Phòng ngự, Thủ môn, có nút Advanced mở chọn tay) và bảng đối chiếu hiệu số (A - B) thông minh bôi màu trực quan. Hỗ trợ đầy đủ chế độ so sánh UCL độc lập.
 
 ---
 
@@ -97,8 +97,16 @@ Football/
 │       ├── run_all.py                   # Chạy tạo toàn bộ Star Schema ở local
 │       └── push_star_schema_to_motherduck.py # Đồng bộ Star Schema lên Cloud MotherDuck
 │
-├── Phase_4/                             # Ứng dụng Streamlit Dashboard
-│   └── dashboard_app.py                 # File chạy chính của dashboard Streamlit
+├── Phase_4/                             # Ứng dụng Streamlit Dashboard (Cấu trúc Modular)
+│   ├── app.py                           # File chính (Entry point), định nghĩa Sidebar và điều hướng Tab
+│   ├── utils/                           # Các file hỗ trợ logic
+│   │   ├── db.py                        # Kết nối MotherDuck & các truy vấn/API
+│   │   ├── processing.py                # Code xử lý dữ liệu Pandas
+│   │   └── visual.py                    # Các hàm vẽ biểu đồ Plotly
+│   └── tabs/                            # Nội dung hiển thị của từng tab
+│       ├── overview.py                  # Tab 1: Tổng quan DWH & Moneyball Scatter Plot
+│       ├── leaderboard.py               # Tab 2: Bảng xếp hạng Scout (Domestic & UCL)
+│       └── comparison.py                # Tab 3: So sánh đối chiếu & Smart Radar Chart
 │
 ├── Implement/                           # Thư mục chứa các tài liệu phân tích thiết kế chi tiết
 │   ├── Current_State_Report.md
@@ -160,5 +168,5 @@ python Phase_3_Gold/star_schema/push_star_schema_to_motherduck.py
 
 ### Bước 4: Khởi chạy giao diện phân tích
 ```bash
-streamlit run Phase_4/dashboard_app.py
+streamlit run Phase_4/app.py
 ```
