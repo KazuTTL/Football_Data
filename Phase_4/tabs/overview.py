@@ -88,7 +88,13 @@ def render_overview_tab(fdf, df_star, df_history, theme_config):
                     column_config={
                         "Logo": st.column_config.ImageColumn("", width="small"),
                         "Hạng": st.column_config.NumberColumn("Hạng", format="%d", width="small"),
-                        "Câu lạc bộ": st.column_config.TextColumn("Câu lạc bộ")
+                        "Câu lạc bộ": st.column_config.TextColumn("Câu lạc bộ"),
+                        "Trận": st.column_config.NumberColumn("Trận", format="%d", width="small"),
+                        "T": st.column_config.NumberColumn("Thắng", format="%d", width="small"),
+                        "H": st.column_config.NumberColumn("Hòa", format="%d", width="small"),
+                        "B": st.column_config.NumberColumn("Thua", format="%d", width="small"),
+                        "Hiệu số": st.column_config.TextColumn("Hiệu số", width="small"),
+                        "Điểm": st.column_config.NumberColumn("Điểm", format="%d", width="small")
                     },
                     hide_index=True,
                     use_container_width=True,

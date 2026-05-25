@@ -173,7 +173,13 @@ def get_full_league_standings(league_name):
                 records.append({
                     "Hạng": r.get("position"),
                     "Logo": logo_url,
-                    "Câu lạc bộ": team_data.get("name")
+                    "Câu lạc bộ": team_data.get("name"),
+                    "Trận": r.get("matches"),
+                    "T": r.get("wins"),
+                    "H": r.get("draws"),
+                    "B": r.get("losses"),
+                    "Hiệu số": r.get("scoreDiffFormatted"),
+                    "Điểm": r.get("points")
                 })
             # Ensure "Hạng" is a column before setting it as index or keep it as index
             return pd.DataFrame(records).set_index("Hạng")
