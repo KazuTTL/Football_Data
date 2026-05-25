@@ -2,6 +2,42 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+POSITION_ABBR = {
+    "goalkeeper": "<b>GK</b>",
+    "centre back": "<b>CB</b>",
+    "centre-back": "<b>CB</b>",
+    "right back": "<b>RB</b>",
+    "right-back": "<b>RB</b>",
+    "left back": "<b>LB</b>",
+    "left-back": "<b>LB</b>",
+    "defensive midfield": "<b>CDM</b>",
+    "central midfield": "<b>CM</b>",
+    "attacking midfield": "<b>CAM</b>",
+    "right winger": "<b>RW</b>",
+    "left winger": "<b>LW</b>",
+    "right midfield": "<b>RM</b>",
+    "left midfield": "<b>LM</b>",
+    "second striker": "<b>CF</b>",
+    "centre forward": "<b>ST</b>",
+    "centre-forward": "<b>ST</b>"
+}
+
+POSITION_COLOR_MAP = {
+    "<b>GK</b>": "#B6E880", # Light Green
+    "<b>CB</b>": "#FFA15A", # Orange
+    "<b>RB</b>": "#FF6692", # Pink
+    "<b>LB</b>": "#FF97FF", # Purple
+    "<b>CDM</b>": "#636EFA", # Blue
+    "<b>CM</b>": "#19D3F3", # Cyan
+    "<b>CAM</b>": "#AB63FA", # Violet
+    "<b>RW</b>": "#00CC96", # Greenish/Teal
+    "<b>LW</b>": "#EF553B", # Reddish
+    "<b>RM</b>": "#FFD700", # Gold
+    "<b>LM</b>": "#C0C0C0", # Silver
+    "<b>CF</b>": "#FF6347", # Tomato
+    "<b>ST</b>": "#FECB52"  # Yellow
+}
+
 def plot_club_distribution(fdf, top_n_choice, template, accent_color):
     """
     Generate bar chart of player counts per club.
@@ -26,32 +62,13 @@ def plot_position_distribution(fdf, template):
     """
     Generate pie chart for position group distributions.
     """
-    POSITION_ABBR = {
-        "goalkeeper": "<b>GK</b>",
-        "centre back": "<b>CB</b>",
-        "centre-back": "<b>CB</b>",
-        "right back": "<b>RB</b>",
-        "right-back": "<b>RB</b>",
-        "left back": "<b>LB</b>",
-        "left-back": "<b>LB</b>",
-        "defensive midfield": "<b>CDM</b>",
-        "central midfield": "<b>CM</b>",
-        "attacking midfield": "<b>CAM</b>",
-        "right winger": "<b>RW</b>",
-        "left winger": "<b>LW</b>",
-        "right midfield": "<b>RM</b>",
-        "left midfield": "<b>LM</b>",
-        "second striker": "<b>CF</b>",
-        "centre forward": "<b>ST</b>",
-        "centre-forward": "<b>ST</b>"
-    }
     pos_counts = fdf['position'].value_counts().reset_index()
     pos_counts.columns = ['Vị trí', 'Số lượng']
     pos_counts['Vị trí'] = pos_counts['Vị trí'].map(lambda x: POSITION_ABBR.get(str(x).lower().strip(), f"<b>{x}</b>"))
     
     fig = px.pie(
         pos_counts, names='Vị trí', values='Số lượng', hole=0.45,
-        template=template, color_discrete_sequence=px.colors.qualitative.Pastel
+        template=template, color='Vị trí', color_discrete_map=POSITION_COLOR_MAP
     )
     fig.update_traces(textposition='inside', textinfo='percent+label')
     fig.update_layout(height=350, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", showlegend=False)
@@ -136,6 +153,9 @@ def plot_moneyball_scatter(fdf, score_col, template, text_color, text_sub_color,
     if plot_df.empty:
         return None
 
+    # Map positions to matching values in POSITION_COLOR_MAP
+    plot_df['Vị trí'] = plot_df['position'].map(lambda x: POSITION_ABBR.get(str(x).lower().strip(), f"<b>{x}</b>"))
+
     mean_x = plot_df['market_value_m'].mean()
     mean_y = plot_df[score_col].mean()
 
@@ -143,13 +163,16 @@ def plot_moneyball_scatter(fdf, score_col, template, text_color, text_sub_color,
         plot_df,
         x='market_value_m',
         y=score_col,
+        color='Vị trí',
+        color_discrete_map=POSITION_COLOR_MAP,
         hover_name='player_name',
-        hover_data={'team': True, 'position': True, 'market_value_m': ':.1f', score_col: ':.2f'},
+        hover_data={'team': True, 'Vị trí': True, 'market_value_m': ':.1f', score_col: ':.2f', 'position': False},
         template=template
     )
 
+    # Note: DO NOT set color here as it overrides color_discrete_map
     fig.update_traces(
-        marker=dict(size=10, color=accent_color, opacity=0.7, line=dict(width=1, color=border_color))
+        marker=dict(size=10, opacity=0.7, line=dict(width=1, color=border_color))
     )
 
     # Add average lines
@@ -168,10 +191,10 @@ def plot_moneyball_scatter(fdf, score_col, template, text_color, text_sub_color,
     y_top = mean_y + (max_y - mean_y) / 2
     y_bottom = min_y + (mean_y - min_y) / 2
 
-    fig.add_annotation(x=x_left, y=y_top, text="Ngọc thô / Món hời<br>(Rẻ, Giỏi)", showarrow=False, font=dict(color=accent2_color, size=14, weight="bold"), opacity=0.8)
-    fig.add_annotation(x=x_right, y=y_top, text="Siêu sao<br>(Đắt, Giỏi)", showarrow=False, font=dict(color=text_sub_color, size=12), opacity=0.5)
-    fig.add_annotation(x=x_left, y=y_bottom, text="Dự bị<br>(Rẻ, Kém)", showarrow=False, font=dict(color=text_sub_color, size=12), opacity=0.5)
-    fig.add_annotation(x=x_right, y=y_bottom, text="Đánh giá quá cao<br>(Đắt, Kém)", showarrow=False, font=dict(color="#f87171", size=12), opacity=0.7)
+    fig.add_annotation(x=x_left, y=y_top, text="Underrated", showarrow=False, font=dict(color="#3fb950", size=14, weight="bold"), opacity=1.0)
+    fig.add_annotation(x=x_right, y=y_top, text="World Class", showarrow=False, font=dict(color="#ffd700", size=14, weight="bold"), opacity=1.0)
+    fig.add_annotation(x=x_left, y=y_bottom, text="Rotation / Normal", showarrow=False, font=dict(color="#8b949e", size=14, weight="bold"), opacity=1.0)
+    fig.add_annotation(x=x_right, y=y_bottom, text="Overrated", showarrow=False, font=dict(color="#ff7b72", size=14, weight="bold"), opacity=1.0)
 
     fig.update_layout(
         xaxis_title="Giá trị chuyển nhượng (Triệu €)",
@@ -180,6 +203,7 @@ def plot_moneyball_scatter(fdf, score_col, template, text_color, text_sub_color,
         plot_bgcolor="rgba(0,0,0,0)",
         height=500,
         margin=dict(l=40, r=40, t=40, b=40),
+        legend=dict(title="Vị trí", font=dict(color=text_color)),
     )
     
     return fig

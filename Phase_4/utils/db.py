@@ -2,6 +2,9 @@ import os
 import sys
 import streamlit as st
 import pandas as pd
+import logging
+
+logger = logging.getLogger("db_utils")
 
 # Setup sys.path to find Phase_3_Gold.star_schema
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -28,17 +31,21 @@ except ImportError:
         conn.execute(f"USE {db_name}")
         return conn
 
+@st.cache_resource
+def get_cached_motherduck_connection():
+    return get_motherduck_connection()
+
 @st.cache_data(ttl=600)
 def load_data():
     """
     Load data from MotherDuck Cloud Data Warehouse and merge player market values.
     Returns:
-        df_star (pd.DataFrame): Player season statistics.
-        df_rating (pd.DataFrame): Gold player rating engine outputs.
-        df_history (pd.DataFrame): Historical player market value (SCD2).
+         df_star (pd.DataFrame): Player season statistics.
+         df_rating (pd.DataFrame): Gold player rating engine outputs.
+         df_history (pd.DataFrame): Historical player market value (SCD2).
     """
     try:
-        conn = get_motherduck_connection()
+        conn = get_cached_motherduck_connection()
 
         # Join with silver_players to get penalty_goals_sfs and team_rank_sfs, including cl fields
         df_star = conn.execute("""
@@ -107,8 +114,6 @@ def load_data():
             ORDER BY valid_from ASC
         """).df()
         
-        conn.close()
-        
         # Merge market_value into rating df for radar display compatibility
         if "market_value" not in df_rating.columns and not df_star.empty:
             mv_map = df_star[["internal_player_id", "market_value", "league", "team"]].drop_duplicates("internal_player_id")
@@ -122,119 +127,81 @@ def load_data():
 @st.cache_data(ttl=3600)
 def get_full_league_standings(league_name):
     """
-    Fetch full team standings for a league from API.
+    Query league standings from MotherDuck (DWH-Centric).
     """
-    import asyncio
-    import aiohttp
-    
-    TARGET_LEAGUES = {
-        "Premier League": 17,
-        "LaLiga": 8,
-        "La Liga": 8,
-        "Serie A": 23,
-        "Bundesliga": 35,
-        "Ligue 1": 34,
-        "Champions League": 7,
-        "UEFA Champions League": 7
-    }
-    
-    league_id = TARGET_LEAGUES.get(league_name)
-    if not league_id:
-        return pd.DataFrame()
-        
-    phase_1_dir = os.path.join(project_root, "Phase_1_Advanced", "api_extraction")
-    if phase_1_dir not in sys.path:
-        sys.path.append(phase_1_dir)
-        
     try:
-        import api_client_async
+        conn = get_cached_motherduck_connection()
+        if league_name in ["Champions League", "UEFA Champions League"]:
+            query = """
+                SELECT * FROM silver_standings 
+                WHERE league_name IN ('Champions League', 'UEFA Champions League')
+                ORDER BY position
+            """
+        else:
+            query = f"""
+                SELECT * FROM silver_standings 
+                WHERE league_name = '{league_name}' 
+                   OR REPLACE(league_name, ' ', '') = '{league_name.replace(' ', '')}'
+                ORDER BY position
+            """
+        df = conn.execute(query).df()
         
-        async def fetch_standings():
-            async with aiohttp.ClientSession() as session:
-                season_id = await api_client_async.get_latest_season_id(session, league_id)
-                if not season_id: return None
-                return await api_client_async.get_tournament_standings(session, league_id, season_id)
-
-        try:
-            loop = asyncio.get_running_loop()
-            import nest_asyncio
-            nest_asyncio.apply()
-            data = loop.run_until_complete(fetch_standings())
-        except RuntimeError:
-            data = asyncio.run(fetch_standings())
-            
-        if data and 'standings' in data and len(data['standings']) > 0:
-            rows = data['standings'][0].get('rows', [])
+        if not df.empty:
             records = []
-            for r in rows:
-                team_data = r.get("team", {})
-                team_id = team_data.get("id")
-                logo_url = f"https://api.sofascore.app/api/v1/team/{team_id}/image" if team_id else None
+            for _, r in df.iterrows():
+                team_id = r.get("team_id")
+                logo_url = f"https://api.sofascore.app/api/v1/team/{team_id}/image" if pd.notna(team_id) else None
+                
+                diff = r.get("goal_diff", r.get("goals_scored", 0) - r.get("goals_conceded", 0))
+                diff_str = f"+{int(diff)}" if diff > 0 else str(int(diff))
+                
                 records.append({
-                    "Hạng": r.get("position"),
+                    "Hạng": int(r.get("position")),
                     "Logo": logo_url,
-                    "Câu lạc bộ": team_data.get("name"),
-                    "Trận": r.get("matches"),
-                    "T": r.get("wins"),
-                    "H": r.get("draws"),
-                    "B": r.get("losses"),
-                    "Hiệu số": r.get("scoreDiffFormatted"),
-                    "Điểm": r.get("points")
+                    "Câu lạc bộ": r.get("team_name"),
+                    "Trận": int(r.get("matches")),
+                    "T": int(r.get("wins")),
+                    "H": int(r.get("draws")),
+                    "B": int(r.get("losses")),
+                    "Hiệu số": diff_str,
+                    "Điểm": int(r.get("points"))
                 })
-            # Ensure "Hạng" is a column before setting it as index or keep it as index
             return pd.DataFrame(records).set_index("Hạng")
             
         return pd.DataFrame()
     except Exception as e:
+        logger.error(f"Error fetching standings from DWH: {e}")
         return pd.DataFrame()
 
 @st.cache_data(ttl=3600)
 def get_ucl_top_players():
     """
-    Fetch UEFA Champions League top players from API.
+    Query UEFA Champions League top players from MotherDuck (DWH-Centric).
     """
-    import asyncio
-    import aiohttp
-    
-    phase_1_dir = os.path.join(project_root, "Phase_1_Advanced", "api_extraction")
-    if phase_1_dir not in sys.path:
-        sys.path.append(phase_1_dir)
-        
     try:
-        import api_client_async
+        conn = get_cached_motherduck_connection()
+        query = """
+            SELECT * FROM silver_top_players 
+            WHERE league_name = 'UEFA Champions League' 
+               OR REPLACE(league_name, ' ', '') = 'UEFAChampionsLeague'
+            ORDER BY rating DESC
+        """
+        df = conn.execute(query).df()
         
-        async def fetch_top_players():
-            async with aiohttp.ClientSession() as session:
-                season_id = await api_client_async.get_latest_season_id(session, 7) # UCL is ID 7
-                if not season_id: return None
-                return await api_client_async.get_top_players(session, 7, season_id)
-
-        try:
-            loop = asyncio.get_running_loop()
-            import nest_asyncio
-            nest_asyncio.apply()
-            data = loop.run_until_complete(fetch_top_players())
-        except RuntimeError:
-            data = asyncio.run(fetch_top_players())
-            
-        if data and 'topPlayers' in data and 'rating' in data['topPlayers']:
-            players = data['topPlayers']['rating']
+        if not df.empty:
             records = []
-            for p in players:
-                player_info = p.get("player", {})
-                team_info = p.get("team", {})
-                player_id = player_info.get("id")
-                team_id = team_info.get("id")
-                
-                logo_url = f"https://api.sofascore.app/api/v1/team/{team_id}/image" if team_id else None
+            for _, r in df.iterrows():
+                team_id = r.get("team_id")
+                logo_url = f"https://api.sofascore.app/api/v1/team/{team_id}/image" if pd.notna(team_id) else None
                 records.append({
-                    "Cầu thủ": player_info.get("name"),
-                    "Đội bóng": team_info.get("name"),
+                    "Cầu thủ": r.get("player_name"),
+                    "Đội bóng": r.get("team_name"),
                     "Logo": logo_url,
-                    "Điểm Rating": p.get("rating")
+                    "Điểm Rating": float(r.get("rating"))
                 })
             return pd.DataFrame(records)
             
         return pd.DataFrame()
     except Exception as e:
+        logger.error(f"Error fetching top players from DWH: {e}")
         return pd.DataFrame()
