@@ -85,6 +85,32 @@ def process_sofascore():
                 # regex bien camelCase sang snake_case
                 snake_name = re.sub(r'(?<!^)(?=[A-Z])', '_', clean_name).lower()
                 col_map[col] = f"{snake_name}_sfs"
+
+    # Map Champions League statistics
+    cl_stat_prefix = "statistics_raw.champions_league.statistics."
+    cl_manual_mappings = {
+        "rating": "base_rating_cl_sfs",
+        "aerialDuelsWonPercentage": "aerial_duels_won_pct_cl_sfs",
+        "groundDuelsWonPercentage": "ground_duels_won_pct_cl_sfs",
+        "accuratePassesPercentage": "accurate_passes_pct_cl_sfs",
+        "goalConversionPercentage": "goal_conversion_pct_cl_sfs",
+        "expectedGoals": "xg_cl_sfs",
+        "expectedAssists": "xa_cl_sfs",
+        "id": "statistics_id_cl_sfs"
+    }
+    if "statistics_raw.champions_league.team.name" in df_raw.columns:
+        col_map["statistics_raw.champions_league.team.name"] = "team_cl_sfs"
+        
+    for col in df_raw.columns:
+        if col.startswith(cl_stat_prefix):
+            clean_name = col[len(cl_stat_prefix):]
+            if clean_name in cl_manual_mappings:
+                col_map[col] = cl_manual_mappings[clean_name]
+            else:
+                clean_name = clean_name.replace(".", "_")
+                snake_name = re.sub(r'(?<!^)(?=[A-Z])', '_', clean_name).lower()
+                col_map[col] = f"{snake_name}_cl_sfs"
+
     valid_map = {k: v for k, v in col_map.items() if k in df_raw.columns}
     df = df_raw[list(valid_map.keys())].rename(columns=valid_map).copy()
 
