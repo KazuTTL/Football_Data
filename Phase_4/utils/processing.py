@@ -1,10 +1,16 @@
 import pandas as pd
 
-def apply_filters(df, sel_leagues=None, sel_positions=None, sel_teams=None, max_mv_filter=None, min_score=0.0):
+def apply_filters(df, sel_leagues=None, sel_positions=None, sel_teams=None, max_mv_filter=None, min_score=0.0, latest_only=False):
     """
     Apply sidebar filters on the player season statistics dataframe.
     """
     fdf = df.copy()
+    
+    # Filter by latest crawl date if requested
+    if latest_only and "valid_from" in fdf.columns:
+        max_date = fdf["valid_from"].dropna().max()
+        if pd.notna(max_date):
+            fdf = fdf[fdf["valid_from"] == max_date]
     if sel_leagues:
         fdf = fdf[fdf["league"].isin(sel_leagues)]
     if sel_positions:

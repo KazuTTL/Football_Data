@@ -64,6 +64,11 @@ async def process_league(session, league_name, league_id, cl_season_id):
     current_season_id = await api_client_async.get_latest_season_id(session, league_id)
     if not current_season_id: return
 
+    now = datetime.now()
+    today_str = now.strftime("%Y%m%d_%H%M")
+    partition_date = now.strftime("%Y-%m-%d")
+    league_clean = league_name.replace(' ', '')
+
     # Lấy Standings, sau này cần thiết lập Retry cẩn thận hơn
     standings_data = await api_client_async.get_tournament_standings(session, league_id, current_season_id)
     team_rank_dict = {}
@@ -72,10 +77,21 @@ async def process_league(session, league_name, league_id, cl_season_id):
             for row in standings_data.get('standings', [{}])[0].get('rows', []):
                 team_rank_dict[row['team']['id']] = row['position']
         except Exception: pass
+        
+        # LƯU RAW STANDINGS
+        standings_file = f"raw_standings_{league_clean}_{today_str}.json"
+        local_p_std = await s3_utils_stream.save_chunk_locally({"league": league_name, "data": standings_data}, standings_file, "sofascore", partition_date)
+        s3_utils_stream.upload_file_to_s3(local_p_std, standings_file, "sofascore", partition_date)
 
     # Lấy Top Players
     top_players_data = await api_client_async.get_top_players(session, league_id, current_season_id)
-    players_list = top_players_data.get('topPlayers', {}).get('rating', []) if top_players_data else []
+    players_list = []
+    if top_players_data:
+        players_list = top_players_data.get('topPlayers', {}).get('rating', [])
+        # LƯU RAW TOP PLAYERS
+        top_players_file = f"raw_top_players_{league_clean}_{today_str}.json"
+        local_p_tp = await s3_utils_stream.save_chunk_locally({"league": league_name, "data": top_players_data}, top_players_file, "sofascore", partition_date)
+        s3_utils_stream.upload_file_to_s3(local_p_tp, top_players_file, "sofascore", partition_date)
     
     # Giả sử lấy top 10 cho nhẹ
     target_players = players_list[:10]
@@ -126,6 +142,25 @@ async def main():
     async with aiohttp.ClientSession(connector=conn) as session:
         # Chuẩn bị thông tin Cúp C1 (Dùng chung cho mọi giải)
         cl_season_id = await api_client_async.get_latest_season_id(session, CHAMPIONS_LEAGUE_ID)
+        
+        # Lấy riêng BXH và Top Players cho Cúp C1 (UCL)
+        if cl_season_id:
+            logger.info("=========== BẮT ĐẦU AUX: UEFA Champions League ===========")
+            now = datetime.now()
+            today_str = now.strftime("%Y%m%d_%H%M")
+            partition_date = now.strftime("%Y-%m-%d")
+            
+            cl_standings = await api_client_async.get_tournament_standings(session, CHAMPIONS_LEAGUE_ID, cl_season_id)
+            if cl_standings:
+                f_std = f"raw_standings_UEFAChampionsLeague_{today_str}.json"
+                l_std = await s3_utils_stream.save_chunk_locally({"league": "UEFA Champions League", "data": cl_standings}, f_std, "sofascore", partition_date)
+                s3_utils_stream.upload_file_to_s3(l_std, f_std, "sofascore", partition_date)
+                
+            cl_top_players = await api_client_async.get_top_players(session, CHAMPIONS_LEAGUE_ID, cl_season_id)
+            if cl_top_players:
+                f_tp = f"raw_top_players_UEFAChampionsLeague_{today_str}.json"
+                l_tp = await s3_utils_stream.save_chunk_locally({"league": "UEFA Champions League", "data": cl_top_players}, f_tp, "sofascore", partition_date)
+                s3_utils_stream.upload_file_to_s3(l_tp, f_tp, "sofascore", partition_date)
         
         # Chạy từng giải đấu một (Để tránh ngộp API - hoặc có thể gather cả 5 giải đấu cùng lúc nếu proxy xịn)
         for league_name, league_id in TARGET_LEAGUES.items():

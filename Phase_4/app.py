@@ -101,26 +101,39 @@ st.markdown(f"""
     }}
     .metric-card {{
         background: {SURFACE}; border: 1px solid {BORDER};
-        border-radius: 12px; padding: 16px 20px;
-        text-align: center; height: 100%;
+        border-radius: 16px; padding: 18px 22px;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
         align-items: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        gap: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
+        height: 100%;
     }}
     .metric-card:hover {{
         transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }}
+    .metric-icon-wrapper {{
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }}
+    .metric-content {{
+        display: flex;
+        flex-direction: column;
     }}
     .metric-val {{
-        font-size: 1.9rem; font-weight: 700; color: {ACCENT};
-        margin-top: 4px;
+        font-size: 1.7rem; font-weight: 700; color: {TEXT};
+        line-height: 1.2;
+        margin: 0;
     }}
     .metric-lbl {{
-        font-size: 0.78rem; font-weight: 600; color: {TEXT_SUB};
-        text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px;
+        font-size: 0.72rem; font-weight: 600; color: {TEXT_SUB};
+        text-transform: uppercase; letter-spacing: 0.05em;
+        margin: 0;
     }}
     .section-title {{
         font-size: 1.05rem; font-weight: 700; color: {TEXT};
@@ -165,6 +178,19 @@ st.markdown(f"""
     .stTabs [data-baseweb="tab-list"] {{ background: {SURFACE2}; border-radius: 10px; gap: 4px; }}
     .stTabs [data-baseweb="tab"] {{ color: {TEXT_SUB} !important; border-radius: 8px; font-weight: 500; }}
     .stTabs [aria-selected="true"] {{ background: {ACCENT} !important; color: white !important; }}
+
+    /* st.container(border=True) customized as premium cards */
+    div[data-testid="stVerticalBlockBorderWrapper"] {{
+        background-color: {SURFACE} !important;
+        border: 1px solid {BORDER} !important;
+        border-radius: 16px !important;
+        padding: 24px !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }}
+    div[data-testid="stVerticalBlockBorderWrapper"]:hover {{
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08) !important;
+    }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -223,6 +249,9 @@ with st.sidebar:
 
     # Scout Score filter
     min_score = st.slider("Điểm Scout tối thiểu", 0.0, 100.0, 0.0, 1.0)
+    
+    # Latest crawl filter
+    latest_only = st.checkbox("Chỉ hiển thị cầu thủ thuộc lần cào gần nhất", value=False)
 
     st.markdown("---")
     if st.button("Làm mới dữ liệu (Cache)", use_container_width=True):
@@ -230,7 +259,7 @@ with st.sidebar:
         st.rerun()
 
 # --- Apply filters ---
-fdf = apply_filters(df_star, sel_leagues, sel_positions, sel_teams, max_mv_filter, min_score)
+fdf = apply_filters(df_star, sel_leagues, sel_positions, sel_teams, max_mv_filter, min_score, latest_only)
 
 # ============================
 # MAIN LAYOUT: TABS
@@ -239,7 +268,7 @@ icon_trend_big = lucide.get_icon("trending-up", color=ACCENT, size=32, style="ma
 st.markdown(f"<div class='hero-title'>{icon_trend_big} Moneyball Scout Dashboard</div>", unsafe_allow_html=True)
 st.markdown(f"<div class='hero-sub'>Hệ thống trinh sát & đánh giá cầu thủ dựa trên mô hình DWH Gold Layer — MotherDuck Cloud</div>", unsafe_allow_html=True)
 
-tab1, tab2, tab3 = st.tabs(["📊 Tổng quan DWH", "🏆 Bảng xếp hạng Scout", "⚔️ So sánh cầu thủ"])
+tab1, tab2, tab3 = st.tabs(["📊 Tổng quan", "🏆 Bảng xếp hạng cầu thủ", "⚔️ So sánh cầu thủ"])
 
 with tab1:
     render_overview_tab(fdf, df_star, df_history, theme_config)

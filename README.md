@@ -12,8 +12,9 @@ Hệ thống được thiết kế theo mô hình luồng dữ liệu ELT/ETL kh
 graph TD
     %% Bronze Zone
     subgraph Bronze Zone (Raw Ingestion)
-        A1[Sofascore API - Raw JSON] -->|cào tự động| B1[(Bronze Local /data/)]
+        A1[Sofascore API - Raw Players JSON] -->|cào sâu| B1[(Bronze Local /data/)]
         A2[Transfermarkt - Bulk CSV] -->|tải từ Kaggle| B2[(Bronze Local /data/)]
+        A3[Sofascore API - Raw Standings/Top JSON] -->|cào nhanh| B3[(Bronze Local /data_chunks/)]
     end
 
     %% Processing Zone
@@ -28,13 +29,16 @@ graph TD
         F --> G[silver_scd2_loader.py]
         G -->|Xử lý SCD Type 2 & Enrich| H[(Silver players_history.parquet)]
         
-        H -->|silver_to_motherduck.py| I[(MotherDuck Cloud: silver_players)]
+        B3 --> C2[process_auxiliary_data.py]
+        C2 -->|Lọc trùng & Làm sạch| H2[(Silver standings/top_players.parquet)]
+        
+        H & H2 -->|silver_to_motherduck.py| I[(MotherDuck Cloud DWH Tables)]
     end
 
     %% Gold Zone
     subgraph Gold Zone (Analytics & Star Schema)
         I --> J[run_rating_on_silver.py]
-        J -->|Rating Engine 4 bước| K[(gold_player_rating.parquet / Cloud Table)]
+        J -->|Rating Engine 4 bước| K[(gold_player_rating / Cloud Table)]
         
         I & K --> L[star_schema/run_all.py]
         L -->|Dynamic Dimensions & Fact Lookups| M[(Local Star Schema Output)]
@@ -53,8 +57,8 @@ graph TD
     classDef gold fill:#ffeb3b,stroke:#333,stroke-width:2px;
     classDef visual fill:#80deea,stroke:#333,stroke-width:2px;
     
-    class B1,B2 bronze;
-    class D1,D2,F,H,I silver;
+    class B1,B2,B3 bronze;
+    class D1,D2,F,H,H2,I silver;
     class K,M,N gold;
     class O visual;
 ```
@@ -94,7 +98,7 @@ Toàn bộ Pipeline được chạy tuần tự theo các bước cụ thể sau
 Lấy dữ liệu thô nguyên bản từ hai nguồn dữ liệu độc lập: API (Sofascore) và CSV (Transfermarkt).
 
 *   **Lệnh chạy**:
-    1. Lấy dữ liệu từ Sofascore API (lập trình bất đồng bộ):
+    1. Lấy dữ liệu từ Sofascore API (cào sâu danh sách & thông số cầu thủ):
        ```bash
        python Phase_1_Advanced/api_extraction/main_pipeline_advanced.py
        ```
@@ -102,25 +106,33 @@ Lấy dữ liệu thô nguyên bản từ hai nguồn dữ liệu độc lập: 
        ```bash
        python Phase_1_Advanced/bulk_ingestion/tm_csv_ingestor.py
        ```
+    3. Cào nhanh dữ liệu phụ trợ (Bảng xếp hạng giải đấu & Top Players UCL):
+       ```bash
+       python Phase_1_Advanced/api_extraction/fetch_standings_only.py
+       ```
 *   **Đầu vào (Input)**: Gọi API Sofascore trực tiếp trên mạng và bộ tải Kaggle API.
 *   **Đầu ra (Output)**:
-    *   Tệp JSON thô lưu tại thư mục: `Phase_1_Advanced/local_data_chunks/sofascore/dt=YYYY-MM-DD/` (Ví dụ: `raw_data_PremierLeague_20260413_1431.json`).
-    *   Các tệp CSV thô từ Transfermarkt được tải về: `Phase_1_Advanced/bulk_ingestion/data/` (gồm `players.csv`, `valuations.csv`, `clubs.csv`).
-    *   *(Lưu ý)*: Hệ thống sẽ tự động đẩy dữ liệu lên AWS S3 Bucket nếu có cấu hình AWS. Nếu không, chế độ Fallback Local được kích hoạt để lưu cục bộ mà không gây gián đoạn pipeline.
+    *   Tệp JSON thô lưu tại thư mục: `Phase_1_Advanced/local_data_chunks/` hoặc `local_data_chunks_standings/`.
+    *   Các tệp CSV thô từ Transfermarkt được tải về: `Phase_1_Advanced/bulk_ingestion/data/`.
 
 ---
 
-### Bước 2: Chuẩn Hóa Dữ Liệu Thô (Bronze to Normalized)
-Lọc các cột cần thiết, chuẩn hóa tên cầu thủ (loại bỏ dấu bằng unidecode) và trích xuất các trường chỉ số thực tế từ Bronze JSON/CSV.
+### Bước 2: Chuẩn Hóa Dữ Liệu Thô & Xử Lý Trùng Lặp (Bronze to Normalized)
+Lọc các cột cần thiết, chuẩn hóa tên cầu thủ và trích xuất các trường chỉ số thực tế từ Bronze.
 
 *   **Lệnh chạy**:
-    ```bash
-    python Phase_2/bronze_to_normalized.py
-    ```
-*   **Đầu vào (Input)**: Dữ liệu thô trong thư mục `local_data_chunks/sofascore/` và `Phase_1_Advanced/bulk_ingestion/data/`.
+    1. Chuẩn hóa cầu thủ:
+       ```bash
+       python Phase_2/bronze_to_normalized.py
+       ```
+    2. Chuẩn hóa và lọc trùng dữ liệu phụ trợ (BXH & Top Players):
+       ```bash
+       python Phase_2/process_auxiliary_data.py
+       ```
+*   **Đầu vào (Input)**: Dữ liệu thô trong thư mục `local_data_chunks/`.
 *   **Đầu ra (Output)**:
-    *   `Phase_2/intermediate/sofascore_normalized.parquet` (Dữ liệu Sofascore đã trích xuất 19 chỉ số, làm sạch).
-    *   `Phase_2/intermediate/transfermarkt_normalized.parquet` (Dữ liệu Transfermarkt đã chuẩn hóa thông tin câu lạc bộ và giá trị chuyển nhượng cầu thủ).
+    *   `Phase_2/intermediate/sofascore_normalized.parquet` & `transfermarkt_normalized.parquet`
+    *   `Phase_2/intermediate/silver_standings.parquet` & `silver_top_players.parquet` (Đã lọc trùng khớp dữ liệu tuyệt đối).
 
 ---
 
@@ -135,8 +147,7 @@ Sử dụng thuật toán so khớp chuỗi mờ (Fuzzy Match) để gộp thôn
     *   Hai tệp Parquet trung gian đã chuẩn hóa từ Bước 2.
     *   Tệp từ điển ID cục bộ: `Phase_2/metadata/master_player_mapping.json`.
 *   **Đầu ra (Output)**:
-    *   `Phase_2/intermediate/merged_players.parquet` (Dữ liệu 2 nguồn đã được gộp chung bằng khóa ID duy nhất `internal_player_id`).
-    *   Cập nhật thêm ánh xạ ID mới vào `Phase_2/metadata/master_player_mapping.json` qua Fuzzy matching.
+    *   `Phase_2/intermediate/merged_players.parquet` (Dữ liệu đã gộp chung bằng khóa ID duy nhất `internal_player_id`, tự động gán Placeholder ID `PLR_xxxxx` cho cầu thủ mới không có Transfermarkt).
 
 ---
 
@@ -152,7 +163,6 @@ Kiểm tra chất lượng dữ liệu qua Pandera Schema và áp dụng Slowly 
     *   Tệp lịch sử hiện tại (nếu có): `Phase_2/silver_zone/players_history.parquet`.
 *   **Đầu ra (Output)**:
     *   `Phase_2/silver_zone/players_history.parquet` (Dữ liệu SCD2 hoàn chỉnh với các cột hiệu dụng `is_current`, `valid_from`, `valid_to`).
-    *   Các cột metadata mới bổ sung (`league_sfs`, `season_sfs`) được tự động làm giàu thông qua cơ chế phi SCD2 mà không tạo phiên bản lịch sử thừa.
 
 ---
 
@@ -163,12 +173,15 @@ Tải toàn bộ dữ liệu Silver Zone sạch sẽ lên Cloud Warehouse Mother
     ```bash
     python Phase_2/silver_to_motherduck.py
     ```
-*   **Đầu vào (Input)**: Tệp Parquet Silver Zone `players_history.parquet` từ Bước 4.
-*   **Đầu ra (Output)**: Bảng `silver_players` được tạo mới hoặc cập nhật trực tiếp trên Cloud database `football_data` của MotherDuck.
+*   **Đầu vào (Input)**: Các tệp Parquet Silver Zone và Parquet phụ trợ.
+*   **Đầu ra (Output)**: Đồng bộ 3 bảng trên MotherDuck Cloud DWH:
+    *   `silver_players` (Dữ liệu lịch sử cầu thủ)
+    *   `silver_standings` (Bảng xếp hạng giải đấu sạch)
+    *   `silver_top_players` (Danh sách cầu thủ xuất sắc nhất giải đấu)
 
 ---
 
-### Bước 6: Chạy Thuật Toán Chấm Điểm (Gold Rating Engine)
+### Bước 6: Chạy Thuật Tính Chấm Điểm (Gold Rating Engine)
 Tính toán điểm số hiệu năng Scout Score của cầu thủ theo công thức Moneyball 4 bước dựa trên dữ liệu thực tế trên Cloud.
 
 *   **Lệnh chạy**:
@@ -176,9 +189,7 @@ Tính toán điểm số hiệu năng Scout Score của cầu thủ theo công t
     python Phase_3_Gold/rating_engine/run_rating_on_silver.py
     ```
 *   **Đầu vào (Input)**: Dữ liệu bảng `silver_players` trên Cloud MotherDuck.
-*   **Đầu ra (Output)**:
-    *   Tệp parquet cục bộ làm dự phòng: `Phase_3_Gold/output/data/gold_player_rating.parquet`.
-    *   Cập nhật trực tiếp lên bảng `gold_player_rating` trên Cloud MotherDuck DWH.
+*   **Đầu ra (Output)**: Cập nhật trực tiếp lên bảng `gold_player_rating` trên Cloud MotherDuck DWH.
 
 ---
 
@@ -190,7 +201,7 @@ Sinh ra cấu trúc các chiều thông tin (Dimension) và bảng sự kiện (
     python Phase_3_Gold/star_schema/run_all.py
     ```
 *   **Đầu vào (Input)**: Bảng `silver_players` và `gold_player_rating` từ Cloud DWH MotherDuck.
-*   **Đầu ra (Output)**: Các tệp Parquet của mô hình Star Schema được tạo lập tại thư mục `Phase_3_Gold/star_schema/output/` (Ví dụ: `dim_player.parquet`, `dim_team.parquet`, `dim_position.parquet`, `dim_tournament.parquet`, `dim_season.parquet`, và `fact_performance.parquet`).
+*   **Đầu ra (Output)**: Các tệp Parquet của mô hình Star Schema tại thư mục `Phase_3_Gold/star_schema/output/`.
 
 ---
 
@@ -202,7 +213,7 @@ Tải toàn bộ các bảng của mô hình Star Schema từ local lên Cloud M
     python Phase_3_Gold/star_schema/push_star_schema_to_motherduck.py
     ```
 *   **Đầu vào (Input)**: Các tệp Parquet Star Schema tạo ra từ Bước 7.
-*   **Đầu ra (Output)**: Tạo mới/Cập nhật 6 bảng phân tích hình sao trực tiếp trên MotherDuck Cloud DWH: `fact_player_season_stats`, `dim_player`, `dim_team`, `dim_position`, `dim_tournament`, `dim_season`.
+*   **Đầu ra (Output)**: Cập nhật 6 bảng phân tích hình sao trực tiếp trên MotherDuck: `fact_player_season_stats`, `dim_player`, `dim_team`, `dim_position`, `dim_tournament`, `dim_season`.
 
 ---
 
@@ -211,9 +222,10 @@ Khởi chạy ứng dụng Web để trinh sát và so sánh trực quan hiệu 
 
 *   **Lệnh chạy**:
     ```bash
-    streamlit run Phase_4/dashboard_app.py
+    cd Phase_4
+    streamlit run app.py
     ```
-*   **Đầu vào (Input)**: Truy vấn dữ liệu phân tích trực tiếp từ 6 bảng Star Schema trên MotherDuck Cloud DWH.
+*   **Đầu vào (Input)**: Truy vấn dữ liệu phân tích trực tiếp từ các bảng Star Schema, `silver_standings` và `silver_top_players` trên MotherDuck Cloud DWH.
 *   **Đầu ra (Output)**: Giao diện web được mở tại địa chỉ local `http://localhost:8501`.
 
 ---

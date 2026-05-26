@@ -92,7 +92,8 @@ def load_data():
                 s.accurate_passes_pct_cl_sfs    AS accurate_passes_pct_cl,
                 s.aerial_duels_won_pct_cl_sfs   AS aerial_duels_won_pct_cl,
                 s.ground_duels_won_pct_cl_sfs   AS ground_duels_won_pct_cl,
-                s.team_cl_sfs                   AS team_cl
+                s.team_cl_sfs                   AS team_cl,
+                s.valid_from                    AS valid_from
             FROM fact_player_season_stats f
             LEFT JOIN dim_player     p   ON f.player_key      = p.player_key
             LEFT JOIN dim_team       t   ON f.team_key        = t.team_key

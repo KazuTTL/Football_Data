@@ -18,6 +18,8 @@ _THIS_FILE  = os.path.abspath(__file__)               # .../Phase_2/silver_to_mo
 _PHASE2_DIR = os.path.dirname(_THIS_FILE)             # .../Phase_2/
 BASE_DIR    = os.getenv("PROJECT_ROOT", os.path.dirname(_PHASE2_DIR))
 SILVER_PATH = os.path.join(_PHASE2_DIR, "silver_zone", "players_history.parquet")
+STANDINGS_PATH = os.path.join(_PHASE2_DIR, "intermediate", "silver_standings.parquet")
+TOP_PLAYERS_PATH = os.path.join(_PHASE2_DIR, "intermediate", "silver_top_players.parquet")
 DB_NAME     = "football_data"
 TABLE_NAME  = "silver_players"
 
@@ -25,7 +27,7 @@ TABLE_NAME  = "silver_players"
 def get_connection():
     """
     Ket noi toi MotherDuck Cloud.
-    - Buoc 1: Ket noi vao MotherDuck session (khong chi dinh DB cu the).
+    - Buoc 1: Ket noi vao MotherDuck session (khong chi dinh DB cu membership).
     - Buoc 2: Tu dong tao database 'football_data' neu chua co.
     - Buoc 3: Chuyen vao database do.
     """
@@ -54,11 +56,6 @@ def get_connection():
 def sync_silver_to_cloud(conn):
     """
     Dong bo file Parquet tu Silver Zone local len MotherDuck.
-
-    Su dung lenh: CREATE OR REPLACE TABLE
-    - CREATE: Tao bang moi neu chua co.
-    - OR REPLACE: Ghi de hoan toan du lieu cu neu da ton tai.
-    Phu hop voi mo hinh "Moi lan chay pipeline thi reload lai Silver tren Cloud".
     """
     # Kiem tra file local truoc khi ket noi
     if not os.path.exists(SILVER_PATH):
@@ -68,8 +65,6 @@ def sync_silver_to_cloud(conn):
     logger.info(f"Dang doc du lieu tu: {SILVER_PATH}")
     logger.info(f"Dang dong bo len bang '{TABLE_NAME}' tren MotherDuck...")
 
-    # DuckDB co the doc truc tiep file Parquet bang SQL
-    # Khong can chuyen qua Pandas - day la mot diem manh cua DuckDB
     conn.execute(f"""
         CREATE OR REPLACE TABLE {TABLE_NAME} AS
         SELECT
@@ -77,6 +72,22 @@ def sync_silver_to_cloud(conn):
             CURRENT_DATE AS synced_at
         FROM read_parquet('{SILVER_PATH.replace(chr(92), '/')}')
     """)
+    
+    if os.path.exists(STANDINGS_PATH):
+        logger.info(f"Dang dong bo len bang 'silver_standings' tren MotherDuck...")
+        conn.execute(f"""
+            CREATE OR REPLACE TABLE silver_standings AS
+            SELECT *, CURRENT_DATE AS synced_at
+            FROM read_parquet('{STANDINGS_PATH.replace(chr(92), '/')}')
+        """)
+        
+    if os.path.exists(TOP_PLAYERS_PATH):
+        logger.info(f"Dang dong bo len bang 'silver_top_players' tren MotherDuck...")
+        conn.execute(f"""
+            CREATE OR REPLACE TABLE silver_top_players AS
+            SELECT *, CURRENT_DATE AS synced_at
+            FROM read_parquet('{TOP_PLAYERS_PATH.replace(chr(92), '/')}')
+        """)
 
     return True
 

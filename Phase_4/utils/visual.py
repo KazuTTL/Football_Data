@@ -55,7 +55,15 @@ def plot_club_distribution(fdf, top_n_choice, template, accent_color):
         template=template, color_discrete_sequence=[accent_color]
     )
     fig.update_traces(textposition='outside')
-    fig.update_layout(height=350, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor="rgba(128,128,128,0.15)", zeroline=False)
+    fig.update_xaxes(showgrid=False, zeroline=False)
+    fig.update_layout(
+        height=350, 
+        plot_bgcolor="rgba(0,0,0,0)", 
+        paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(family="Inter, sans-serif"),
+        margin=dict(l=20, r=20, t=30, b=20)
+    )
     return fig
 
 def plot_position_distribution(fdf, template):
@@ -70,8 +78,19 @@ def plot_position_distribution(fdf, template):
         pos_counts, names='Vị trí', values='Số lượng', hole=0.45,
         template=template, color='Vị trí', color_discrete_map=POSITION_COLOR_MAP
     )
-    fig.update_traces(textposition='inside', textinfo='percent+label')
-    fig.update_layout(height=350, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", showlegend=False)
+    fig.update_traces(
+        textposition='inside', 
+        textinfo='percent+label',
+        marker=dict(line=dict(color="rgba(128,128,128,0.15)", width=1.5))
+    )
+    fig.update_layout(
+        height=350, 
+        plot_bgcolor="rgba(0,0,0,0)", 
+        paper_bgcolor="rgba(0,0,0,0)", 
+        showlegend=False,
+        font=dict(family="Inter, sans-serif"),
+        margin=dict(l=20, r=20, t=30, b=20)
+    )
     return fig
 
 def plot_market_value_history(df_history, selected_hist_player, template, accent2_color):
@@ -90,8 +109,20 @@ def plot_market_value_history(df_history, selected_hist_player, template, accent
             labels={'valid_from': 'Ngày cập nhật', 'Giá trị (Triệu €)': 'Giá trị (Triệu €)'},
             template=template
         )
-        fig.update_traces(line_color=accent2_color, marker=dict(size=8))
-        fig.update_layout(height=400, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
+        fig.update_traces(
+            line_color=accent2_color, 
+            line_shape='spline',
+            marker=dict(size=8, symbol='circle', line=dict(color='white', width=1.5))
+        )
+        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor="rgba(128,128,128,0.15)", zeroline=False)
+        fig.update_xaxes(showgrid=False, zeroline=False)
+        fig.update_layout(
+            height=400, 
+            plot_bgcolor="rgba(0,0,0,0)", 
+            paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(family="Inter, sans-serif"),
+            margin=dict(l=20, r=20, t=30, b=20)
+        )
         return fig
     return None
 
@@ -127,8 +158,8 @@ def plot_player_comparison_radar(player_a, player_b, cats, vals_a, vals_b, templ
             bgcolor="rgba(0,0,0,0)",
             radialaxis=dict(visible=True, range=[0, 100],
                             tickfont=dict(color=text_sub_color, size=10),
-                            gridcolor=border_color),
-            angularaxis=dict(tickfont=dict(color=text_color, size=11), gridcolor=border_color),
+                            gridcolor="rgba(128,128,128,0.15)"),
+            angularaxis=dict(tickfont=dict(color=text_color, size=11), gridcolor="rgba(128,128,128,0.15)"),
         ),
         showlegend=True,
         legend=dict(font=dict(color=text_color), orientation="h", y=-0.2, x=0.5, xanchor="center"),
@@ -137,6 +168,7 @@ def plot_player_comparison_radar(player_a, player_b, cats, vals_a, vals_b, templ
         plot_bgcolor="rgba(0,0,0,0)",
         height=400,
         margin=dict(l=30, r=30, t=30, b=30),
+        font=dict(family="Inter, sans-serif")
     )
     return fig
 
@@ -172,7 +204,7 @@ def plot_moneyball_scatter(fdf, score_col, template, text_color, text_sub_color,
 
     # Note: DO NOT set color here as it overrides color_discrete_map
     fig.update_traces(
-        marker=dict(size=10, opacity=0.7, line=dict(width=1, color=border_color))
+        marker=dict(size=10, opacity=0.75, line=dict(width=1, color="rgba(128,128,128,0.2)"))
     )
 
     # Add average lines
@@ -196,6 +228,8 @@ def plot_moneyball_scatter(fdf, score_col, template, text_color, text_sub_color,
     fig.add_annotation(x=x_left, y=y_bottom, text="Rotation / Normal", showarrow=False, font=dict(color="#8b949e", size=14, weight="bold"), opacity=1.0)
     fig.add_annotation(x=x_right, y=y_bottom, text="Overrated", showarrow=False, font=dict(color="#ff7b72", size=14, weight="bold"), opacity=1.0)
 
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor="rgba(128,128,128,0.15)", zeroline=False)
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor="rgba(128,128,128,0.15)", zeroline=False)
     fig.update_layout(
         xaxis_title="Giá trị chuyển nhượng (Triệu €)",
         yaxis_title="Scout Score" if score_col == "scout_score" else "UCL Rating",
@@ -204,6 +238,7 @@ def plot_moneyball_scatter(fdf, score_col, template, text_color, text_sub_color,
         height=500,
         margin=dict(l=40, r=40, t=40, b=40),
         legend=dict(title="Vị trí", font=dict(color=text_color)),
+        font=dict(family="Inter, sans-serif")
     )
     
     return fig
