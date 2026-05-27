@@ -176,8 +176,56 @@ st.markdown(f"""
     div[data-testid="stMetricValue"] {{ color: {ACCENT} !important; }}
     div[data-testid="stMetricLabel"] {{ color: {TEXT_SUB} !important; }}
     .stTabs [data-baseweb="tab-list"] {{ background: {SURFACE2}; border-radius: 10px; gap: 4px; }}
-    .stTabs [data-baseweb="tab"] {{ color: {TEXT_SUB} !important; border-radius: 8px; font-weight: 500; }}
+    .stTabs [data-baseweb="tab"] {{
+        color: {TEXT_SUB} !important;
+        border-radius: 8px;
+        font-weight: 500;
+        padding-left: 28px !important;
+        position: relative !important;
+    }}
     .stTabs [aria-selected="true"] {{ background: {ACCENT} !important; color: white !important; }}
+
+    /* Tab Icon styles using pseudo-elements and SVGs */
+    .stTabs [data-baseweb="tab"]::before {{
+        content: "" !important;
+        position: absolute !important;
+        left: 8px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        width: 14px !important;
+        height: 14px !important;
+        background-repeat: no-repeat !important;
+        background-size: contain !important;
+        opacity: 0.75 !important;
+        transition: opacity 0.2s;
+    }}
+    .stTabs [aria-selected="true"]::before {{
+        opacity: 1.0 !important;
+    }}
+
+    /* Tab 1: Layout Dashboard (Overview) */
+    .stTabs [data-baseweb="tab"]:nth-child(1)::before {{
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="{TEXT_SUB.replace('#', '%23')}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>') !important;
+    }}
+    .stTabs [data-baseweb="tab"][aria-selected="true"]:nth-child(1)::before {{
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>') !important;
+    }}
+
+    /* Tab 2: Trophy (Leaderboard) */
+    .stTabs [data-baseweb="tab"]:nth-child(2)::before {{
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="{TEXT_SUB.replace('#', '%23')}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34"/><path d="M12 2a6 6 0 0 1 6 6c0 3.24-2.5 6-6 6S6 11.24 6 8a6 6 0 0 1 6-6Z"/></svg>') !important;
+    }}
+    .stTabs [data-baseweb="tab"][aria-selected="true"]:nth-child(2)::before {{
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34"/><path d="M12 2a6 6 0 0 1 6 6c0 3.24-2.5 6-6 6S6 11.24 6 8a6 6 0 0 1 6-6Z"/></svg>') !important;
+    }}
+
+    /* Tab 3: Git Compare (Comparison) */
+    .stTabs [data-baseweb="tab"]:nth-child(3)::before {{
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="{TEXT_SUB.replace('#', '%23')}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M11 18H8a2 2 0 0 1-2-2V9"/></svg>') !important;
+    }}
+    .stTabs [data-baseweb="tab"][aria-selected="true"]:nth-child(3)::before {{
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M11 18H8a2 2 0 0 1-2-2V9"/></svg>') !important;
+    }}
 
     /* st.container(border=True) customized as premium cards */
     div[data-testid="stVerticalBlockBorderWrapper"] {{
