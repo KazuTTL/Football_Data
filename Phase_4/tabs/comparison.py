@@ -36,10 +36,21 @@ def render_comparison_tab(fdf, df_rating, theme_config):
             player_a = st.selectbox("Cầu thủ A", all_names, index=0, key="pa")
             player_b = st.selectbox("Cầu thủ B", all_names, index=min(1, len(all_names)-1), key="pb")
 
+        # Determine colors dynamically to ensure consistency with the radar chart
+        color_a = theme_config["ACCENT"]
+        is_warm = False
+        if color_a.lower().startswith("#ff") or color_a.lower().startswith("#d2") or color_a.lower().startswith("#ff5757"):
+            is_warm = True
+            
+        if is_warm:
+            color_b = "#00e57a" # Neo brutalist green
+        else:
+            color_b = "#ff5757" # Neo brutalist red
+
         # Show quick stats cards
         for label, pname, color, icon_name in [
-            ("Cầu Thủ A", player_a, theme_config["ACCENT"], "shield"),
-            ("Cầu Thủ B", player_b, "#f87171", "award")
+            ("Cầu Thủ A", player_a, color_a, "shield"),
+            ("Cầu Thủ B", player_b, color_b, "award")
         ]:
             ps = fdf[fdf["player_name"] == pname]
             if not ps.empty:
@@ -223,7 +234,7 @@ def render_comparison_tab(fdf, df_rating, theme_config):
             ]
         
         table_html = f"<table style='width:100%; text-align:left; border-collapse: collapse; font-size: 0.95rem;'>"
-        table_html += f"<tr style='border-bottom: 2px solid {theme_config['BORDER']};'><th style='padding: 10px;'>Chỉ số</th><th style='padding: 10px; color: {theme_config['ACCENT']};'>{player_a} (A)</th><th style='padding: 10px; color: #f87171;'>{player_b} (B)</th><th style='padding: 10px;'>Hiệu số (A - B)</th></tr>"
+        table_html += f"<tr style='border-bottom: 2px solid {theme_config['BORDER']};'><th style='padding: 10px;'>Chỉ số</th><th style='padding: 10px; color: {color_a};'>{player_a} (A)</th><th style='padding: 10px; color: {color_b};'>{player_b} (B)</th><th style='padding: 10px;'>Hiệu số (A - B)</th></tr>"
         
         for label, col_name, is_rating, invert_color in metrics:
             val_a = get_stat(df_rating, fdf, player_a, col_name, is_rating)

@@ -14,9 +14,22 @@ def build_dim_position(output_dir):
     logger.info("Đang truy xuất thông tin vị trí thi đấu từ DWH MotherDuck...")
     
     query = """
-        SELECT DISTINCT sub_position_tm AS name 
+        SELECT DISTINCT 
+            COALESCE(
+                sub_position_tm, 
+                position_tm, 
+                CASE position_sfs 
+                    WHEN 'G' THEN 'Goalkeeper'
+                    WHEN 'D' THEN 'Defender'
+                    WHEN 'M' THEN 'Midfielder'
+                    WHEN 'F' THEN 'Forward'
+                    ELSE 'Unknown'
+                END
+            ) AS name 
         FROM silver_players 
-        WHERE sub_position_tm IS NOT NULL
+        WHERE sub_position_tm IS NOT NULL 
+           OR position_tm IS NOT NULL 
+           OR position_sfs IS NOT NULL
     """
     
     df_position = conn.execute(query).df()

@@ -234,6 +234,11 @@ MERGED_SCHEMA = DataFrameSchema(
             coerce=True,
             description="So the vang thu hai / the do gian tiep (Sofascore)",
         ),
+        "position_sfs": Column(
+            str,
+            nullable=True,
+            description="Vi tri thi dau tu Sofascore (G, D, M, F)",
+        ),
 
         # --- Thong tin tu Transfermarkt ---
         "id_tm": Column(

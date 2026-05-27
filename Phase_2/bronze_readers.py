@@ -14,7 +14,9 @@ logger = setup_logger("bronze_readers")
 _THIS_FILE = os.path.abspath(__file__)               # .../Phase_2/bronze_readers.py
 _PHASE2_DIR = os.path.dirname(_THIS_FILE)            # .../Phase_2/
 BASE_DIR = os.getenv("PROJECT_ROOT", os.path.dirname(_PHASE2_DIR))  # .../Football/
-SOFASCORE_BRONZE_DIR = os.path.join(BASE_DIR, "Phase_1_Advanced", "local_data_chunks", "sofascore")
+root_chunks = os.path.join(BASE_DIR, "local_data_chunks", "sofascore")
+adv_chunks = os.path.join(BASE_DIR, "Phase_1_Advanced", "local_data_chunks", "sofascore")
+SOFASCORE_BRONZE_DIR = root_chunks if os.path.exists(root_chunks) and glob.glob(os.path.join(root_chunks, "dt=*")) else adv_chunks
 TM_DATA_DIR = os.path.join(BASE_DIR, "Phase_1_Advanced", "data")
 
 
@@ -37,7 +39,7 @@ def get_sofascore_raw():
     extraction_date = latest_folder.split("=")[-1]
 
     all_players = []
-    for f_path in glob.glob(os.path.join(latest_folder, "*.json")):
+    for f_path in glob.glob(os.path.join(latest_folder, "raw_data_*.json")):
         with open(f_path, "r", encoding="utf-8") as f:
             data = json.load(f)
             if "data" in data:

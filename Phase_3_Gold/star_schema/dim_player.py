@@ -20,7 +20,17 @@ def build_dim_player(output_dir):
             internal_player_id, 
             name_sfs_raw AS name, 
             dob_tm AS dob, 
-            sub_position_tm AS sub_position, 
+            COALESCE(
+                sub_position_tm, 
+                position_tm, 
+                CASE position_sfs 
+                    WHEN 'G' THEN 'Goalkeeper'
+                    WHEN 'D' THEN 'Defender'
+                    WHEN 'M' THEN 'Midfielder'
+                    WHEN 'F' THEN 'Forward'
+                    ELSE 'Unknown'
+                END
+            ) AS sub_position, 
             market_value_tm AS current_market_value,
             is_current,
             valid_from,

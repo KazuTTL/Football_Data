@@ -54,6 +54,7 @@ def process_sofascore():
     col_map = {
         "core_info_raw.id":                                      "id_sfs",
         "core_info_raw.name":                                    "name_sfs_raw",
+        "core_info_raw.position":                                "position_sfs",
         "league_context":                                        "league_sfs",   # Ten giai dau (Premier League, La Liga...)
         "team_rank_context":                                     "team_rank_sfs", # Thu hang doi bong
         "statistics_raw.domestic_league.team.name":              "team_sfs",

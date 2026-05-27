@@ -38,7 +38,17 @@ def build_fact_performance(output_dir, dim_player, dim_team, dim_position, dim_t
             internal_player_id,
             team_sfs,
             team_tm,
-            sub_position_tm,
+            COALESCE(
+                sub_position_tm, 
+                position_tm, 
+                CASE position_sfs 
+                    WHEN 'G' THEN 'Goalkeeper'
+                    WHEN 'D' THEN 'Defender'
+                    WHEN 'M' THEN 'Midfielder'
+                    WHEN 'F' THEN 'Forward'
+                    ELSE 'Unknown'
+                END
+            ) AS sub_position_tm,
             goals_sfs,
             assists_sfs,
             is_current{extra_cols}

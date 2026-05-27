@@ -132,15 +132,37 @@ def plot_player_comparison_radar(player_a, player_b, cats, vals_a, vals_b, templ
     """
     fig = go.Figure()
     
-    # Determine fill color dynamically
-    fill_a = "rgba(88,166,255,0.25)" if accent_color == "#58a6ff" else "rgba(9,105,218,0.25)"
+    # Determine colors dynamically to ensure high contrast between Player A and Player B
+    color_a = accent_color
+    
+    # Detect if the accent color is warm (reddish/yellowish)
+    is_warm = False
+    if color_a.lower().startswith("#ff") or color_a.lower().startswith("#d2") or color_a.lower().startswith("#ff5757"):
+        is_warm = True
+        
+    if is_warm:
+        # Player A is warm (e.g. brutalist red #ff5757), make Player B cool (cyan/green)
+        color_b = "#00e57a" # Neo brutalist green
+        fill_b = "rgba(0, 229, 122, 0.2)"
+    else:
+        # Player A is cool (blue/purple), make Player B warm (coral/red)
+        color_b = "#ff5757" # Neo brutalist red
+        fill_b = "rgba(255, 87, 87, 0.2)"
+
+    # Helper to convert hex to rgba for Player A fill
+    if color_a.startswith("#"):
+        h = color_a.lstrip('#')
+        rgb = tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
+        fill_a = f"rgba({rgb[0]},{rgb[1]},{rgb[2]},0.2)"
+    else:
+        fill_a = "rgba(88, 166, 255, 0.2)"
     
     fig.add_trace(go.Scatterpolar(
         r=vals_a + [vals_a[0]],
         theta=cats + [cats[0]],
         name=player_a,
         fill="toself",
-        line=dict(color=accent_color, width=2),
+        line=dict(color=color_a, width=2),
         fillcolor=fill_a,
     ))
 
@@ -149,8 +171,8 @@ def plot_player_comparison_radar(player_a, player_b, cats, vals_a, vals_b, templ
         theta=cats + [cats[0]],
         name=player_b,
         fill="toself",
-        line=dict(color="#f87171", width=2),
-        fillcolor="rgba(248,113,113,0.25)",
+        line=dict(color=color_b, width=2),
+        fillcolor=fill_b,
     ))
 
     fig.update_layout(

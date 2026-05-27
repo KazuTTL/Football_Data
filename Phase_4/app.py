@@ -31,31 +31,33 @@ if "selected_player" not in st.session_state:
 
 dark = st.session_state.dark_mode
 
-# --- THEME COLORS ---
+# --- THEME COLORS (NEO BRUTALISM) ---
 if dark:
-    BG        = "#0d1117"
-    SURFACE   = "#161b22"
-    SURFACE2  = "#21262d"
-    BORDER    = "#30363d"
-    TEXT      = "#e6edf3"
-    TEXT_SUB  = "#8b949e"
-    ACCENT    = "#58a6ff"
-    ACCENT2   = "#3fb950"
-    WARN      = "#d29922"
+    BG        = "#1a1a1a"
+    SURFACE   = "#2c2c2c"
+    SURFACE2  = "#3d3d3d"
+    BORDER    = "#000000"
+    TEXT      = "#ffffff"
+    TEXT_SUB  = "#cccccc"
+    ACCENT    = "#ff5757"
+    ACCENT2   = "#00e57a"
+    WARN      = "#ffde59"
     PLOTLY_TEMPLATE = "plotly_dark"
-    CARD_BG   = "#161b22"
+    CARD_BG   = "#2c2c2c"
+    SHADOW    = "#000000"
 else:
-    BG        = "#f6f8fa"
+    BG        = "#fdf6e3"
     SURFACE   = "#ffffff"
-    SURFACE2  = "#f0f3f6"
-    BORDER    = "#d0d7de"
-    TEXT      = "#1f2328"
-    TEXT_SUB  = "#656d76"
-    ACCENT    = "#0969da"
-    ACCENT2   = "#1a7f37"
-    WARN      = "#9a6700"
+    SURFACE2  = "#f4f4f0"
+    BORDER    = "#111111"
+    TEXT      = "#111111"
+    TEXT_SUB  = "#555555"
+    ACCENT    = "#5865F2"
+    ACCENT2   = "#FF5252"
+    WARN      = "#FFC300"
     PLOTLY_TEMPLATE = "plotly_white"
     CARD_BG   = "#ffffff"
+    SHADOW    = "#111111"
 
 theme_config = {
     "BG": BG,
@@ -68,7 +70,8 @@ theme_config = {
     "ACCENT2": ACCENT2,
     "WARN": WARN,
     "PLOTLY_TEMPLATE": PLOTLY_TEMPLATE,
-    "CARD_BG": CARD_BG
+    "CARD_BG": CARD_BG,
+    "SHADOW": SHADOW
 }
 
 # --- DYNAMIC CSS ---
@@ -100,18 +103,18 @@ st.markdown(f"""
         font-size: 0.95rem; color: {TEXT_SUB}; margin-bottom: 1.5rem;
     }}
     .metric-card {{
-        background: {SURFACE}; border: 1px solid {BORDER};
-        border-radius: 16px; padding: 18px 22px;
+        background: {SURFACE}; border: 3px solid {BORDER};
+        border-radius: 8px; padding: 18px 22px;
         display: flex;
         align-items: center;
         gap: 16px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 6px 6px 0px {SHADOW};
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
         height: 100%;
     }}
     .metric-card:hover {{
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        transform: translate(2px, 2px);
+        box-shadow: 4px 4px 0px {SHADOW};
     }}
     .metric-icon-wrapper {{
         width: 48px;
@@ -164,26 +167,41 @@ st.markdown(f"""
         fill: {TEXT_SUB} !important;
     }}
     .stButton > button {{
-        background: {SURFACE2} !important; color: {TEXT} !important;
-        border: 1px solid {BORDER} !important; border-radius: 8px !important;
-        font-weight: 600 !important; font-size: 0.85rem !important;
-        transition: all 0.2s;
+        background: {SURFACE} !important; color: {TEXT} !important;
+        border: 3px solid {BORDER} !important; border-radius: 8px !important;
+        font-weight: 800 !important; font-size: 0.85rem !important;
+        box-shadow: 4px 4px 0px {SHADOW} !important;
+        text-transform: uppercase;
+        transition: transform 0.1s, box-shadow 0.1s;
     }}
     .stButton > button:hover {{
-        border-color: {ACCENT} !important;
+        transform: translate(2px, 2px) !important;
+        box-shadow: 2px 2px 0px {SHADOW} !important;
+        border-color: {BORDER} !important;
         color: {ACCENT} !important;
     }}
     div[data-testid="stMetricValue"] {{ color: {ACCENT} !important; }}
     div[data-testid="stMetricLabel"] {{ color: {TEXT_SUB} !important; }}
-    .stTabs [data-baseweb="tab-list"] {{ background: {SURFACE2}; border-radius: 10px; gap: 4px; }}
+    .stTabs [data-baseweb="tab-list"] {{ 
+        background: {SURFACE2}; 
+        border: 3px solid {BORDER};
+        border-radius: 8px; 
+        padding: 4px;
+    }}
     .stTabs [data-baseweb="tab"] {{
         color: {TEXT_SUB} !important;
-        border-radius: 8px;
-        font-weight: 500;
+        border-radius: 4px;
+        font-weight: 700;
         padding-left: 28px !important;
         position: relative !important;
+        border: 2px solid transparent !important;
     }}
-    .stTabs [aria-selected="true"] {{ background: {ACCENT} !important; color: white !important; }}
+    .stTabs [aria-selected="true"] {{ 
+        background: {ACCENT} !important; 
+        color: white !important; 
+        border: 2px solid {BORDER} !important;
+        box-shadow: 2px 2px 0px {SHADOW} !important;
+    }}
 
     /* Tab Icon styles using pseudo-elements and SVGs */
     .stTabs [data-baseweb="tab"]::before {{
@@ -230,14 +248,15 @@ st.markdown(f"""
     /* st.container(border=True) customized as premium cards */
     div[data-testid="stVerticalBlockBorderWrapper"] {{
         background-color: {SURFACE} !important;
-        border: 1px solid {BORDER} !important;
-        border-radius: 16px !important;
+        border: 3px solid {BORDER} !important;
+        border-radius: 8px !important;
         padding: 24px !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 6px 6px 0px {SHADOW} !important;
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
     }}
     div[data-testid="stVerticalBlockBorderWrapper"]:hover {{
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08) !important;
+        transform: translate(2px, 2px) !important;
+        box-shadow: 4px 4px 0px {SHADOW} !important;
     }}
 </style>
 """, unsafe_allow_html=True)
