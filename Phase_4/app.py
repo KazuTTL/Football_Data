@@ -268,7 +268,7 @@ icon_trend_big = lucide.get_icon("trending-up", color=ACCENT, size=32, style="ma
 st.markdown(f"<div class='hero-title'>{icon_trend_big} Moneyball Scout Dashboard</div>", unsafe_allow_html=True)
 st.markdown(f"<div class='hero-sub'>Hệ thống trinh sát & đánh giá cầu thủ dựa trên mô hình DWH Gold Layer — MotherDuck Cloud</div>", unsafe_allow_html=True)
 
-tab1, tab2, tab3 = st.tabs(["📊 Tổng quan", "🏆 Bảng xếp hạng cầu thủ", "⚔️ So sánh cầu thủ"])
+tab1, tab2, tab3 = st.tabs(["Tổng quan", "Bảng xếp hạng", "So sánh chi tiết"])
 
 with tab1:
     render_overview_tab(fdf, df_star, df_history, theme_config)
