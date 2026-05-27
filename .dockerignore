@@ -1,0 +1,9 @@
+.git
+.gitignore
+__pycache__/
+*.pyc
+venv/
+.env
+Phase_1/
+Phase_2/logs/
+.streamlit/

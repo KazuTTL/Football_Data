@@ -1,0 +1,23 @@
+services:
+  dashboard:
+    build: .
+    image: football-analytics-app:latest
+    container_name: football_dashboard
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    env_file:
+      - Phase_1_Advanced/.env
+    restart: always
+
+  pipeline:
+    build: .
+    image: football-analytics-app:latest
+    container_name: football_pipeline
+    volumes:
+      - .:/app
+    env_file:
+      - Phase_1_Advanced/.env
+    profiles:
+      - pipeline_only

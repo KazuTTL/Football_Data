@@ -230,4 +230,92 @@ Khởi chạy ứng dụng Web để trinh sát và so sánh trực quan hiệu 
 
 ---
 
+## 🐳 4. Vận Hành Dự Án Bằng Docker (Dockerized Run)
+
+Dự án đã được đóng gói hoàn chỉnh bằng Docker và Docker Compose. Bạn không cần cài đặt Python hay bất kỳ thư viện nào cục bộ trên máy host, tất cả các tiến trình sẽ chạy trong Container cô lập.
+
+### Yêu cầu hệ thống:
+* Đã cài đặt và khởi chạy **Docker Desktop** trên máy.
+
+### A. Khởi chạy Dashboard hiển thị (Streamlit):
+1. **Xây dựng Docker image (chỉ chạy lần đầu hoặc khi đổi requirements)**:
+   ```bash
+   docker compose build
+   ```
+2. **Khởi chạy dashboard dưới dạng service chạy ngầm**:
+   ```bash
+   docker compose up -d dashboard
+   ```
+   *Dashboard sẽ tự động hoạt động tại: **[http://localhost:8501](http://localhost:8501)***.
+3. **Dừng Dashboard**:
+   ```bash
+   docker compose down
+   ```
+
+### B. Chạy các tác vụ trong ETL Pipeline thông qua Docker:
+Chúng ta có thể chạy các script xử lý dữ liệu qua container `pipeline` (mọi file sinh ra sẽ được tự động đồng bộ về máy host nhờ cơ chế Volume mount):
+* **Cào dữ liệu mới**:
+  ```bash
+  docker compose run --rm pipeline python Phase_1_Advanced/api_extraction/main_pipeline_advanced.py
+  ```
+* **Chạy chuẩn hóa & SCD Type 2**:
+  ```bash
+  docker compose run --rm pipeline python Phase_2/bronze_to_normalized.py
+  docker compose run --rm pipeline python Phase_2/entity_resolution.py
+  docker compose run --rm pipeline python Phase_2/silver_scd2_loader.py
+  ```
+* **Đồng bộ lên DWH, chạy Rating Engine & dựng Star Schema**:
+  ```bash
+  docker compose run --rm pipeline python Phase_2/silver_to_motherduck.py
+  docker compose run --rm pipeline python Phase_3_Gold/rating_engine/run_rating_on_silver.py
+  docker compose run --rm pipeline python Phase_3_Gold/star_schema/run_all.py
+  docker compose run --rm pipeline python Phase_3_Gold/star_schema/push_star_schema_to_motherduck.py
+  ```
+
+---
+
+## 📁 5. Cấu Trúc Thư Mục Dự Án (Project Structure)
+
+```text
+Football/
+│
+├── Phase_1_Advanced/            # Tầng Thu thập dữ liệu (Bronze Ingestion)
+│   ├── api_extraction/          # Script cào dữ liệu cầu thủ & BXH từ Sofascore
+│   ├── bulk_ingestion/          # Trích xuất dữ liệu CSV Transfermarkt từ Kaggle
+│   ├── s3_utils_stream.py       # Hỗ trợ upload dữ liệu thô lên Amazon S3
+│   ├── requirements.txt         # Dependencies riêng của Phase 1
+│   └── .env                     # Cấu hình chứa API tokens, AWS credentials
+│
+├── Phase_2/                     # Tầng Chuẩn hóa dữ liệu (Silver Medallion & SCD2)
+│   ├── intermediate/            # Thư mục lưu file parquet trung gian
+│   ├── metadata/                # Lưu file mapping ID cầu thủ (master mapping)
+│   ├── silver_zone/             # Lưu file lịch sử players_history.parquet
+│   ├── bronze_readers.py        # Đọc dữ liệu JSON thô từ Phase 1 động
+│   ├── bronze_to_normalized.py  # Chuẩn hóa dữ liệu thô sang Parquet sạch
+│   ├── entity_resolution.py     # Fuzzy Matching liên kết cầu thủ
+│   ├── silver_scd2_loader.py    # Xử lý Slowly Changing Dimension (SCD Type 2)
+│   └── silver_to_motherduck.py  # Tải dữ liệu Silver lên MotherDuck Cloud DWH
+│
+├── Phase_3_Gold/                # Tầng Tính toán & Phân tích (Gold Layer)
+│   ├── rating_engine/           # Thuật toán chấm điểm Moneyball 4 bước
+│   ├── star_schema/             # Thiết lập mô hình Star Schema (Fact & Dim)
+│   └── output/                  # Chứa file Parquet Rating & Star Schema local
+│
+├── Phase_4/                     # Tầng Hiển thị giao diện (Presentation Layer)
+│   ├── tabs/                    # Code giao diện cho 3 Tab chính của Streamlit
+│   ├── utils/                   # Các Module hỗ trợ kết nối DB và xử lý biểu đồ
+│   └── app.py                   # Điểm chạy chính của Streamlit Dashboard
+│
+├── data/                        # Dữ liệu Transfermarkt (được mount vào Docker)
+├── local_data_chunks/           # Dữ liệu Sofascore thô (được mount vào Docker)
+│
+├── Dockerfile                   # Dockerfile đa dụng dựng môi trường Python
+├── docker-compose.yml           # Định nghĩa dịch vụ Dashboard & Pipeline
+├── .dockerignore                # Loại bỏ các file rác khi build image
+└── requirements.txt             # Tệp dependencies hợp nhất cho Docker
+```
+
+---
+
 *Dự án được triển khai và phát triển bởi: Tien Loc*
+

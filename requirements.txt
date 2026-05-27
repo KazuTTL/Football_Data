@@ -1,0 +1,12 @@
+python-dotenv==1.0.0
+boto3==1.28.62
+aiohttp==3.8.6
+tenacity==8.2.3
+beautifulsoup4==4.12.2
+aiofiles==23.1.0
+pandas>=2.0.0
+duckdb<=1.5.2
+streamlit>=1.30.0
+plotly>=5.18.0
+pyarrow>=14.0.0
+rapidfuzz>=3.5.2
