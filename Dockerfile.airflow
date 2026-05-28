@@ -1,0 +1,9 @@
+FROM apache/airflow:2.8.1-python3.11
+
+USER root
+# Create database directory and set owner to airflow user
+RUN mkdir -p /home/airflow/db && chown -R airflow:root /home/airflow/db
+
+USER airflow
+COPY requirements.txt /requirements.txt
+RUN pip install --no-cache-dir -r /requirements.txt

@@ -21,3 +21,46 @@ services:
       - Phase_1_Advanced/.env
     profiles:
       - pipeline_only
+
+  airflow-webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    image: football-analytics-airflow:latest
+    container_name: football_airflow_webserver
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/opt/airflow
+      - airflow-db:/home/airflow/db
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////home/airflow/db/airflow.db
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - PYTHONPATH=/opt/airflow
+    env_file:
+      - Phase_1_Advanced/.env
+    command: bash -c "airflow db init && airflow users create --username admin --firstname admin --lastname admin --role Admin --email admin@example.com --password admin || true && exec airflow webserver"
+
+  airflow-scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    image: football-analytics-airflow:latest
+    container_name: football_airflow_scheduler
+    restart: always
+    volumes:
+      - .:/opt/airflow
+      - airflow-db:/home/airflow/db
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////home/airflow/db/airflow.db
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - PYTHONPATH=/opt/airflow
+    env_file:
+      - Phase_1_Advanced/.env
+    command: bash -c "sleep 20 && airflow scheduler"
+
+volumes:
+  airflow-db:

@@ -23,3 +23,5 @@ implement/
 
 # Internal Development Notes
 Internal_Dev/
+logs/
+airflow.db
