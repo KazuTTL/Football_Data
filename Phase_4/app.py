@@ -262,7 +262,15 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # --- DATA LOADING ---
-df_star, df_rating, df_history = load_data()
+if "df_star" not in st.session_state or "df_rating" not in st.session_state or "df_history" not in st.session_state:
+    df_star, df_rating, df_history = load_data()
+    st.session_state.df_star = df_star
+    st.session_state.df_rating = df_rating
+    st.session_state.df_history = df_history
+else:
+    df_star = st.session_state.df_star
+    df_rating = st.session_state.df_rating
+    df_history = st.session_state.df_history
 
 if df_star.empty:
     st.warning("Không thể tải dữ liệu. Vui lòng kiểm tra kết nối.")
@@ -323,6 +331,9 @@ with st.sidebar:
     st.markdown("---")
     if st.button("Làm mới dữ liệu (Cache)", use_container_width=True):
         st.cache_data.clear()
+        for key in ["df_star", "df_rating", "df_history"]:
+            if key in st.session_state:
+                del st.session_state[key]
         st.rerun()
 
 # --- Apply filters ---

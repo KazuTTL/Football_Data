@@ -1,6 +1,6 @@
 # Tài liệu Tổng quan Dự án: Football Data Pipeline (Medallion Architecture)
 
-Dự án này là hệ thống xử lý dữ liệu bóng đá chuyên nghiệp từ các nguồn dữ liệu thô (Sofascore API và Transfermarkt CSV), xử lý làm sạch, chuẩn hóa, định danh thực thể (Entity Resolution), quản lý lịch sử biến động (SCD Type 2), lưu trữ dưới dạng Star Schema trên kho dữ liệu đám mây MotherDuck Cloud DWH, và hiển thị kết quả phân tích trinh sát cầu thủ (Moneyball) thông qua Streamlit Dashboard.
+Dự án này là hệ thống xử lý dữ liệu bóng đá chuyên nghiệp từ các nguồn dữ liệu thô (Sofascore API và Transfermarkt CSV), xử lý làm sạch, chuẩn hóa, định danh thực thể (Entity Resolution), quản lý lịch sử biến động (SCD Type 2), lưu trữ dưới dạng Star Schema trên kho dữ liệu đám mây MotherDuck Cloud DWH, và hiển thị kết quả phân tích trinh sát cầu thủ (Moneyball) thông qua Streamlit Dashboard. Hệ thống được tự động hóa lập lịch chạy bằng Apache Airflow tích hợp trong cụm dịch vụ ảo hóa Docker.
 
 ---
 
@@ -45,6 +45,15 @@ Hệ thống hoạt động theo mô hình ELT (Extract - Load - Transform) chia
     *   **Tab 2 - Bảng xếp hạng Scout**: Bộ lọc động chuyên sâu và bảng xếp hạng sắp xếp ưu tiên thông minh (ví dụ: bằng bàn thắng thì ưu tiên người đá ít penalty hơn lên trước). Hỗ trợ công tắc chuyển đổi hiển thị thông số giải quốc nội hoặc thông số UCL chuyên biệt.
     *   **Tab 3 - So sánh đối chiếu**: Tính năng **Smart Radar Chart** (tự động phát hiện vị trí thi đấu để vẽ 5 góc cạnh hiệu năng phù hợp nhất cho Tấn công, Tiền vệ, Phòng ngự, Thủ môn, có nút Advanced mở chọn tay) và bảng đối chiếu hiệu số (A - B) thông minh bôi màu trực quan. Hỗ trợ đầy đủ chế độ so sánh UCL độc lập.
 
+### 1.5. Automation & Orchestration (Tự động hóa bằng Docker & Airflow)
+*   **Docker Containerization**:
+    *   Ứng dụng được đóng gói hoàn chỉnh bằng Docker. Dịch vụ Streamlit Dashboard tự động Hot-Reload khi thay đổi mã nguồn trên máy Host thông qua cơ chế Volume Mount (`.:/app`).
+    *   Cơ sở dữ liệu SQLite lưu trữ trạng thái chạy của Airflow được cấu hình nằm hoàn toàn trong một **Docker Named Volume (`airflow-db`)** để khắc phục triệt để lỗi ghi đĩa của hệ điều hành Windows (`database is locked`).
+*   **Apache Airflow Scheduler**:
+    *   Thiết lập kịch bản lập lịch chạy tự động luồng ETL Medallion tuần tự 5 bước vào lúc **07:00 sáng Thứ Hai & Thứ Sáu hàng tuần** (ngay sau các loạt trận bóng đá trong tuần kết thúc).
+*   **Telegram Cảnh Báo Lỗi**:
+    *   Tích hợp Callback gửi cảnh báo trực tiếp về điện thoại người dùng thông qua Telegram Bot API mỗi khi có tác vụ trong luồng chạy bị lỗi thất bại (Failed).
+
 ---
 
 ## 2. Cấu trúc thư mục dự án
@@ -61,6 +70,15 @@ Football/
 │   └── sofascore/
 │       └── dt=YYYY-MM-DD/
 │           └── raw_data_{League}_{Timestamp}.json
+│
+├── dags/                                # Thư mục chứa kịch bản lập lịch của Apache Airflow
+│   └── football_pipeline_dag.py         # DAG định nghĩa luồng chạy ETL & gửi alert Telegram
+│
+├── DE_Tutorial/                         # Thư mục chứa các tệp tin hướng dẫn tự học Docker và Airflow
+│   ├── 01_Docker_Fundamentals.md        # Tự học Docker căn bản
+│   ├── 02_Airflow_Fundamentals.md       # Tự học Apache Airflow
+│   ├── 03_Step_By_Step_Setup.md         # Hướng dẫn dựng môi trường chi tiết & xử lý lỗi SQLite
+│   └── 04_Operations_Cheat_Sheet.md     # Bảng tra lệnh nhanh & khắc phục lỗi
 │
 ├── Phase_1_Advanced/                    # Quy trình thu thập dữ liệu (Bronze Zone)
 │   ├── api_extraction/
@@ -109,11 +127,14 @@ Football/
 │       └── comparison.py                # Tab 3: So sánh đối chiếu & Smart Radar Chart
 │
 ├── Implement/                           # Thư mục chứa các tài liệu phân tích thiết kế chi tiết
-│   ├── Current_State_Report.md
-│   ├── Data_Warehouse_Schema.md
-│   ├── Galaxy_Schema.md
-│   └── ratingEngine.md
+│   ├── Current_State_Report.md          # Báo cáo tình hình hiện trạng dự án
+│   ├── Data_Warehouse_Schema.md         # Thiết kế lược đồ DWH
+│   ├── Galaxy_Schema.md                 # Thiết kế lược đồ chòm sao rộng hơn
+│   └── ratingEngine.md                  # Tài liệu phân tích Rating Engine
 │
+├── Dockerfile                           # File định hình Image cho Streamlit Dashboard
+├── Dockerfile.airflow                   # File định hình Image cho Airflow Webserver/Scheduler
+├── docker-compose.yml                   # Quản lý Docker container
 ├── Project_Overview.md                  # File tài liệu tổng quan này
 ├── README.md                            # README giới thiệu dự án ở root
 └── .env                                 # Lưu trữ các biến môi trường (Keys, Tokens...)
@@ -128,45 +149,34 @@ Football/
 *   **Database & DWH**: `DuckDB` (xử lý local nhanh) và `MotherDuck` (Cloud Data Warehouse)
 *   **Kiểm tra chất lượng**: `Pandera`
 *   **So khớp chuỗi mờ**: `RapidFuzz` (thuật toán C++ hiệu năng cao)
+*   **Ảo hóa & Lập lịch**: `Docker Compose`, `Apache Airflow 2.8.1`
 *   **Giao diện**: `Streamlit`, `Plotly` (Express & Graph Objects)
 
 ---
 
-## 4. Các lệnh vận hành quan trọng
+## 4. Các lệnh vận hành quan trọng bằng Docker
 
-### Bước 1: Thu thập dữ liệu thô (Bronze)
+### Khởi chạy toàn bộ hệ thống (Streamlit + Airflow Webserver + Airflow Scheduler)
 ```bash
-python Phase_1_Advanced/api_extraction/main_pipeline_advanced.py
+docker compose up -d
 ```
 
-### Bước 2: Chuẩn hóa, định danh và nạp lịch sử SCD2 (Silver)
+### Dừng hoàn toàn hệ thống
 ```bash
-# Chuẩn hóa dữ liệu thô
-python Phase_2/bronze_to_normalized.py
-
-# Định danh và khớp nối cầu thủ
-python Phase_2/entity_resolution.py
-
-# Nạp dữ liệu vào bảng lịch sử SCD2 local
-python Phase_2/silver_scd2_loader.py
-
-# Đồng bộ bảng phẳng lên Cloud MotherDuck
-python Phase_2/silver_to_motherduck.py
+docker compose down
 ```
 
-### Bước 3: Chấm điểm và Mô hình hoá DWH (Gold)
+### Xem log kiểm tra lỗi của các container lập lịch
 ```bash
-# Chạy chấm điểm Rating Engine và ghi lên Cloud
-python Phase_3_Gold/rating_engine/run_rating_on_silver.py
-
-# Tạo Star Schema local
-python Phase_3_Gold/star_schema/run_all.py
-
-# Đồng bộ Star Schema lên Cloud MotherDuck
-python Phase_3_Gold/star_schema/push_star_schema_to_motherduck.py
+docker logs -f football_airflow_scheduler
 ```
 
-### Bước 4: Khởi chạy giao diện phân tích
-```bash
-streamlit run Phase_4/app.py
-```
+### Bật/Tắt DAG thông qua CLI
+*   **Bật**:
+    ```bash
+    docker exec -it football_airflow_webserver airflow dags unpause football_etl_pipeline
+    ```
+*   **Tắt**:
+    ```bash
+    docker exec -it football_airflow_webserver airflow dags pause football_etl_pipeline
+    ```

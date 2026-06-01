@@ -1,79 +1,61 @@
-# Báo cáo Tóm tắt Dự án: Football Data Pipeline (Checkpoint)
+# Báo cáo Tóm tắt Dự án: Football Data Pipeline (Trạng thái Hiện tại)
 
-*Ngày cập nhật: 07/05/2026*
+Ngày cập nhật: 29/05/2026
+
+---
 
 ## 1. Cấu trúc Dự án Hiện tại
-Hệ thống hiện đã hoàn thành 100% tầng **Bronze** (Thu thập) và **Silver** (Xử lý sạch), sẵn sàng để tiến lên tầng **Gold** (Phân tích).
+
+Hệ thống hiện đã hoàn thành 100% tất cả các giai đoạn phát triển từ thu thập (Bronze), làm sạch và đồng bộ (Silver), chấm điểm và lập mô hình kho dữ liệu (Gold), cho tới hiển thị giao diện (Presentation) và lập lịch chạy tự động hóa (Containerization & Orchestration).
 
 ```text
 Football/
-├── Phase_1_Advanced/        # BRONZE: Ingestion (API & Kaggle)
-├── Phase_2/                 # SILVER: Processing & Validation
-│   ├── bronze_readers.py    # Logic đọc/ghép dữ liệu thô
-│   ├── bronze_to_normalized.py # Chuẩn hóa và làm sạch văn bản
-│   ├── entity_resolution.py # Khớp nối danh tính (Fuzzy Match)
-│   ├── data_contract.py     # Kiểm soát chất lượng (Pandera)
-│   ├── silver_scd2_loader.py # Quản lý lịch sử (SCD Type 2)
-│   ├── silver_to_motherduck.py # Đồng bộ Cloud
-│   └── logger_config.py     # Hệ thống Log chuyên nghiệp
-├── Implement/               # Tài liệu thuyết minh dự án
-└── README.md                # Tổng quan dự án
+├── Phase_1_Advanced/        # BRONZE: Thu thập dữ liệu API & S3
+├── Phase_2/                 # SILVER: Làm sạch, Entity Resolution, SCD2
+├── Phase_3_Gold/            # GOLD: Chấm điểm Scout & dựng Star Schema
+├── Phase_4/                 # PRESENTATION: Streamlit Dashboard cao cấp
+├── dags/                    # ORCHESTRATION: Kịch bản lập lịch Apache Airflow
+├── DE_Tutorial/             # TUTORIAL: Tài liệu tự học Docker & Airflow
+├── Dockerfile               # Cấu hình container Streamlit
+├── Dockerfile.airflow       # Cấu hình container Airflow Webserver/Scheduler
+└── docker-compose.yml       # Điều phối toàn bộ các container dịch vụ
 ```
 
 ---
 
-## 2. Các đoạn Code Cốt lõi (Đã chạy thành công)
+## 2. Các cột mốc công nghệ đã đạt được
 
-### 2.1. Logic Khớp nối danh tính & Bổ sung Vị trí (Phase 2)
-Chúng ta đã thành công trong việc trích xuất thêm cột `position_tm` và `sub_position_tm` để phục vụ đánh giá cầu thủ sau này.
+### 2.1. Chuẩn hóa và Định danh Cầu thủ (Silver Zone)
+*   Áp dụng thuật toán so khớp chuỗi mờ (Fuzzy matching) của `RapidFuzz` kết hợp so khớp khóa phụ (ngày sinh, đội bóng) giúp ánh xạ tự động dữ liệu Sofascore sang Transfermarkt.
+*   Cơ chế **Placeholder ID (`PLR_xxxxx`)** giúp bảo toàn dữ liệu thống kê từ Sofascore đối với những cầu thủ trẻ chưa được lập chỉ số trên Transfermarkt.
+*   Cấu hình cơ chế lưu trữ lịch sử **SCD Type 2** dạng file Parquet cục bộ và đồng bộ tự động lên Cloud MotherDuck.
 
-```python
-# Trích xuất từ bronze_readers.py
-keep_cols = [
-    "player_id", "name", "date_of_birth",
-    "position", "sub_position", # Thêm mới để phục vụ Rating Engine
-    "club_name", "market_value_eur",
-]
-```
+### 2.2. Công cụ chấm điểm Scout Score (Gold Zone)
+*   Lập trình công thức đánh giá tài năng bóng đá (Scout Score) dựa trên triết lý Moneyball: chuẩn hóa dữ liệu theo hiệu suất mỗi 90 phút (Per 90), loại bỏ lệch giải đấu (Min-max per league), chấm điểm theo trọng số vị trí (8 vị trí thi đấu khác nhau) và cộng điểm gánh đội (Underdog Bonus).
+*   Xây dựng mô hình hình sao (Star Schema) phân tách bảng phẳng thành 5 bảng Dimension và 1 bảng Fact, kết nối đồng bộ trực tiếp lên Cloud MotherDuck DWH.
 
-### 2.2. SCD Type 2 - Trái tim của sự tin cậy
-Đoạn code này đảm bảo mỗi khi giá trị cầu thủ hay chỉ số thay đổi, hệ thống sẽ tự động lưu lại lịch sử thay đổi thay vì ghi đè.
+### 2.3. Giao diện Streamlit Premium UI/UX (Presentation Layer)
+*   Sử dụng Custom CSS Injection thiết lập cấu hình Card bo tròn góc, viền siêu mảnh, đổ bóng mịn màng và các hiệu ứng hover chuyển động mượt mà.
+*   Cấu hình hiển thị theo 3 Tab chuyên sâu: Tab 1 (Tổng quan DWH & Biểu đồ góc phần tư Moneyball), Tab 2 (Bảng xếp hạng Scout thông minh), Tab 3 (So sánh đối đầu Smart Radar Chart tự động phát hiện vị trí thi đấu). Hỗ trợ chuyển đổi độc lập thông số giải quốc nội hoặc Champions League (UCL).
 
-```python
-# Trích xuất từ silver_scd2_loader.py
-def apply_scd2(df_new_records, df_changed_records, df_existing):
-    today = str(date.today())
-    # Đóng bản ghi cũ
-    df_result.loc[mask_close, "is_current"] = False
-    df_result.loc[mask_close, "valid_to"] = today
-    # Thêm bản ghi mới
-    df_inserts = add_scd2_cols(df_new_records, is_current=True, valid_from=today)
-```
-
-### 2.3. Data Contract - Chốt chặn chất lượng
-Sử dụng Pandera để đảm bảo dữ liệu lên mây luôn sạch 100%.
-```python
-# Trích xuất từ data_contract.py
-MERGED_SCHEMA = DataFrameSchema({
-    "internal_player_id": Column(str, nullable=True),
-    "market_value_tm": Column(float, nullable=True, coerce=True),
-    "position_tm": Column(str, nullable=True),
-})
-```
+### 2.4. Tự động hóa và Ảo hóa (Docker & Airflow Orchestration)
+*   **Dockerization**: Container hóa hoàn toàn dự án. Sử dụng Docker Volume Mount hỗ trợ Hot-Reload cho Dashboard Streamlit.
+*   **Airflow Integration**: Tạo tệp kịch bản [football_pipeline_dag.py](file:///c:/FastAPI/Football/dags/football_pipeline_dag.py) chạy tự động luồng ETL Medallion 5 bước vào lúc **07:00 sáng Thứ Hai & Thứ Sáu hàng tuần**.
+*   **Giải quyết lỗi khóa đĩa SQLite**: Di chuyển tệp tin `airflow.db` sang một **Docker Named Volume (`airflow-db`)** độc lập chạy trên phân vùng Linux ảo của container, giải quyết triệt để lỗi xung đột ghi đĩa `database is locked` trên hệ điều hành Windows Host.
+*   **Hệ thống Telegram Alert**: Kết nối thành công bot cảnh báo lỗi gửi tin nhắn trực tiếp về điện thoại người dùng mỗi khi có task bị lỗi trong quá trình lập lịch.
 
 ---
 
-## 3. Các công việc Sắp tới (To-do List)
-
-### 🚀 Phase 3: Gold Layer (Trọng tâm tiếp theo)
-- [ ] **Thiết kế Star Schema:** Triển khai 7 bảng (4 Dim, 1 Fact, 1 Rating, 1 Date).
-- [ ] **Xây dựng Rating Engine:** Lập trình công thức tính điểm theo vị trí (FWD, MID, DEF, GK) kết hợp với hệ số BXH đội bóng.
-- [ ] **Tạo Surrogate Keys:** Chuyển đổi các ID chuỗi sang ID số nguyên để tối ưu hiệu suất JOIN trên MotherDuck.
-
-### 🤖 Phase 4: Automation & Orchestration
-- [ ] **Containerization:** Đóng gói toàn bộ project vào Docker.
-- [ ] **Airflow DAGs:** Viết kịch bản tự động chạy Pipeline hàng ngày/hàng tuần.
-- [ ] **Monitoring:** Xây dựng Dashboard theo dõi sức khỏe của Pipeline.
+## 3. Tình trạng chạy thực tế hiện tại
+*   Cơ sở dữ liệu đám mây trên MotherDuck hoạt động ổn định, lưu giữ dữ liệu của hơn 60 cầu thủ.
+*   Hệ thống container Docker đang hoạt động tốt. Streamlit Dashboard hoạt động bình thường trên cổng 8501.
+*   Trình quản lý Airflow hoạt động bình thường trên cổng 8080.
+*   DAG `football_etl_pipeline` hiện đang ở trạng thái **Paused** (Tạm dừng lập lịch tự động) để tránh hao phí tài nguyên máy tính cá nhân khi kết thúc phiên làm việc.
 
 ---
-**Ghi chú:** Dự án hiện đang có 48 cầu thủ được quản lý chặt chẽ trong Silver Zone với đầy đủ thông số vị trí và giá trị chuyển nhượng.
+
+## 4. Các công việc phát triển trong tương lai (Next Steps)
+
+*   **Tính năng Watchlist**: Bổ sung chức năng cho phép tuyển trạch viên thêm cầu thủ vào danh sách theo dõi riêng và lưu lại trạng thái lựa chọn.
+*   **Xuất báo cáo PDF**: Xây dựng chức năng xuất file so sánh đối đầu giữa hai cầu thủ hoặc báo cáo bảng xếp hạng Scout thành tệp tin PDF tải trực tiếp từ giao diện Streamlit.
+*   **Mở rộng giải đấu**: Cấu hình tăng cường cào thêm dữ liệu từ các giải bóng đá khác ngoài 5 giải đấu lớn của châu Âu.

@@ -90,7 +90,12 @@ def detect_changes(df_new, df_existing):
         )
         for col in TRACKED_COLUMNS:
             # So sanh gia tri: coi NaN la bang nhau
-            mask = df_compare[f"{col}_new"].fillna(-1) != df_compare[f"{col}_cur"].fillna(-1)
+            new_series = df_compare[f"{col}_new"]
+            cur_series = df_compare[f"{col}_cur"]
+            if pd.api.types.is_numeric_dtype(new_series):
+                mask = new_series.fillna(-1) != cur_series.fillna(-1)
+            else:
+                mask = new_series.fillna("") != cur_series.fillna("")
             changed_ids.update(df_compare.loc[mask, "internal_player_id"].tolist())
 
     changed_records = df_overlap_new[df_overlap_new["internal_player_id"].isin(changed_ids)].copy()
