@@ -11,7 +11,7 @@ Hệ thống được thiết kế theo mô hình luồng dữ liệu ELT/ETL kh
 ```mermaid
 graph TD
     %% Bronze Zone
-    subgraph Bronze Zone (Raw Ingestion)
+    subgraph bronze_zone ["Bronze Zone (Raw Ingestion)"]
         A1[Sofascore API - Raw Players JSON] -->|cào sâu| B1[(Bronze Local /data/)]
         A2[Transfermarkt - Bulk CSV] -->|tải từ Kaggle| B2[(Bronze Local /data/)]
         A3[Sofascore API - Raw Standings/Top JSON] -->|cào nhanh| B3[(Bronze Local /data_chunks/)]
