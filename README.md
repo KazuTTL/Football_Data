@@ -18,7 +18,7 @@ graph TD
     end
 
     %% Processing Zone
-    subgraph silver-zone ["Data Processing & DWH Ingestion"]
+    subgraph silver_zone ["Data Processing & DWH Ingestion"]
         B1 & B2 --> C[bronze_to_normalized.py]
         C -->|Chuẩn hóa & Lọc| D1[sofascore_normalized.parquet]
         C -->|Chuẩn hóa & Lọc| D2[transfermarkt_normalized.parquet]
@@ -36,7 +36,7 @@ graph TD
     end
 
     %% Gold Zone
-    subgraph gold-zone ["Analytics & Star Schema"]
+    subgraph gold_zone ["Analytics & Star Schema"]
         I --> J[run_rating_on_silver.py]
         J -->|Rating Engine 4 bước| K[(gold_player_rating / Cloud Table)]
         
@@ -47,7 +47,7 @@ graph TD
     end
 
     %% Visualization
-    subgraph Visualization (Presentation Layer)
+    subgraph visualization ["Visualization (Presentation Layer)"]
         N --> O[Streamlit Dashboard App]
     end
 
