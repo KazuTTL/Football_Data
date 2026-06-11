@@ -11,14 +11,14 @@ Hệ thống được thiết kế theo mô hình luồng dữ liệu ELT/ETL kh
 ```mermaid
 graph TD
     %% Bronze Zone
-    subgraph Bronze Zone (Raw Ingestion)
+    subgraph bronze_zone ["Bronze Zone (Raw Ingestion)"]
         A1[Sofascore API - Raw Players JSON] -->|cào sâu| B1[(Bronze Local /data/)]
         A2[Transfermarkt - Bulk CSV] -->|tải từ Kaggle| B2[(Bronze Local /data/)]
         A3[Sofascore API - Raw Standings/Top JSON] -->|cào nhanh| B3[(Bronze Local /data_chunks/)]
     end
 
     %% Processing Zone
-    subgraph Silver Zone (Data Processing & DWH Ingestion)
+    subgraph silver_zone ["Data Processing & DWH Ingestion"]
         B1 & B2 --> C[bronze_to_normalized.py]
         C -->|Chuẩn hóa & Lọc| D1[sofascore_normalized.parquet]
         C -->|Chuẩn hóa & Lọc| D2[transfermarkt_normalized.parquet]
@@ -36,7 +36,7 @@ graph TD
     end
 
     %% Gold Zone
-    subgraph Gold Zone (Analytics & Star Schema)
+    subgraph gold_zone ["Analytics & Star Schema"]
         I --> J[run_rating_on_silver.py]
         J -->|Rating Engine 4 bước| K[(gold_player_rating / Cloud Table)]
         
@@ -47,7 +47,7 @@ graph TD
     end
 
     %% Visualization
-    subgraph Visualization (Presentation Layer)
+    subgraph visualization ["Visualization (Presentation Layer)"]
         N --> O[Streamlit Dashboard App]
     end
 
