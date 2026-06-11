@@ -1,0 +1,57 @@
+Table dim_player {
+  player_key bigint [pk, note: 'Khoa thay the (Surrogate Key) cau thu']
+  internal_player_id varchar [note: 'ID noi bo cau thu']
+  name varchar [note: 'Ten cau thu']
+  dob varchar [note: 'Ngay sinh']
+  sub_position varchar [note: 'Vi tri chi tiet']
+  current_market_value double [note: 'Gia tri thi truong hien tai']
+  is_current boolean [note: 'Trang thai hieu luc hien tai (SCD Type 2)']
+  valid_from varchar [note: 'Ngay bat dau hieu luc (SCD Type 2)']
+  valid_to integer [note: 'Ngay het han hieu luc (SCD Type 2)']
+}
+
+Table dim_team {
+  team_key bigint [pk, note: 'Khoa thay the doi bong']
+  name varchar [note: 'Ten doi bong']
+  short_name varchar [note: 'Ten viet tat doi bong']
+  primary_color varchar [note: 'Mau sac chinh']
+  secondary_color varchar [note: 'Mau sac phu']
+}
+
+Table dim_position {
+  position_key bigint [pk, note: 'Khoa thay the vi tri']
+  name varchar [note: 'Ten vi tri thi dau']
+  general_position varchar [note: 'Nhom vi tri (Goalkeeper, Defender, Midfield, Attack)']
+  role_weights varchar [note: 'JSON luu trong so vai tro']
+}
+
+Table dim_tournament {
+  tournament_key bigint [pk, note: 'Khoa thay the giai dau']
+  name varchar [note: 'Ten giai dau']
+  country varchar [note: 'Quoc gia cua giai dau']
+}
+
+Table dim_season {
+  season_key bigint [pk, note: 'Khoa thay the mua giai']
+  name varchar [note: 'Ten mua giai (VD: 2025-2026)']
+  start_date date [note: 'Ngay bat dau mua giai']
+  end_date date [note: 'Ngay ket thuc mua giai']
+}
+
+Table fact_player_season_stats {
+  player_key bigint [note: 'Lien ket toi dim_player']
+  team_key bigint [note: 'Lien ket toi dim_team']
+  tournament_key bigint [note: 'Lien ket toi dim_tournament']
+  season_key bigint [note: 'Lien ket toi dim_season']
+  position_key bigint [note: 'Lien ket toi dim_position']
+  goals bigint [note: 'So ban thang']
+  assists bigint [note: 'So duong kien tao']
+  final_scout_score double [note: 'Diem danh gia tuyen trach cuoi cung']
+}
+
+// Star Schema Relationships
+Ref: fact_player_season_stats.player_key < dim_player.player_key
+Ref: fact_player_season_stats.team_key < dim_team.team_key
+Ref: fact_player_season_stats.position_key < dim_position.position_key
+Ref: fact_player_season_stats.tournament_key < dim_tournament.tournament_key
+Ref: fact_player_season_stats.season_key < dim_season.season_key

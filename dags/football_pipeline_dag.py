@@ -1,6 +1,7 @@
 import os
 from datetime import datetime, timedelta
 import requests
+import pendulum
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.utils.dates import days_ago
@@ -54,13 +55,15 @@ default_args = {
     'on_failure_callback': send_telegram_alert,
 }
 
-# Define the DAG
+# Define the DAG timezone and DAG
+local_tz = pendulum.timezone("Asia/Ho_Chi_Minh")
+
 with DAG(
     dag_id='football_etl_pipeline',
     default_args=default_args,
     description='Automated Football Data Pipeline ETL (Bronze to Gold)',
-    schedule_interval='0 7 * * 1,5',  # 7:00 AM every Monday and Friday
-    start_date=days_ago(1),
+    schedule_interval='0 5 * * 1,5',  # 5:00 AM Vietnam local time
+    start_date=datetime(2026, 1, 1, tzinfo=local_tz),
     catchup=False,
     tags=['football', 'etl'],
 ) as dag:
